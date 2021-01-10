@@ -1,0 +1,736 @@
+export const CONST_ABI = [{
+		"inputs": [{
+				"internalType": "address",
+				"name": "_ownerArea",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"name": "addArea",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "string",
+				"name": "_idHash",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_event_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_state_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_reasonState",
+				"type": "string"
+			}
+		],
+		"name": "addDocumentEvent",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "uint256",
+				"name": "_area_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			}
+		],
+		"name": "addEvent",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "mean",
+				"type": "string"
+			}
+		],
+		"name": "addState",
+		"outputs": [{
+			"internalType": "uint256",
+			"name": "",
+			"type": "uint256"
+		}],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "uint256",
+				"name": "_id_area",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_newOwner",
+				"type": "address"
+			}
+		],
+		"name": "changeOwnerArea",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "string",
+				"name": "_idHash",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_state_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_reasonState",
+				"type": "string"
+			}
+		],
+		"name": "changeStateDocument",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "uint256",
+				"name": "_id_event",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_description",
+				"type": "string"
+			}
+		],
+		"name": "editDescriptionEvent",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "uint256",
+				"name": "_id_event",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint32",
+				"name": "_year",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_month",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_day",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_hour",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_minute",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_second",
+				"type": "uint8"
+			}
+		],
+		"name": "editEndEvent",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "uint256",
+				"name": "_id_area",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"name": "editNameArea",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "uint256",
+				"name": "_id_event",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"name": "editNameEvent",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "address",
+			"name": "newOwner",
+			"type": "address"
+		}],
+		"name": "editOwnerOrg",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "uint256",
+				"name": "_id_event",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint32",
+				"name": "_year",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_month",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_day",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_hour",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_minute",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_second",
+				"type": "uint8"
+			}
+		],
+		"name": "editStartEvent",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "mean",
+				"type": "string"
+			}
+		],
+		"name": "editState",
+		"outputs": [{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "uint256",
+				"name": "_event_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_idHash_old",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_state_id_old",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_reasonState_old",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_idHash_new",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_state_id_new",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_reasonState_new",
+				"type": "string"
+			}
+		],
+		"name": "newVersionDocument",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "string",
+			"name": "org",
+			"type": "string"
+		}],
+		"name": "setOrganitation",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [{
+			"internalType": "string",
+			"name": "_idHash",
+			"type": "string"
+		}],
+		"name": "checkDocument",
+		"outputs": [{
+			"internalType": "bool",
+			"name": "",
+			"type": "bool"
+		}],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "uint256",
+			"name": "_id",
+			"type": "uint256"
+		}],
+		"name": "getArea",
+		"outputs": [{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "cantEvents",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "address",
+				"name": "_id",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_area_index",
+				"type": "uint256"
+			}
+		],
+		"name": "getAreaOfOwner",
+		"outputs": [{
+			"internalType": "uint256",
+			"name": "",
+			"type": "uint256"
+		}],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "uint256",
+			"name": "_id",
+			"type": "uint256"
+		}],
+		"name": "getCantDocumentEvent",
+		"outputs": [{
+			"internalType": "uint256",
+			"name": "",
+			"type": "uint256"
+		}],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "string",
+			"name": "_idHash",
+			"type": "string"
+		}],
+		"name": "getDocument",
+		"outputs": [{
+				"internalType": "string",
+				"name": "idHash",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "state_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "event_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "reasonState",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "newDocument",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "uint256",
+			"name": "_id",
+			"type": "uint256"
+		}],
+		"name": "getEndEvent",
+		"outputs": [{
+				"internalType": "uint32",
+				"name": "year",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint8",
+				"name": "month",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "day",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "hour",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "minute",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "second",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "uint256",
+			"name": "_id",
+			"type": "uint256"
+		}],
+		"name": "getEvent",
+		"outputs": [{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "area_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "cantDocument",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "uint256",
+				"name": "_id_area",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_id_event_index",
+				"type": "uint256"
+			}
+		],
+		"name": "getEventOfArea",
+		"outputs": [{
+			"internalType": "uint256",
+			"name": "",
+			"type": "uint256"
+		}],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "address",
+			"name": "_id",
+			"type": "address"
+		}],
+		"name": "getLengthAreaOfOwner",
+		"outputs": [{
+			"internalType": "uint256",
+			"name": "",
+			"type": "uint256"
+		}],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getLengthAreas",
+		"outputs": [{
+			"internalType": "uint256",
+			"name": "",
+			"type": "uint256"
+		}],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getLengthEvents",
+		"outputs": [{
+			"internalType": "uint256",
+			"name": "",
+			"type": "uint256"
+		}],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "uint256",
+			"name": "_id_area",
+			"type": "uint256"
+		}],
+		"name": "getLengthEventsOfArea",
+		"outputs": [{
+			"internalType": "uint256",
+			"name": "",
+			"type": "uint256"
+		}],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getLengthStates",
+		"outputs": [{
+			"internalType": "uint256",
+			"name": "",
+			"type": "uint256"
+		}],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getOrganitation",
+		"outputs": [{
+			"internalType": "string",
+			"name": "",
+			"type": "string"
+		}],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getOwnerOrg",
+		"outputs": [{
+			"internalType": "address",
+			"name": "",
+			"type": "address"
+		}],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "uint256",
+			"name": "_id",
+			"type": "uint256"
+		}],
+		"name": "getStartEvent",
+		"outputs": [{
+				"internalType": "uint32",
+				"name": "year",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint8",
+				"name": "month",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "day",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "hour",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "minute",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "second",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "uint256",
+			"name": "_id",
+			"type": "uint256"
+		}],
+		"name": "getState",
+		"outputs": [{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "mean",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]

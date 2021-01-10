@@ -1,0 +1,15 @@
+Actividades
+[] 1-Crear vista que un archivo genere un hash (Reutilizar BFA). 
+[] 2- Crear vista que tenga, AMB Organizacion, AMB Areas, ABM Evento, ABM Documento y Cargar Muchos Documentos 
+[] 3- Tengo que terminar listar eventos, quedo cn variables estaticas hay que cambiar
+[] 4- revisar si conviene hacer que el usuario pueda hacer cosas sin metamask.(Pensar que se le van a gastar los token
+sin que se dee cuenta)
+
+Terminadas
+[x] Revisar como interactiar con Metamask.
+[x] Revisar que herramienta voy a usar para hacer la vista.
+[x]Estaba haciendo el cambio de propietario en un area
+[x] Pruebas con web3 y el smart contract.
+    _Probe getOrganizacion() y Devolvio UNAM, Es correcto.
+[x] Probar si la instacia de contrato esta bien minuto 16:07 (https://www.youtube.com/watch?v=346hhkGoul0&list=PL-jD2YjEmwDqdL_uqCZAnMzUbDTpTnIy0&index=2)
+[x] 3- Asociar las vistas con web3 y con blockchain.

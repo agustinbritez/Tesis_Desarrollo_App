@@ -1,0 +1,21 @@
+Voy a usar un backend hibrido.
+Los certificados se guardan en MySQL.
+(Podria UTILIZAR IPFS pero no es necesario)
+
+Pero el HASH de los certiifcados se guardan en la blockchain
+con el nombre de cada organización y el evento.
+
+Ejecutar el algoritmo de HASH en el cliente.
+
+Almacenar los certificados en la base de datos o en el sistema?
+
+Agregar una seccion en el sistema donde las personas puedan
+pedir nuevamente el certificado con sus correos.
+
+Los usuarios tienen que iniciar sesion, asi los datos se reutilizan.
+
+Los certificados se pueden generar con el moodle
+https://docs.moodle.org/39/en/Custom_certificate_module
+
+Generar certificado usando google.
+https://atguides.humboldt.edu/m/google/l/792830-how-do-i-use-google-forms-and-sheets-to-automatically-generate-custom-certificates
