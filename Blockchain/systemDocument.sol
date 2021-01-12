@@ -60,8 +60,9 @@ contract systemDocument {
         string[] idDocuments;
     }
     //*************************  ************* */
-
+    // only one organitation   for avoid that use a smart contract for  upload many files
     string organitaton;
+
     address ownerOrg;
     //all states
     State[] states;
@@ -182,19 +183,21 @@ contract systemDocument {
         uint256 _area_id,
         string memory name,
         string memory description
-    ) public payable {
+    ) public payable returns(uint256 id) {
         require((areas[_area_id].ownerArea == msg.sender)||(ownerOrg == msg.sender));
 
-        uint256 id = events.length;
+        uint256 _id = events.length;
         Date memory newDate = Date(0, 0, 0, 0, 0, 0);
         string[] memory _document;
 
         Event memory evento =
-            Event(id, name, description, newDate, newDate, _area_id, _document);
+            Event(_id, name, description, newDate, newDate, _area_id, _document);
         
         events.push(evento) ;
 
-        areas[_area_id].idEvents.push(id);
+        areas[_area_id].idEvents.push(_id);
+
+        return _id;
 
     }
 

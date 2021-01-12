@@ -34,12 +34,12 @@ export default {
     var instances = M.Dropdown.init(dropsdowns, options);
 
 
-      let events =  AppWeb3.getAllEvents(
-        1,
-        "0x255A43ac4ed05F4139607B33523a591ACE5a4031",
-        0,
-        10
-      );
+      // let events =  AppWeb3.getAllEvents(
+      //   1,
+      //   "0x255A43ac4ed05F4139607B33523a591ACE5a4031",
+      //   0,
+      //   10
+      // );
       
     
 
