@@ -26,15 +26,11 @@ const routes = [{
     component: () => import( /* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/eventos',
+    path: '/events',
     name: 'Event',
-    component: () => import('../views/Event.vue'),
-    beforeEnter(to, from, next) {
-      //no anda
-      let {account} = mapState(["account"]);
-      // account = store.state.account;
-      // console.log('router');
-      (account === '') ? next(home): next();
+    components: {
+      default: import('../views/Event.vue'),
+      // modalEdit: import('../components/elements/ModalEdit.vue'),
     }
   }
 ]

@@ -3,6 +3,8 @@
     <div class="card red lighten-4">
       <div class="card-title red accent-2">
         <h1 class="tile">Eventos</h1>
+        <!-- filter -->
+        <div></div>
       </div>
       <div class="card-content">
         <table class="highlight centered">
@@ -15,6 +17,7 @@
               <th>Start Event</th>
               <th>End Event</th>
               <th>Cant Documents</th>
+              <th>Actions</th>
             </tr>
           </thead>
 
@@ -24,12 +27,29 @@
               <td>{{ event.name }}</td>
               <td>{{ event.description }}</td>
               <td>{{ event.area_id }}</td>
-              <td>{{ event.startEvent }}</td>
-              <td>{{ event.endEvent }}</td>
+              <td>{{ event.startEvent || 'undate' }}</td>
+              <td>{{ event.endEvent || 'undate' }}</td>
               <td>{{ event.cantDocument }}</td>
+              <td>
+                <a href="#" class="blue-text text-accent-4"
+                  ><i class="material-icons">visibility</i></a
+                >&nbsp;
+                <a
+                  href="#"
+                  @click.prevent="openModal(event)"
+                  class="modal-trigger green-text text-accent-4"
+                >
+                  <i class="material-icons">edit</i> </a
+                >&nbsp;
+                <a href="#" class="red-text text-accent-4"
+                  ><i class="material-icons">delete_forever</i></a
+                >
+              </td>
             </tr>
           </tbody>
         </table>
+        <EditEvent :modalName="modalEdit" :eventEdit="eventEdit" />
+
       </div>
       <div class="card-action red accent-2">
         <Pagination />
@@ -44,8 +64,19 @@ import { inject, provide, ref, watchEffect } from "vue";
 import { mapState } from "vuex";
 import Pagination from "../components/elements/Pagination.vue";
 import * as AppWeb3 from "../app/app.js";
+import EditEvent from "../components/Event/EditEvent.vue";
 export default {
   name: "Event",
+  components: {
+    Pagination,
+    EditEvent,
+  },
+  data() {
+    return {
+      modalEdit: "modalEdit",
+      eventEdit: {}
+    };
+  },
   setup() {
     // const area_id = inject('area_id');
     const area_id = ref(1);
@@ -63,13 +94,14 @@ export default {
     });
 
     provide("pagination", pagination);
+
+
     const listEvents = async function () {
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
       });
 
       const account = accounts[0];
-
       let events = await AppWeb3.getAllEvents(
         area_id.value,
         account.value,
@@ -86,18 +118,12 @@ export default {
     };
 
     // const c= this.listEvents();
-    watchEffect( () => {
+    watchEffect(() => {
       console.log("watch " + pagination.value.current_page);
-       listEvents();
+      listEvents();
     });
 
     return { listEvents, eventsArray, pagination, area_id };
-  },
-  components: {
-    Pagination,
-  },
-  data() {
-    return {};
   },
   computed: {
     ...mapState(["account"]),
@@ -115,6 +141,14 @@ export default {
       let cantEvent = await this.getLengthEvents(_area_id);
       this.pagination.total = await parseInt(cantEvent / this.pagination.to);
       console.log("pagination " + this.pagination.total);
+    },
+    openModal(_eventEdit) {
+      this.eventEdit = _eventEdit;
+      var elem = document.getElementById(this.modalEdit);
+      // console.log('eventEdit2'+this.eventEdit);
+      var modalInstance = M.Modal.getInstance(elem);
+      // console.log(modalInstance);
+      modalInstance.open();
     },
   },
   mounted() {

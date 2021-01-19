@@ -1,17 +1,21 @@
 <template>
   <div>
-    <NavBar />
+    <NavBar :color="''" :text_color="''" />
     <!-- router-view muestra el componente relacionado a la ruta actual en el NavBar estan como se llaman alas rutas -->
-    <router-view />
-    <button @click="alert(this.AppWeb3.getOrganitation())">button</button>
+    <transition>
+      <router-view />
+    </transition>
+
+    <PreLoad></PreLoad>
     <Footer />
   </div>
 </template>
 <script>
 import NavBar from "@/components/NavBar.vue";
 import Footer from "@/components/Footer.vue";
+import PreLoad from "./components/elements/PreLoad.vue";
 import { mapState } from "vuex";
-import { provide, ref } from "vue";
+import { provide, ref, watchEffect } from "vue";
 import * as AppWeb3 from "./app/app.js";
 
 export default {
@@ -19,11 +23,15 @@ export default {
   components: {
     NavBar,
     Footer,
+    PreLoad,
   },
   computed: {
-    ...mapState(["account"]),
+    ...mapState(["account", "isLoading"]),
   },
   methods: {},
+  data() {
+    return {};
+  },
   setup() {},
   mounted() {
     //Activar animaciones
@@ -31,30 +39,11 @@ export default {
     //animacion para setting
     var dropsdowns = document.querySelectorAll(".dropdown-trigger");
     var options = { coverTrigger: false };
-    var instances = M.Dropdown.init(dropsdowns, options);
-
-
-      // let events =  AppWeb3.getAllEvents(
-      //   1,
-      //   "0x255A43ac4ed05F4139607B33523a591ACE5a4031",
-      //   0,
-      //   10
-      // );
-      
+    var instancesDropsdown = M.Dropdown.init(dropsdowns, options);
     
 
-    //funcionan eran para pruebas
-    // console.log(this.setOrganitation('Agus2'));
-    //  let result= AppWeb3.getOrganitation();
-    // getOrganitation();
-    // async function getOrganitation () {
-    // 	let result= await AppWeb3.getOrganitation();
-    // 	console.log(result);
-    // };
+    
 
-    // let result= this.getOrganitation();
-    // console.log(result);
-    // console.log('xxx');
   },
 };
 </script>

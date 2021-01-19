@@ -6,7 +6,8 @@ import * as AppWeb3 from "../app/app.js";
 
 export default createStore({
   state: {
-    account: ''
+    account: '',
+    isLoading:false,
   },
   mutations: {
     async connectAccount(state) {

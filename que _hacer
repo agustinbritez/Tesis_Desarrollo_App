@@ -4,6 +4,8 @@ Actividades
 [] 3- Tengo que terminar listar eventos, quedo cn variables estaticas hay que cambiar
 [] 4- revisar si conviene hacer que el usuario pueda hacer cosas sin metamask.(Pensar que se le van a gastar los token
 sin que se dee cuenta)
+[]- hacer componente buscador para events (conviene componente?)
+[] - agregar un atributo (state o delete)) a todas las variables en blockchain.
 
 Terminadas
 [x] Revisar como interactiar con Metamask.
