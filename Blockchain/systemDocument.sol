@@ -14,20 +14,13 @@ contract systemDocument {
 
     //**************Struct*************** */
 
-    struct Date {
-        uint32 year;
-        uint8 month;
-        uint8 day;
-        uint8 hour;
-        uint8 minute;
-        uint8 second;
-    }
-
     struct Area {
         uint256 id;
         // bool editable;
         address ownerArea;
         string name;
+        string description;
+        uint256 state_id;
         uint256[] idEvents;
     }
 
@@ -52,8 +45,9 @@ contract systemDocument {
         uint256 id;
         string name;
         string description;
-        Date startEvent;
-        Date endEvent;
+        uint256 state_id;
+        string startEvent;
+        string endEvent;
         //Propietario que puede hacer cambios al evento
         uint256 area_id;
         //storage idhash
@@ -61,33 +55,35 @@ contract systemDocument {
     }
     //*************************  ************* */
     // only one organitation   for avoid that use a smart contract for  upload many files
-    string organitaton;
+    string private organitaton;
 
-    address ownerOrg;
+    address private ownerOrg;
     //all states
-    State[] states;
+    State[] private states;
     //one owner many areas
-    mapping(address => uint256[]) ownerArea;
+    mapping(address => uint256[]) private ownerArea;
     //all areas
-    Area[] areas;
+    Area[] private areas;
     //all events
-    Event[] events;
+    Event[] private events;
     // hash => document
-    mapping(string => Document) documents;
+    mapping(string => Document) private documents;
 
     /**************** Methods ***************** */
     constructor() {
         ownerOrg = msg.sender;
         uint256[] memory idEvents;
         //La primer area todos las areas borradas hacen referencia a este
-        Area memory zero = Area(0, address(this), "null", idEvents);
+        Area memory zero = Area(0, address(this), "null", "null", 1, idEvents);
         areas.push(zero);
-        State memory _state = State(0, "null", "null");
+
+        State memory _state = State(0, "deleted", "deleted");
+        State memory _state2 = State(1, "actived", "actived");
+
         states.push(_state);
-        Date memory startEvent = Date(0, 0, 0, 0, 0, 0);
+        states.push(_state2);
         string[] memory str;
-        Event memory _event =
-            Event(0, "null", "null", startEvent, startEvent, zero.id, str);
+        Event memory _event = Event(0, "null", "null", 0, "", "", zero.id, str);
         events.push(_event);
     }
 
@@ -135,27 +131,47 @@ contract systemDocument {
     }
 
     /***************Area************************* */
-    function addArea(address _ownerArea, string memory _name)
-        public
-        payable
-        onlyOwnerOrg
-    {
+    function addArea(
+        address _ownerArea,
+        string memory _name,
+        string memory _description
+    ) public payable onlyOwnerOrg {
         uint256 _id = areas.length;
         uint256[] memory _events;
-        Area memory _newOwner = Area(_id, _ownerArea, _name, _events);
+        Area memory _newOwner =
+            Area(_id, _ownerArea, _name, _description, 1, _events);
 
         areas.push(_newOwner);
         ownerArea[_ownerArea].push(_id);
     }
 
-    function editNameArea(uint256 _id_area, string memory _name)
-        public
-        payable
-    {
-        //edit name only don't exists events with areas relation
-        require((ownerOrg == msg.sender) || (ownerArea[msg.sender][0] > 0));
-        require(areas[_id_area].idEvents.length == 0);
-        areas[_id_area].name = _name;
+    function editArea(
+        uint256 _id_area,
+        string memory _name,
+        string memory _description
+    ) public payable {
+        require(
+            (ownerOrg == msg.sender) ||
+                (areas[_id_area].ownerArea == msg.sender)
+        );
+
+        if (bytes(_name).length > 0) {
+            areas[_id_area].name = _name;
+        }
+
+        if (bytes(_description).length > 0) {
+            areas[_id_area].description = _description;
+        }
+    }
+
+    function editStateArea(uint256 _id_area, uint256 _id_state) public payable {
+        //only owen Area can edit name
+        require(
+            (areas[_id_area].ownerArea == msg.sender) ||
+                (ownerOrg == msg.sender)
+        );
+        require(_id_state < states.length);
+        areas[_id_area].state_id = _id_state;
     }
 
     function changeOwnerArea(uint256 _id_area, address _newOwner)
@@ -183,22 +199,86 @@ contract systemDocument {
         uint256 _area_id,
         string memory name,
         string memory description
-    ) public payable returns(uint256 id) {
-        require((areas[_area_id].ownerArea == msg.sender)||(ownerOrg == msg.sender));
+    ) public payable returns (uint256 id) {
+        require(
+            (areas[_area_id].ownerArea == msg.sender) ||
+                (ownerOrg == msg.sender)
+        );
 
         uint256 _id = events.length;
-        Date memory newDate = Date(0, 0, 0, 0, 0, 0);
         string[] memory _document;
 
         Event memory evento =
-            Event(_id, name, description, newDate, newDate, _area_id, _document);
-        
-        events.push(evento) ;
+            Event(_id, name, description, 1, "", "", _area_id, _document);
+
+        events.push(evento);
 
         areas[_area_id].idEvents.push(_id);
 
         return _id;
+    }
 
+    function addEventFull(
+        uint256 _area_id,
+        string memory name,
+        string memory description,
+        string memory _startDate,
+        string memory _endDate
+    ) public payable returns (uint256 id) {
+        require(
+            (areas[_area_id].ownerArea == msg.sender) ||
+                (ownerOrg == msg.sender)
+        );
+
+        uint256 _id = events.length;
+        string[] memory _document;
+
+        Event memory evento =
+            Event(
+                _id,
+                name,
+                description,
+                1, //state active
+                _startDate,
+                _endDate,
+                _area_id,
+                _document
+            );
+
+        events.push(evento);
+
+        areas[_area_id].idEvents.push(_id);
+
+        return _id;
+    }
+
+    function editEventFull(
+        uint256 _event_id,
+        string memory name,
+        string memory description,
+        string memory _startDate,
+        string memory _endDate
+    ) public payable returns (uint256 id) {
+        require(
+            (areas[events[_event_id].area_id].ownerArea == msg.sender) ||
+                (ownerOrg == msg.sender)
+        );
+        bytes memory bytesName = bytes(name);
+        if (bytesName.length > 0) {
+            events[_event_id].name = name;
+        }
+        bytes memory bytesDescription = bytes(description);
+        if (bytesDescription.length > 0) {
+            events[_event_id].description = description;
+        }
+
+        if (bytes(_startDate).length > 0) {
+            events[_event_id].startEvent = _startDate;
+        }
+        if (bytes(_endDate).length > 0) {
+            events[_event_id].endEvent = _endDate;
+        }
+        return _event_id;
     }
 
     function editNameEvent(uint256 _id_event, string memory _name)
@@ -213,6 +293,19 @@ contract systemDocument {
         events[_id_event].name = _name;
     }
 
+    function editStateEvent(uint256 _id_event, uint256 _id_state)
+        public
+        payable
+    {
+        //only owen Area can edit name
+        require(
+            (areas[events[_id_event].area_id].ownerArea == msg.sender) ||
+                (ownerOrg == msg.sender)
+        );
+        require(_id_state < states.length);
+        events[_id_event].state_id = _id_state;
+    }
+
     function editDescriptionEvent(uint256 _id_event, string memory _description)
         public
         payable
@@ -225,42 +318,29 @@ contract systemDocument {
         events[_id_event].description = _description;
     }
 
-    function editStartEvent(
-        uint256 _id_event,
-        uint32 _year,
-        uint8 _month,
-        uint8 _day,
-        uint8 _hour,
-        uint8 _minute,
-        uint8 _second
-    ) public payable {
+    function editStartEvent(uint256 _id_event, string memory _startEvent)
+        public
+        payable
+    {
         //only owen Area can edit name
         require(
             (areas[events[_id_event].area_id].ownerArea == msg.sender) ||
                 (ownerOrg == msg.sender)
         );
-        Date memory newDate =
-            Date(_year, _month, _day, _hour, _minute, _second);
-        events[_id_event].startEvent = newDate;
+
+        events[_id_event].startEvent = _startEvent;
     }
 
-    function editEndEvent(
-        uint256 _id_event,
-        uint32 _year,
-        uint8 _month,
-        uint8 _day,
-        uint8 _hour,
-        uint8 _minute,
-        uint8 _second
-    ) public payable {
+    function editEndEvent(uint256 _id_event, string memory _endEvent)
+        public
+        payable
+    {
         //only owen Area can edit name
         require(
             (areas[events[_id_event].area_id].ownerArea == msg.sender) ||
                 (ownerOrg == msg.sender)
         );
-        Date memory newDate =
-            Date(_year, _month, _day, _hour, _minute, _second);
-        events[_id_event].endEvent = newDate;
+        events[_id_event].endEvent = _endEvent;
     }
 
     //**********************Document********************************************8 */
@@ -363,7 +443,7 @@ contract systemDocument {
         return states.length;
     }
 
-    function getAreaOfOwner(address _id,uint256 _area_index)
+    function getAreaOfOwner(address _id, uint256 _area_index)
         public
         view
         returns (uint256)
@@ -382,6 +462,8 @@ contract systemDocument {
             uint256 id,
             address owner,
             string memory name,
+            string memory description,
+            uint256 state_id,
             uint256 cantEvents
         )
     {
@@ -389,6 +471,8 @@ contract systemDocument {
             areas[_id].id,
             areas[_id].ownerArea,
             areas[_id].name,
+            areas[_id].description,
+            areas[_id].state_id,
             areas[_id].idEvents.length
         );
     }
@@ -417,69 +501,28 @@ contract systemDocument {
         public
         view
         returns (
-            uint256 id ,
+            uint256 id,
             string memory name,
             string memory description,
+            uint256 state_id,
             uint256 area_id,
-            uint256 cantDocument
+            string memory startEvent,
+            string memory endEvent
         )
     {
-        
         return (
             _id,
             events[_id].name,
             events[_id].description,
+            events[_id].state_id,
             events[_id].area_id,
-            events[_id].idDocuments.length
+            events[_id].startEvent,
+            events[_id].endEvent
         );
     }
 
     function getCantDocumentEvent(uint256 _id) public view returns (uint256) {
         return (events[_id].idDocuments.length);
-    }
-
-    function getStartEvent(uint256 _id)
-        public
-        view
-        returns (
-            uint32 year,
-            uint8 month,
-            uint8 day,
-            uint8 hour,
-            uint8 minute,
-            uint8 second
-        )
-    {
-        return (
-            events[_id].startEvent.year,
-            events[_id].startEvent.month,
-            events[_id].startEvent.day,
-            events[_id].startEvent.hour,
-            events[_id].startEvent.minute,
-            events[_id].startEvent.second
-        );
-    }
-
-    function getEndEvent(uint256 _id)
-        public
-        view
-        returns (
-            uint32 year,
-            uint8 month,
-            uint8 day,
-            uint8 hour,
-            uint8 minute,
-            uint8 second
-        )
-    {
-        return (
-            events[_id].endEvent.year,
-            events[_id].endEvent.month,
-            events[_id].endEvent.day,
-            events[_id].endEvent.hour,
-            events[_id].endEvent.minute,
-            events[_id].endEvent.second
-        );
     }
 
     function getLengthEvents() public view returns (uint256) {
@@ -497,7 +540,6 @@ contract systemDocument {
             string memory newDocument
         )
     {
-        
         return (
             _idHash,
             documents[_idHash].state_id,
@@ -509,5 +551,9 @@ contract systemDocument {
 
     function checkDocument(string memory _idHash) public view returns (bool) {
         return bytes(documents[_idHash].idHash).length > 0 ? true : false;
+    }
+
+    function getAddress() public view returns (address) {
+        return address(this);
     }
 }

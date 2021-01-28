@@ -6,8 +6,12 @@ Actividades
 sin que se dee cuenta)
 []- hacer componente buscador para events (conviene componente?)
 [] - agregar un atributo (state o delete)) a todas las variables en blockchain.
+[] - habilitar para ver un Area especifica con sus eventos.
+[] - cambiar el estado del area
+[]- falta cargar lista de evento en ViewArea y agregar botones para editar los atributos del Area
 
 Terminadas
+[x] - cuando se agrega un evento que el modal de minimize y se actualice la lista
 [x] Revisar como interactiar con Metamask.
 [x] Revisar que herramienta voy a usar para hacer la vista.
 [x]Estaba haciendo el cambio de propietario en un area

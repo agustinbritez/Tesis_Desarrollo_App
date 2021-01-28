@@ -2,6 +2,7 @@ import * as Parameters from "./parameters.js";
 import * as Organitation from "./Organitation.js";
 import * as Event from "./Event.js";
 import * as Area from "./Area.js";
+import * as State from "./State.js";
 import {
     CONST_ABI
 } from "./abi.js";
@@ -24,10 +25,19 @@ export async function getOrganitation(_name, _from) {
 //**************************Event************************************* */
 
 export async function getAllEvents(_area_id, _from_address, _from, _to) {
-    return await Event.getAllEvents(_area_id, _from_address, _from, _to, miContrato);
+    if (_area_id > 0) {
+
+        return await Event.getAllEventsOneArea(_area_id, _from_address, _from, _to, miContrato);
+    } else {
+
+        return await Event.getAllEvents(miContrato);
+    }
 }
-export async function addEvent(_area_id, _name, _description) {
-    return await Event.addEvent(_area_id, _name, _description, miContrato);
+export async function addEvent(_area_id, _name, _description, startDate, endDate) {
+    return await Event.addEvent(_area_id, _name, _description, startDate, endDate, miContrato);
+}
+export async function editEvent(_event_id, _name, _description, startDate, endDate) {
+    return await Event.editEvent(_event_id, _name, _description, startDate, endDate, miContrato);
 }
 export async function getLengthEventsOfArea(_area_id) {
     return await Event.getLengthEventsOfArea(_area_id, miContrato);
@@ -35,10 +45,27 @@ export async function getLengthEventsOfArea(_area_id) {
 
 
 //****************************Areas********************************** */
-export async function getAllAreaOfOwner() {
-    const accounts = await ethereum.request({
-        method: "eth_requestAccounts",
-    });
-    let account = accounts[0];
-    return await Area.getAllAreaOfOwner(account, miContrato);
+export async function getAllAreaOfOwner(_from, _to) {
+    return await Area.getAllAreaOfOwner(_from, _to, miContrato);
 }
+
+export async function getLengthAreaOfOwner() {
+    return await Area.getLengthAreaOfOwner(miContrato);
+}
+export async function getArea(_id) {
+    return await Area.getArea(_id,miContrato);
+}
+export async function addArea(_owner, _name, _description) {
+    return await Area.addArea(_owner, _name, _description, miContrato);
+}
+export async function editArea(_id_area, _name, _description) {
+    return await Area.editArea(_id_area, _name, _description, miContrato);
+}
+export async function deleteArea(_id_area) {
+    return await Area.deleteArea(_id_area, miContrato);
+}
+//**************************** States ********************************** */
+export async function getStatesAll() {
+    return await State.getStatesAll(miContrato);
+}
+

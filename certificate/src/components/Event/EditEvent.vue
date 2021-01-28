@@ -8,60 +8,21 @@
     <!-- Modal Structure -->
     <div :id="modalName" class="modal">
       <div class="modal-content">
+        <h5>{{ nameModal }}</h5>
+        <hr />
         <div class="row">
           <form class="col s12">
             <div class="row">
-              <div class="input-field col s12">
+              <div class="input-field col s6">
                 <input
                   id="name"
                   class="inputCounter"
                   type="text"
                   data-length="50"
-                  :value="eventEdit.name"
+                  v-model="eventEdit.name"
                 />
-                <label for="name" :class="{'active': eventEdit.id }">Name</label>
+                <label for="name" :class="{ active: activeInput }">Name</label>
               </div>
-            </div>
-
-            <div class="row">
-              <div class="input-field col s12">
-                <textarea
-                  id="description"
-                  class="materialize-textarea"
-                  data-length="250"
-                  v-text="eventEdit.description"
-                ></textarea>
-                <label for="description" :class="{'active': eventEdit.id }" > Description</label>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="input-field col s6">
-                <input id="startEvent" type="date" class="form-control" :value="eventEdit.startEvent" />
-                <label for="startEvent">Start Event</label>
-              </div>
-              <div class="input-field col s6">
-                <input id="endEvent" type="date" class="form-control" :value="eventEdit.endEvent"/>
-                <label for="endEvent">End Event</label>
-              </div>
-            </div>
-
-            <!-- <div class="row">
-              <div class="input-field col s12" ref="selectArea">
-                <select class="select" v-model="selectAreaId">
-                  <option value="" disabled selected>Choose your option</option>
-                  <option
-                    :v-for="option in areasSelect"
-                    :value="option.id"
-                    :key="option.id"
-                  >
-                    {{ option.name }}
-                  </option>
-                </select>
-                <label>Materialize Select</label>
-              </div>
-            </div> -->
-            <div class="row">
               <div class="input-field col s6">
                 <Multiselect
                   v-model="eventEdit.area_id"
@@ -73,33 +34,74 @@
                 />
               </div>
             </div>
+
             <div class="row">
-              <div class="col s12">
-                
+              <div class="input-field col s12">
+                <textarea
+                  id="description"
+                  class="materialize-textarea"
+                  data-length="250"
+                  v-model="eventEdit.description"
+                ></textarea>
+                <label for="description" :class="{ active: activeInput }">
+                  Description</label
+                >
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col s6">
+                <input
+                  id="startEvent"
+                  type="datetime-local"
+                  class="form-control"
+                  v-model="eventEdit.startEvent"
+                />
+                <label for="startEvent" class="active">Start Event</label>
+              </div>
+
+              <div class="input-field col s6">
+                <input
+                  id="endEvent"
+                  type="datetime-local"
+                  class="form-control"
+                  v-model="eventEdit.endEvent"
+                />
+                <label for="endEvent" class="active">End Event</label>
               </div>
             </div>
           </form>
         </div>
       </div>
       <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat"
-          >Agree</a
-        >
+        <div class="row">
+          <div class="col s2">
+            <a
+              href="#!"
+              @click.prevent="editOrNew()"
+              class="waves-effect waves-green darken-1 btn-flat"
+              >Save</a
+            >
+          </div>
+          <div class="col s2 offset-s6">
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat"
+              >Cancel</a
+            >
+          </div>
+        </div>
       </div>
     </div>
-    <button @click="getAllAreasOfOwner()">entrar</button>
-    <button @click="ver()">ver</button>
   </div>
 </template>
 <script>
 import Multiselect from "@vueform/multiselect";
 import * as AppWeb3 from "../../app/app.js";
 import { mapState } from "vuex";
-import { provide, ref, watchEffect } from "vue";
+import { inject, provide, ref, watchEffect } from "vue";
 
 export default {
   name: "EditEvent",
-  props: ["modalName", "eventEdit"],
+  props: ["modalName", "activeInput", "nameModal"],
   components: { Multiselect },
   data() {
     return {
@@ -110,24 +112,54 @@ export default {
   computed: {
     ...mapState(["account"]),
   },
-  setup() {},
+  setup() {
+    const eventEdit = inject("eventEdit");
+    const load = inject("load");
+
+    return { eventEdit, load };
+  },
   methods: {
     ver() {
       console.log(this.selectAreaId);
     },
 
     async getAllAreasOfOwner() {
-      let areas = await AppWeb3.getAllAreaOfOwner();
-      // this.areasSelect = [];
-      // this.areasSelect = ["Batman2", "Robin2", "Joker2"];
+      let cantAreas = await AppWeb3.getLengthAreaOfOwner();
+      let areas = await AppWeb3.getAllAreaOfOwner(0, cantAreas);
+
       for (let index = 0; index < areas.length; index++) {
         areas[index].value = areas[index].id;
         this.areasSelect.push(areas[index]);
       }
-      // this.areasSelect.push('Batman');
-      // areasSelect.value = [];
-      // console.log(areas);
-      // return areas;
+    },
+    async editOrNew() {
+      ///if activeInput is false == new event
+      if (this.activeInput) {
+        //edit
+        await AppWeb3.editEvent(
+          this.eventEdit.id,
+          this.eventEdit.name,
+          this.eventEdit.description,
+          this.eventEdit.startEvent,
+          this.eventEdit.endEvent
+        );
+      } else {
+        //new
+        console.log(this.eventEdit.startEvent);
+        await AppWeb3.addEvent(
+          parseInt(this.eventEdit.area_id),
+          this.eventEdit.name,
+          this.eventEdit.description,
+          this.eventEdit.startEvent,
+          this.eventEdit.endEvent
+        );
+      }
+
+      this.load = !this.load;
+      console.log("actualiza lista carajo");
+      var elem = document.getElementById(this.modalName);
+      var modalInstance = M.Modal.getInstance(elem);
+      modalInstance.close();
     },
   },
   mounted() {
@@ -141,9 +173,11 @@ export default {
     M.CharacterCounter.init(inputName);
     M.CharacterCounter.init(inputDescription);
     var selects = M.FormSelect.init(selects);
+
     this.getAllAreasOfOwner();
   },
 };
 </script>
 
 <style src="@vueform/multiselect/themes/default.css"></style>
+

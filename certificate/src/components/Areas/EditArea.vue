@@ -1,0 +1,133 @@
+<template>
+  <div>
+    <!-- Modal Structure -->
+    <!-- <a class="waves-effect waves-light btn modal-trigger" :href="'#'+modalName"
+      >Modal</a
+    > -->
+
+    <!-- Modal Structure -->
+    <div :id="modalName" class="modal">
+      <div class="modal-content">
+        <h5>{{ nameModal }}</h5>
+        <hr />
+        <div class="row">
+          <form class="col s12">
+            <div class="row" v-if="!actionEdit">
+              <div class="input-field col s12">
+                <input
+                  id="owner"
+                  class="inputCounter"
+                  type="text"
+                  data-length="100"
+                  v-model="areaEdit.owner"
+                />
+                <label for="owner" :class="{ active: actionEdit }"
+                  >Area Owner
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input
+                  id="name"
+                  class="inputCounter"
+                  type="text"
+                  data-length="50"
+                  v-model="areaEdit.name"
+                />
+                <label for="name" :class="{ active: actionEdit }">Name</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <textarea
+                  id="description"
+                  class="materialize-textarea"
+                  data-length="250"
+                  v-model="areaEdit.description"
+                ></textarea>
+                <label for="description" :class="{ active: actionEdit }">
+                  Description</label
+                >
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col s2">
+            <a
+              href="#!"
+              @click.prevent="editOrNew()"
+              class="waves-effect waves-green darken-1 btn-flat"
+              >Save</a
+            >
+          </div>
+          <div class="col s2 offset-s6">
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat"
+              >Cancel</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import Multiselect from "@vueform/multiselect";
+import * as AppWeb3 from "../../app/app.js";
+import { inject } from "vue";
+
+export default {
+  name: "EditEvent",
+  props: ["modalName", "actionEdit", "nameModal"],
+  components: { Multiselect },
+  data() {
+    return {};
+  },
+  computed: {},
+  setup() {
+    const areaEdit = inject("areaEdit");
+    const loadList = inject("loadList");
+
+    return { areaEdit, loadList };
+  },
+  methods: {
+    async editOrNew() {
+      ///if actionEdit is false == new event
+      if (this.actionEdit) {
+        //edit
+        await AppWeb3.editArea(
+          this.areaEdit.id,
+          this.areaEdit.name,
+          this.areaEdit.description
+        );
+      } else {
+        //new
+    console.log('Prueba');
+        await AppWeb3.addArea(
+          this.areaEdit.owner,
+          this.areaEdit.name,
+          this.areaEdit.description
+        );
+      }
+
+      this.loadList = !this.loadList;
+      console.log("actualiza lista carajo");
+      var elem = document.getElementById(this.modalName);
+      var modalInstance = M.Modal.getInstance(elem);
+      modalInstance.close();
+    },
+  },
+  mounted() {
+    var elems = document.querySelectorAll("#" + this.modalName);
+    // console.log(this.areaEdit.name);
+    var instances = M.Modal.init(elems);
+    // console.log(instances);
+    var inputName = document.getElementById("name");
+  },
+};
+</script>
+
+<style src="@vueform/multiselect/themes/default.css"></style>

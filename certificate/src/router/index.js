@@ -2,9 +2,6 @@ import {
   createRouter,
   createWebHistory
 } from 'vue-router'
-import {
-  mapState
-} from "vuex";
 
 
 
@@ -29,10 +26,26 @@ const routes = [{
     path: '/events',
     name: 'Event',
     components: {
-      default: import('../views/Event.vue'),
+      default: import('../views/Events.vue'),
       // modalEdit: import('../components/elements/ModalEdit.vue'),
     }
-  }
+  },
+  {
+    path: '/areas',
+    name: 'Areas',
+    components: {
+      default: import('../views/Areas.vue'),
+      // modalEdit: import('../components/elements/ModalEdit.vue'),
+    }
+  },
+  {
+    path: '/areas/:id',
+    name: 'AreaView',
+    components: {
+      default: import('../components/Areas/viewArea.vue'),
+      // modalEdit: import('../components/elements/ModalEdit.vue'),
+    }
+    }
 ]
 
 const router = createRouter({

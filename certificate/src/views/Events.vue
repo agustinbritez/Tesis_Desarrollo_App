@@ -1,0 +1,211 @@
+<template>
+  <div class="container">
+    <div class="card red lighten-4">
+      <div class="card-title red accent-2">
+        <h1 class="tile">Eventos</h1>
+        <!-- filter -->
+        <div></div>
+      </div>
+      <div class="card-content">
+        <div class="row">
+          <button
+            class="btn left waves-effect waves-light"
+            @click="openModalNew()"
+          >
+            new (+)
+          </button>
+        </div>
+        <table class="highlight centered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th class="hide-on-med-and-down">Description</th>
+              <th>ID Area</th>
+              <th>Start Event</th>
+              <th class="hide-on-med-and-down">End Event</th>
+              <th class="hide-on-med-and-down">Cant Documents</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr v-for="event in eventsArray" :key="event.id">
+              <td>{{ event.id }}</td>
+              <td>{{ event.name }}</td>
+              <td class="hide-on-med-and-down">{{ event.description }}</td>
+              <td>{{ event.area_id }}</td>
+              <td>{{ event.startEvent || "undate" }}</td>
+              <td class="hide-on-med-and-down">
+                {{ event.endEvent || "undate" }}
+              </td>
+              <td class="hide-on-med-and-down">{{ event.cantDocument }}</td>
+
+              <td>
+                <div class="row right">
+                  <div class="col">
+                    <a href="#" class="blue-text text-accent-4"
+                      ><i class="material-icons">visibility</i></a
+                    >&nbsp;
+                  </div>
+                  <div class="col">
+                    <a
+                      href="#"
+                      @click.prevent="openModalEdit(event)"
+                      class="modal-trigger green-text text-accent-4"
+                    >
+                      <i class="material-icons">edit</i> </a
+                    >&nbsp;
+                  </div>
+                  <div class="col">
+                    <a href="#" class="red-text text-accent-4"
+                      ><i class="material-icons">delete_forever</i></a
+                    >
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <EditEvent
+          :modalName="modalEdit"
+          :activeInput="activeInput"
+          :nameModal="nameModal"
+        />
+      </div>
+      <div class="card-action red accent-2">
+        <Pagination />
+      </div>
+    </div>
+    <br />
+  </div>
+</template>
+
+<script>
+import { inject, provide, ref, watchEffect } from "vue";
+import { mapState } from "vuex";
+import Pagination from "../components/elements/Pagination.vue";
+import * as AppWeb3 from "../app/app.js";
+import EditEvent from "../components/Event/EditEvent.vue";
+export default {
+  name: "Event",
+  components: {
+    Pagination,
+    EditEvent,
+  },
+  data() {
+    return {
+      modalEdit: "modalEdit",
+      // eventEdit: {},
+      activeInput: true,
+      nameModal: "",
+    };
+  },
+  setup() {
+    // const area_id = inject('area_id');
+    const area_id = ref(0);
+    provide("area_id", area_id);
+    const eventEdit = ref({});
+    provide("eventEdit", eventEdit);
+
+    const eventsArray = ref([]);
+    provide("eventsArray", eventsArray);
+    const pagination = ref({
+      total: 0,
+      current_page: 1,
+      per_page: 1,
+      //id elments
+      from: 0,
+      to: 10,
+    });
+
+    provide("pagination", pagination);
+    let load=ref(false);
+    provide("load", load);
+
+    const listEvents = async function () {
+      const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      const account = accounts[0];
+      let events = await AppWeb3.getAllEvents(
+        area_id.value,
+        account.value,
+        pagination.value.from,
+        pagination.value.to
+      );
+      // console.log(this.account);
+      eventsArray.value = events;
+      // events.forEach(element => {
+      //   console.log(element.name);
+
+      // });
+      return events;
+    };
+
+    // const c= this.listEvents();
+    watchEffect(() => {
+      console.log("watch " + pagination.value.current_page);
+      console.log("load " + load.value);
+      listEvents();
+    });
+   
+
+    return {load, eventEdit, listEvents, eventsArray, pagination, area_id };
+  },
+  computed: {
+    ...mapState(["account"]),
+  },
+  methods: {
+ 
+    async getLengthEvents(_area_id) {
+      let result = await AppWeb3.getLengthEventsOfArea(_area_id);
+      return result;
+    },
+    async getEventsPages(_area_id) {
+      let cantEvent = await this.getLengthEvents(_area_id);
+      this.pagination.total = await parseInt(cantEvent / this.pagination.to);
+      console.log("pagination " + this.pagination.total);
+    },
+    openModalEdit(_eventEdit) {
+      this.eventEdit.name = _eventEdit.name;
+      this.eventEdit.id = _eventEdit.id;
+      this.eventEdit.area_id = _eventEdit.area_id;
+      this.eventEdit.description = _eventEdit.description;
+      this.eventEdit.startEvent = _eventEdit.startEvent;
+      this.eventEdit.endEvent = _eventEdit.endEvent;
+
+      var elem = document.getElementById(this.modalEdit);
+      // console.log('eventEdit2'+this.eventEdit);
+      var modalInstance = M.Modal.getInstance(elem);
+      // console.log(modalInstance);
+      this.activeInput = true;
+      this.nameModal = "Event Edit";
+      modalInstance.open();
+    },
+    openModalNew() {
+      this.eventEdit.name = "";
+      this.eventEdit.id = 0;
+      this.eventEdit.area_id = "";
+      this.eventEdit.description = "";
+      this.eventEdit.startEvent = "";
+      this.eventEdit.endEvent = "";
+      var elem = document.getElementById(this.modalEdit);
+      // console.log('eventEdit2'+this.eventEdit);
+      var modalInstance = M.Modal.getInstance(elem);
+      // console.log(modalInstance);
+      this.nameModal = "Event New";
+      this.activeInput = false;
+      modalInstance.open();
+    },
+  },
+  mounted() {
+    this.eventsArray = this.listEvents();
+    this.getEventsPages(this.area_id);
+  },
+  updated() {
+    // this.listEvents();
+  },
+};
+</script>

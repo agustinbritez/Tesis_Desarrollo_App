@@ -8,6 +8,11 @@ export const CONST_ABI = [{
 				"internalType": "string",
 				"name": "_name",
 				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_description",
+				"type": "string"
 			}
 		],
 		"name": "addArea",
@@ -60,7 +65,47 @@ export const CONST_ABI = [{
 			}
 		],
 		"name": "addEvent",
-		"outputs": [],
+		"outputs": [{
+			"internalType": "uint256",
+			"name": "id",
+			"type": "uint256"
+		}],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "uint256",
+				"name": "_area_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_startDate",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_endDate",
+				"type": "string"
+			}
+		],
+		"name": "addEventFull",
+		"outputs": [{
+			"internalType": "uint256",
+			"name": "id",
+			"type": "uint256"
+		}],
 		"stateMutability": "payable",
 		"type": "function"
 	},
@@ -127,6 +172,28 @@ export const CONST_ABI = [{
 	{
 		"inputs": [{
 				"internalType": "uint256",
+				"name": "_id_area",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_description",
+				"type": "string"
+			}
+		],
+		"name": "editArea",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "uint256",
 				"name": "_id_event",
 				"type": "uint256"
 			},
@@ -148,34 +215,9 @@ export const CONST_ABI = [{
 				"type": "uint256"
 			},
 			{
-				"internalType": "uint32",
-				"name": "_year",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint8",
-				"name": "_month",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "_day",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "_hour",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "_minute",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "_second",
-				"type": "uint8"
+				"internalType": "string",
+				"name": "_endEvent",
+				"type": "string"
 			}
 		],
 		"name": "editEndEvent",
@@ -186,17 +228,36 @@ export const CONST_ABI = [{
 	{
 		"inputs": [{
 				"internalType": "uint256",
-				"name": "_id_area",
+				"name": "_event_id",
 				"type": "uint256"
 			},
 			{
 				"internalType": "string",
-				"name": "_name",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_startDate",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_endDate",
 				"type": "string"
 			}
 		],
-		"name": "editNameArea",
-		"outputs": [],
+		"name": "editEventFull",
+		"outputs": [{
+			"internalType": "uint256",
+			"name": "id",
+			"type": "uint256"
+		}],
 		"stateMutability": "payable",
 		"type": "function"
 	},
@@ -235,34 +296,9 @@ export const CONST_ABI = [{
 				"type": "uint256"
 			},
 			{
-				"internalType": "uint32",
-				"name": "_year",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint8",
-				"name": "_month",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "_day",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "_hour",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "_minute",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "_second",
-				"type": "uint8"
+				"internalType": "string",
+				"name": "_startEvent",
+				"type": "string"
 			}
 		],
 		"name": "editStartEvent",
@@ -304,6 +340,40 @@ export const CONST_ABI = [{
 				"type": "string"
 			}
 		],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "uint256",
+				"name": "_id_area",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_id_state",
+				"type": "uint256"
+			}
+		],
+		"name": "editStateArea",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "uint256",
+				"name": "_id_event",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_id_state",
+				"type": "uint256"
+			}
+		],
+		"name": "editStateEvent",
+		"outputs": [],
 		"stateMutability": "payable",
 		"type": "function"
 	},
@@ -381,6 +451,17 @@ export const CONST_ABI = [{
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "getAddress",
+		"outputs": [{
+			"internalType": "address",
+			"name": "",
+			"type": "address"
+		}],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [{
 			"internalType": "uint256",
 			"name": "_id",
@@ -401,6 +482,16 @@ export const CONST_ABI = [{
 				"internalType": "string",
 				"name": "name",
 				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "state_id",
+				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
@@ -489,47 +580,6 @@ export const CONST_ABI = [{
 			"name": "_id",
 			"type": "uint256"
 		}],
-		"name": "getEndEvent",
-		"outputs": [{
-				"internalType": "uint32",
-				"name": "year",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint8",
-				"name": "month",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "day",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "hour",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "minute",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "second",
-				"type": "uint8"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-			"internalType": "uint256",
-			"name": "_id",
-			"type": "uint256"
-		}],
 		"name": "getEvent",
 		"outputs": [{
 				"internalType": "uint256",
@@ -548,13 +598,23 @@ export const CONST_ABI = [{
 			},
 			{
 				"internalType": "uint256",
-				"name": "area_id",
+				"name": "state_id",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "cantDocument",
+				"name": "area_id",
 				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "startEvent",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "endEvent",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -663,47 +723,6 @@ export const CONST_ABI = [{
 			"name": "",
 			"type": "address"
 		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-			"internalType": "uint256",
-			"name": "_id",
-			"type": "uint256"
-		}],
-		"name": "getStartEvent",
-		"outputs": [{
-				"internalType": "uint32",
-				"name": "year",
-				"type": "uint32"
-			},
-			{
-				"internalType": "uint8",
-				"name": "month",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "day",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "hour",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "minute",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint8",
-				"name": "second",
-				"type": "uint8"
-			}
-		],
 		"stateMutability": "view",
 		"type": "function"
 	},

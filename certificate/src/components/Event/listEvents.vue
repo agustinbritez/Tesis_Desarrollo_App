@@ -7,16 +7,24 @@
         <div></div>
       </div>
       <div class="card-content">
+        <div class="row">
+          <button
+            class="btn left waves-effect waves-light"
+            @click="openModalNew()"
+          >
+            new (+)
+          </button>
+        </div>
         <table class="highlight centered">
           <thead>
             <tr>
               <th>ID</th>
               <th>Name</th>
-              <th>Description</th>
+              <th class="hide-on-med-and-down">Description</th>
               <th>ID Area</th>
               <th>Start Event</th>
-              <th>End Event</th>
-              <th>Cant Documents</th>
+              <th class="hide-on-med-and-down">End Event</th>
+              <th class="hide-on-med-and-down">Cant Documents</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -25,31 +33,45 @@
             <tr v-for="event in eventsArray" :key="event.id">
               <td>{{ event.id }}</td>
               <td>{{ event.name }}</td>
-              <td>{{ event.description }}</td>
+              <td class="hide-on-med-and-down">{{ event.description }}</td>
               <td>{{ event.area_id }}</td>
-              <td>{{ event.startEvent || 'undate' }}</td>
-              <td>{{ event.endEvent || 'undate' }}</td>
-              <td>{{ event.cantDocument }}</td>
+              <td>{{ event.startEvent || "undate" }}</td>
+              <td class="hide-on-med-and-down">
+                {{ event.endEvent || "undate" }}
+              </td>
+              <td class="hide-on-med-and-down">{{ event.cantDocument }}</td>
+
               <td>
-                <a href="#" class="blue-text text-accent-4"
-                  ><i class="material-icons">visibility</i></a
-                >&nbsp;
-                <a
-                  href="#"
-                  @click.prevent="openModal(event)"
-                  class="modal-trigger green-text text-accent-4"
-                >
-                  <i class="material-icons">edit</i> </a
-                >&nbsp;
-                <a href="#" class="red-text text-accent-4"
-                  ><i class="material-icons">delete_forever</i></a
-                >
+                <div class="row right">
+                  <div class="col">
+                    <a href="#" class="blue-text text-accent-4"
+                      ><i class="material-icons">visibility</i></a
+                    >&nbsp;
+                  </div>
+                  <div class="col">
+                    <a
+                      href="#"
+                      @click.prevent="openModalEdit(event)"
+                      class="modal-trigger green-text text-accent-4"
+                    >
+                      <i class="material-icons">edit</i> </a
+                    >&nbsp;
+                  </div>
+                  <div class="col">
+                    <a href="#" class="red-text text-accent-4"
+                      ><i class="material-icons">delete_forever</i></a
+                    >
+                  </div>
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
-        <EditEvent :modalName="modalEdit" :eventEdit="eventEdit" />
-
+        <EditEvent
+          :modalName="modalEdit"
+          :activeInput="activeInput"
+          :nameModal="nameModal"
+        />
       </div>
       <div class="card-action red accent-2">
         <Pagination />
@@ -74,13 +96,17 @@ export default {
   data() {
     return {
       modalEdit: "modalEdit",
-      eventEdit: {}
+      // eventEdit: {},
+      activeInput: true,
+      nameModal: "",
     };
   },
   setup() {
     // const area_id = inject('area_id');
     const area_id = ref(1);
     provide("area_id", area_id);
+    const eventEdit = ref({});
+    provide("eventEdit", eventEdit);
 
     const eventsArray = ref([]);
     provide("eventsArray", eventsArray);
@@ -94,7 +120,8 @@ export default {
     });
 
     provide("pagination", pagination);
-
+    let load=ref(false);
+    provide("load", load);
 
     const listEvents = async function () {
       const accounts = await ethereum.request({
@@ -120,19 +147,18 @@ export default {
     // const c= this.listEvents();
     watchEffect(() => {
       console.log("watch " + pagination.value.current_page);
+      console.log("load " + load.value);
       listEvents();
     });
+   
 
-    return { listEvents, eventsArray, pagination, area_id };
+    return {load, eventEdit, listEvents, eventsArray, pagination, area_id };
   },
   computed: {
     ...mapState(["account"]),
   },
   methods: {
-    async addEvent(name) {
-      let result = await AppWeb3.addEvent(name, this.account);
-      return result;
-    },
+ 
     async getLengthEvents(_area_id) {
       let result = await AppWeb3.getLengthEventsOfArea(_area_id);
       return result;
@@ -142,12 +168,35 @@ export default {
       this.pagination.total = await parseInt(cantEvent / this.pagination.to);
       console.log("pagination " + this.pagination.total);
     },
-    openModal(_eventEdit) {
-      this.eventEdit = _eventEdit;
+    openModalEdit(_eventEdit) {
+      this.eventEdit.name = _eventEdit.name;
+      this.eventEdit.id = _eventEdit.id;
+      this.eventEdit.area_id = _eventEdit.area_id;
+      this.eventEdit.description = _eventEdit.description;
+      this.eventEdit.startEvent = _eventEdit.startEvent;
+      this.eventEdit.endEvent = _eventEdit.endEvent;
+
       var elem = document.getElementById(this.modalEdit);
       // console.log('eventEdit2'+this.eventEdit);
       var modalInstance = M.Modal.getInstance(elem);
       // console.log(modalInstance);
+      this.activeInput = true;
+      this.nameModal = "Event Edit";
+      modalInstance.open();
+    },
+    openModalNew() {
+      this.eventEdit.name = "";
+      this.eventEdit.id = 0;
+      this.eventEdit.area_id = "";
+      this.eventEdit.description = "";
+      this.eventEdit.startEvent = "";
+      this.eventEdit.endEvent = "";
+      var elem = document.getElementById(this.modalEdit);
+      // console.log('eventEdit2'+this.eventEdit);
+      var modalInstance = M.Modal.getInstance(elem);
+      // console.log(modalInstance);
+      this.nameModal = "Event New";
+      this.activeInput = false;
       modalInstance.open();
     },
   },

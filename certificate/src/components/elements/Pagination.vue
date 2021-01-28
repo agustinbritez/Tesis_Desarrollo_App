@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="pagination">
-      <li class="disabled" v-if="pagination.current_page > 1">
+      <li class="" v-if="pagination.current_page > 1">
         <a href="#!"
           ><i
             class="material-icons"
@@ -11,10 +11,10 @@
         >
       </li>
       <li
-        class="waves-effect"
+        class="waves-effect "
         v-for="(from, index) in pagesNumber"
         :key="from"
-        :class="[from == isActived ? 'active' : '']"
+        :class="[index + 1 == isActived ? 'active' : '']"
       >
         <a
           class="page-link"
@@ -42,7 +42,6 @@ import { inject } from "vue";
 export default {
   name: "Pagination",
   setup() {
-
     const pagination = inject("pagination");
     return { pagination };
   },
@@ -57,9 +56,9 @@ export default {
     //Calcula los elementos de la paginación
     pagesNumber: function () {
       let to = this.pagination.to;
-      let from = 0 ;
+      let from = 0;
       let total = this.pagination.total;
-    //   console.log("from " + this.pagination.from);
+      //   console.log("from " + this.pagination.from);
       var pagesArray = [];
       pagesArray.push(from);
       for (let index = 0; index < total; index++) {
@@ -71,13 +70,12 @@ export default {
   },
   methods: {
     cambiarPagina(page) {
-        // console.log('page: '+page)
+      // console.log('page: '+page)
       let me = this;
       //Actualiza la página actual
       me.pagination.current_page = page;
-      me.pagination.from = (page * me.pagination.to) - me.pagination.to ;
-    //   console.log(me.pagination.current_page);
-
+      me.pagination.from = page * me.pagination.to - me.pagination.to;
+      //   console.log(me.pagination.current_page);
 
       //Envia la petición para visualizar la data de esa página
       // me.listarTabla();
