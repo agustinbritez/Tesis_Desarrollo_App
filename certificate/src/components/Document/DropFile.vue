@@ -1,0 +1,109 @@
+<template>
+  <div>
+    <!-- <DropUpload v-model="files" /> -->
+    <!-- <input type="file" multiple name="" @change="changeFiles" id="" />
+    <ul>
+      <li class="" v-for="(file) in uploadedFiles" :key="file.hash"  >
+        {{file.fileName + ' '+file.hash}}
+      </li>
+    </ul> -->
+    <input type="file" multiple name="" @change="changeFiles" id="" />
+    <ul>
+      <li class="" v-for="file in uploadedFiles" :key="file.hash">
+        {{ file.fileName + " " + file.hash }}
+      </li>
+    </ul>
+    <div class="row">
+      <div class="col">
+        <button class="btn">Verify</button>
+      </div>
+      <div class="col">
+        <button class="btn" @click="saveDocuments">Save</button>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import { inject } from "vue";
+import * as SHA256 from "../../../node_modules/js-sha256";
+
+export default {
+  name: "DropFile",
+  components: {},
+  setup() {
+    const uploadedFiles = inject("uploadedFiles");
+
+    return { uploadedFiles };
+  },
+  data() {
+    return {
+      loading: false,
+      limit: 10, // CAMBIAR ESTO SI SE PUEDE MAS DE 10 ARCHIVOS
+      verifyCounter: 0,
+      allHashes: [],
+      dragActive: false,
+    };
+  },
+  props: {
+    value: [],
+  },
+  mounted() {
+    this.loading = true;
+  },
+  methods: {
+    saveDocuments() {
+      addDocuments(this.uploadedFiles);
+    },
+    changeFiles(event) {
+      console.log(this.uploadedFiles);
+      this.uploadFiles(event.target.files);
+    },
+    cargarFile() {},
+    uploadFiles: function (f) {
+      this.allHashes = [];
+      this.uploadedFiles = [];
+      this.loading = true;
+
+      for (var i = 0; i < f.length; i++) {
+        this.loadFile(f[i]);
+        console.log(f[i]);
+      }
+    },
+    loadFile(file) {
+      var self = this;
+      let name = file.name;
+      let reader = new FileReader();
+
+      reader.onload = function (e) {
+        if (self.uploadedFiles.length < self.limit) {
+          let contents = e.target.result;
+          let hash = SHA256.create();
+          hash.update(contents);
+          let hex = hash.hex();
+          //Checks if already exists
+          if (self.allHashes.indexOf(hex) === -1) {
+            self.uploadedFiles.push({
+              fileName: name,
+              hash: hex,
+            });
+            self.allHashes.push(hex);
+          } else {
+            //file already uploaded
+          }
+          //self.uploadedFiles = self.getUnique(self.uploadedFiles, 'hash')
+          self.limitSurpased(0);
+        } else {
+          self.limitSurpased(self.limit);
+        }
+        self.loading = false;
+      };
+      reader.readAsArrayBuffer(file, "UTF-8");
+    },
+    limitSurpased(value) {
+      var self = this;
+      // console.log(self.lb_19+self.limit+self.lb_20);
+      self.$emit("limit-surpassed", value);
+    },
+  },
+};
+</script>

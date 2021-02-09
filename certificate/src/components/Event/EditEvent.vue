@@ -28,7 +28,7 @@
                   v-model="eventEdit.area_id"
                   :options="areasSelect"
                   label="name"
-                  placeholder="Select your character"
+                  placeholder="Select your Area"
                   trackBy="name"
                   :searchable="true"
                 />
@@ -141,7 +141,9 @@ export default {
           this.eventEdit.name,
           this.eventEdit.description,
           this.eventEdit.startEvent,
-          this.eventEdit.endEvent
+          this.eventEdit.endEvent,
+          this.eventEdit.area_id,
+          this.eventEdit.state_id
         );
       } else {
         //new
@@ -156,7 +158,6 @@ export default {
       }
 
       this.load = !this.load;
-      console.log("actualiza lista carajo");
       var elem = document.getElementById(this.modalName);
       var modalInstance = M.Modal.getInstance(elem);
       modalInstance.close();

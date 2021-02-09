@@ -1,5 +1,12 @@
-export const CONST_ABI = [{
-		"inputs": [{
+export const CONST_ABI = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "_ownerArea",
 				"type": "address"
@@ -21,7 +28,8 @@ export const CONST_ABI = [{
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [
+			{
 				"internalType": "string",
 				"name": "_idHash",
 				"type": "string"
@@ -48,7 +56,8 @@ export const CONST_ABI = [{
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_area_id",
 				"type": "uint256"
@@ -65,16 +74,19 @@ export const CONST_ABI = [{
 			}
 		],
 		"name": "addEvent",
-		"outputs": [{
-			"internalType": "uint256",
-			"name": "id",
-			"type": "uint256"
-		}],
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			}
+		],
 		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_area_id",
 				"type": "uint256"
@@ -101,16 +113,19 @@ export const CONST_ABI = [{
 			}
 		],
 		"name": "addEventFull",
-		"outputs": [{
-			"internalType": "uint256",
-			"name": "id",
-			"type": "uint256"
-		}],
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			}
+		],
 		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [
+			{
 				"internalType": "string",
 				"name": "name",
 				"type": "string"
@@ -122,16 +137,19 @@ export const CONST_ABI = [{
 			}
 		],
 		"name": "addState",
-		"outputs": [{
-			"internalType": "uint256",
-			"name": "",
-			"type": "uint256"
-		}],
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
 		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_id_area",
 				"type": "uint256"
@@ -148,7 +166,8 @@ export const CONST_ABI = [{
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [
+			{
 				"internalType": "string",
 				"name": "_idHash",
 				"type": "string"
@@ -170,7 +189,27 @@ export const CONST_ABI = [{
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_idHash",
+				"type": "string"
+			}
+		],
+		"name": "checkDocument",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_id_area",
 				"type": "uint256"
@@ -184,6 +223,11 @@ export const CONST_ABI = [{
 				"internalType": "string",
 				"name": "_description",
 				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_id_state",
+				"type": "uint256"
 			}
 		],
 		"name": "editArea",
@@ -192,7 +236,8 @@ export const CONST_ABI = [{
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_id_event",
 				"type": "uint256"
@@ -209,7 +254,8 @@ export const CONST_ABI = [{
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_id_event",
 				"type": "uint256"
@@ -226,7 +272,8 @@ export const CONST_ABI = [{
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_event_id",
 				"type": "uint256"
@@ -252,17 +299,69 @@ export const CONST_ABI = [{
 				"type": "string"
 			}
 		],
-		"name": "editEventFull",
-		"outputs": [{
-			"internalType": "uint256",
-			"name": "id",
-			"type": "uint256"
-		}],
+		"name": "editEvent",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			}
+		],
 		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_event_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_startDate",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_endDate",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "area_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "state_id",
+				"type": "uint256"
+			}
+		],
+		"name": "editEventFull",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_id_event",
 				"type": "uint256"
@@ -279,18 +378,21 @@ export const CONST_ABI = [{
 		"type": "function"
 	},
 	{
-		"inputs": [{
-			"internalType": "address",
-			"name": "newOwner",
-			"type": "address"
-		}],
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
 		"name": "editOwnerOrg",
 		"outputs": [],
 		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_id_event",
 				"type": "uint256"
@@ -307,7 +409,8 @@ export const CONST_ABI = [{
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "id",
 				"type": "uint256"
@@ -324,7 +427,8 @@ export const CONST_ABI = [{
 			}
 		],
 		"name": "editState",
-		"outputs": [{
+		"outputs": [
+			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
@@ -344,7 +448,8 @@ export const CONST_ABI = [{
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_id_area",
 				"type": "uint256"
@@ -361,7 +466,8 @@ export const CONST_ABI = [{
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_id_event",
 				"type": "uint256"
@@ -378,7 +484,352 @@ export const CONST_ABI = [{
 		"type": "function"
 	},
 	{
-		"inputs": [{
+		"inputs": [],
+		"name": "getAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "getArea",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "state_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "cantEvents",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_id",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_area_index",
+				"type": "uint256"
+			}
+		],
+		"name": "getAreaOfOwner",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "getCantDocumentEvent",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_idHash",
+				"type": "string"
+			}
+		],
+		"name": "getDocument",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "idHash",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "state_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "event_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "reasonState",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "newDocument",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "getEvent",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "state_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "area_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "startEvent",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "endEvent",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id_area",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_id_event_index",
+				"type": "uint256"
+			}
+		],
+		"name": "getEventOfArea",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_id",
+				"type": "address"
+			}
+		],
+		"name": "getLengthAreaOfOwner",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getLengthAreas",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getLengthEvents",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id_area",
+				"type": "uint256"
+			}
+		],
+		"name": "getLengthEventsOfArea",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getLengthStates",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getOrganitation",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getOwnerOrg",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "getState",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "mean",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_event_id",
 				"type": "uint256"
@@ -420,336 +871,16 @@ export const CONST_ABI = [{
 		"type": "function"
 	},
 	{
-		"inputs": [{
-			"internalType": "string",
-			"name": "org",
-			"type": "string"
-		}],
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "org",
+				"type": "string"
+			}
+		],
 		"name": "setOrganitation",
 		"outputs": [],
 		"stateMutability": "payable",
 		"type": "function"
-	},
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [{
-			"internalType": "string",
-			"name": "_idHash",
-			"type": "string"
-		}],
-		"name": "checkDocument",
-		"outputs": [{
-			"internalType": "bool",
-			"name": "",
-			"type": "bool"
-		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getAddress",
-		"outputs": [{
-			"internalType": "address",
-			"name": "",
-			"type": "address"
-		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-			"internalType": "uint256",
-			"name": "_id",
-			"type": "uint256"
-		}],
-		"name": "getArea",
-		"outputs": [{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "description",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "state_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "cantEvents",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-				"internalType": "address",
-				"name": "_id",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_area_index",
-				"type": "uint256"
-			}
-		],
-		"name": "getAreaOfOwner",
-		"outputs": [{
-			"internalType": "uint256",
-			"name": "",
-			"type": "uint256"
-		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-			"internalType": "uint256",
-			"name": "_id",
-			"type": "uint256"
-		}],
-		"name": "getCantDocumentEvent",
-		"outputs": [{
-			"internalType": "uint256",
-			"name": "",
-			"type": "uint256"
-		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-			"internalType": "string",
-			"name": "_idHash",
-			"type": "string"
-		}],
-		"name": "getDocument",
-		"outputs": [{
-				"internalType": "string",
-				"name": "idHash",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "state_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "event_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "reasonState",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "newDocument",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-			"internalType": "uint256",
-			"name": "_id",
-			"type": "uint256"
-		}],
-		"name": "getEvent",
-		"outputs": [{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "description",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "state_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "area_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "startEvent",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "endEvent",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-				"internalType": "uint256",
-				"name": "_id_area",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_id_event_index",
-				"type": "uint256"
-			}
-		],
-		"name": "getEventOfArea",
-		"outputs": [{
-			"internalType": "uint256",
-			"name": "",
-			"type": "uint256"
-		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-			"internalType": "address",
-			"name": "_id",
-			"type": "address"
-		}],
-		"name": "getLengthAreaOfOwner",
-		"outputs": [{
-			"internalType": "uint256",
-			"name": "",
-			"type": "uint256"
-		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getLengthAreas",
-		"outputs": [{
-			"internalType": "uint256",
-			"name": "",
-			"type": "uint256"
-		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getLengthEvents",
-		"outputs": [{
-			"internalType": "uint256",
-			"name": "",
-			"type": "uint256"
-		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-			"internalType": "uint256",
-			"name": "_id_area",
-			"type": "uint256"
-		}],
-		"name": "getLengthEventsOfArea",
-		"outputs": [{
-			"internalType": "uint256",
-			"name": "",
-			"type": "uint256"
-		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getLengthStates",
-		"outputs": [{
-			"internalType": "uint256",
-			"name": "",
-			"type": "uint256"
-		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getOrganitation",
-		"outputs": [{
-			"internalType": "string",
-			"name": "",
-			"type": "string"
-		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getOwnerOrg",
-		"outputs": [{
-			"internalType": "address",
-			"name": "",
-			"type": "address"
-		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-			"internalType": "uint256",
-			"name": "_id",
-			"type": "uint256"
-		}],
-		"name": "getState",
-		"outputs": [{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "mean",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
 	}
-]
+];

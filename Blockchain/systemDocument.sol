@@ -148,7 +148,8 @@ contract systemDocument {
     function editArea(
         uint256 _id_area,
         string memory _name,
-        string memory _description
+        string memory _description,
+        uint256 _id_state
     ) public payable {
         require(
             (ownerOrg == msg.sender) ||
@@ -161,6 +162,9 @@ contract systemDocument {
 
         if (bytes(_description).length > 0) {
             areas[_id_area].description = _description;
+        }
+        if (_id_state < states.length) {
+            areas[_id_area].state_id = _id_state;
         }
     }
 
@@ -252,7 +256,7 @@ contract systemDocument {
         return _id;
     }
 
-    function editEventFull(
+    function editEvent(
         uint256 _event_id,
         string memory name,
         string memory description,
@@ -278,6 +282,42 @@ contract systemDocument {
         if (bytes(_endDate).length > 0) {
             events[_event_id].endEvent = _endDate;
         }
+        return _event_id;
+    }
+
+    function editEventFull(
+        uint256 _event_id,
+        string memory name,
+        string memory description,
+        string memory _startDate,
+        string memory _endDate,
+        uint256 area_id,
+        uint256 state_id
+    ) public payable returns (uint256 id) {
+        require(
+            (areas[events[_event_id].area_id].ownerArea == msg.sender) ||
+                (ownerOrg == msg.sender)
+        );
+        require((state_id < states.length));
+        require((area_id < areas.length));
+        bytes memory bytesName = bytes(name);
+        if (bytesName.length > 0) {
+            events[_event_id].name = name;
+        }
+        bytes memory bytesDescription = bytes(description);
+        if (bytesDescription.length > 0) {
+            events[_event_id].description = description;
+        }
+
+        if (bytes(_startDate).length > 0) {
+            events[_event_id].startEvent = _startDate;
+        }
+        if (bytes(_endDate).length > 0) {
+            events[_event_id].endEvent = _endDate;
+        }
+        events[_event_id].state_id = state_id;
+        events[_event_id].area_id = area_id;
+
         return _event_id;
     }
 
@@ -348,6 +388,25 @@ contract systemDocument {
         string memory _idHash,
         uint256 _event_id,
         uint256 _state_id,
+        string memory _reasonState
+    ) public payable {
+        require(
+            (areas[events[_event_id].area_id].ownerArea == msg.sender) ||
+                (msg.sender == ownerOrg)
+        );
+        require((states.length > _state_id) && (_state_id > 0));
+        //only idHash not exists
+        require(bytes(documents[_idHash].idHash).length == 0);
+
+        Document memory _newDocument =
+            Document(_idHash, _state_id, _event_id, _reasonState, "");
+        documents[_idHash] = _newDocument;
+        events[_event_id].idDocuments.push(_idHash);
+    }
+    function addAllDocumentEvent(
+        hash[] memory _idHash,
+        uint256[] memory _event_id,
+        uint256[] memory _state_id,
         string memory _reasonState
     ) public payable {
         require(

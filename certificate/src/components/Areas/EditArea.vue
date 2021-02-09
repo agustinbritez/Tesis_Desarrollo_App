@@ -51,6 +51,19 @@
                 >
               </div>
             </div>
+              <div class="row">
+                  <div class="input-field col s6">
+                    <Multiselect
+                      v-model="areaEdit.state_id"
+                      :options="statesSelect"
+                      label="name"
+                      placeholder="Select your character"
+                      trackBy="name"
+                      :disabled="disabledInput"
+                      :searchable="true"
+                    />
+                  </div>
+                </div>
           </form>
         </div>
       </div>
@@ -77,6 +90,7 @@
 <script>
 import Multiselect from "@vueform/multiselect";
 import * as AppWeb3 from "../../app/app.js";
+import * as Menssage from "../../app/menssage.js";
 import { inject } from "vue";
 
 export default {
@@ -84,7 +98,10 @@ export default {
   props: ["modalName", "actionEdit", "nameModal"],
   components: { Multiselect },
   data() {
-    return {};
+    return {
+            statesSelect: [],
+
+    };
   },
   computed: {},
   setup() {
@@ -94,33 +111,43 @@ export default {
     return { areaEdit, loadList };
   },
   methods: {
+    async getStatesAll() {
+      let states = await AppWeb3.getStatesAll();
+      for (let index = 0; index < states.length; index++) {
+        this.statesSelect.push(states[index]);
+      }
+    },
     async editOrNew() {
       ///if actionEdit is false == new event
+      var elem = document.getElementById(this.modalName);
+      var modalInstance = M.Modal.getInstance(elem);
+      modalInstance.close();
       if (this.actionEdit) {
         //edit
         await AppWeb3.editArea(
           this.areaEdit.id,
           this.areaEdit.name,
-          this.areaEdit.description
+          this.areaEdit.description,
+          this.areaEdit.state_id
         );
+        M.toast({ html: Menssage.updated() , classes: "green accent-3" });
       } else {
         //new
-    console.log('Prueba');
+        console.log("Prueba");
         await AppWeb3.addArea(
           this.areaEdit.owner,
           this.areaEdit.name,
           this.areaEdit.description
         );
+        M.toast({ html: Menssage.added(), classes: "green accent-3" });
       }
 
       this.loadList = !this.loadList;
       console.log("actualiza lista carajo");
-      var elem = document.getElementById(this.modalName);
-      var modalInstance = M.Modal.getInstance(elem);
-      modalInstance.close();
     },
   },
-  mounted() {
+  async mounted() {
+    await this.getStatesAll();
     var elems = document.querySelectorAll("#" + this.modalName);
     // console.log(this.areaEdit.name);
     var instances = M.Modal.init(elems);

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="">
     <div class="card red lighten-4">
       <div class="card-title red accent-2">
         <h1 class="tile">Eventos</h1>
@@ -44,9 +44,13 @@
               <td>
                 <div class="row right">
                   <div class="col">
-                    <a href="#" class="blue-text text-accent-4"
-                      ><i class="material-icons">visibility</i></a
-                    >&nbsp;
+                    <router-link
+                      :to="{ name: 'EventView', params: { id: event.id } }"
+                      ><i class="blue-text text-accent-4 material-icons"
+                        >visibility</i
+                      ></router-link
+                    >
+                    &nbsp;
                   </div>
                   <div class="col">
                     <a
@@ -84,9 +88,11 @@
 <script>
 import { inject, provide, ref, watchEffect } from "vue";
 import { mapState } from "vuex";
-import Pagination from "../components/elements/Pagination.vue";
-import * as AppWeb3 from "../app/app.js";
-import EditEvent from "../components/Event/EditEvent.vue";
+import Pagination from "../elements/Pagination.vue";
+import * as AppWeb3 from "../../app/app.js";
+import EditEvent from "./EditEvent.vue";
+
+
 export default {
   name: "Event",
   components: {
@@ -101,10 +107,10 @@ export default {
       nameModal: "",
     };
   },
-  setup() {
+  props: ["area_id"],
+  setup(props) {
     // const area_id = inject('area_id');
-    const area_id = ref(1);
-    provide("area_id", area_id);
+
     const eventEdit = ref({});
     provide("eventEdit", eventEdit);
 
@@ -120,7 +126,7 @@ export default {
     });
 
     provide("pagination", pagination);
-    let load=ref(false);
+    let load = ref(false);
     provide("load", load);
 
     const listEvents = async function () {
@@ -130,7 +136,7 @@ export default {
 
       const account = accounts[0];
       let events = await AppWeb3.getAllEvents(
-        area_id.value,
+        props.area_id,
         account.value,
         pagination.value.from,
         pagination.value.to
@@ -150,15 +156,13 @@ export default {
       console.log("load " + load.value);
       listEvents();
     });
-   
 
-    return {load, eventEdit, listEvents, eventsArray, pagination, area_id };
+    return { load, eventEdit, listEvents, eventsArray, pagination };
   },
   computed: {
     ...mapState(["account"]),
   },
   methods: {
- 
     async getLengthEvents(_area_id) {
       let result = await AppWeb3.getLengthEventsOfArea(_area_id);
       return result;

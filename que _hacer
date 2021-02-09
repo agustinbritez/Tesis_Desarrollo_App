@@ -9,6 +9,9 @@ sin que se dee cuenta)
 [] - habilitar para ver un Area especifica con sus eventos.
 [] - cambiar el estado del area
 []- falta cargar lista de evento en ViewArea y agregar botones para editar los atributos del Area
+[]- capturar errrores y mostrar toast
+[] - Escribir en la tesis porque se uso esta estructura de Area, evento y documentos.(Eleji eso porque es una estructura basica)
+el programa puede ser usado para cualquier evento.
 
 Terminadas
 [x] - cuando se agrega un evento que el modal de minimize y se actualice la lista

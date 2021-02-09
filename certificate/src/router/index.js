@@ -31,6 +31,14 @@ const routes = [{
     }
   },
   {
+    path: '/event/:id',
+    name: 'EventView',
+    components: {
+      default: import('../components/Event/viewEvent.vue'),
+      // modalEdit: import('../components/elements/ModalEdit.vue'),
+    }
+  },
+  {
     path: '/areas',
     name: 'Areas',
     components: {
@@ -45,7 +53,15 @@ const routes = [{
       default: import('../components/Areas/viewArea.vue'),
       // modalEdit: import('../components/elements/ModalEdit.vue'),
     }
+  },
+  {
+    path: '/document',
+    name: 'Document',
+    components: {
+      default: import('../components/Document/viewDocument.vue'),
+      // modalEdit: import('../components/elements/ModalEdit.vue'),
     }
+  }
 ]
 
 const router = createRouter({

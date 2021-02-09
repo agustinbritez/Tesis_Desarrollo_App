@@ -1,7 +1,7 @@
 export async function getAllEventsOneArea(_area_id, _from_address, _from, _to, miContrato) {
     //si el area_id es 0 entonces trae todos los eventos relacionados a todos las areas del que esta llamando a la funcion
     //si tiene un id > 0 entonces trae solo los eventos de un area. 
-    let cantEvents = await miContrato.methods.getLengthEventsOfArea(_area_id).call((err, result) => {
+    let cantEvents = await miContrato.methods.getLengthEventsOfArea((_area_id)).call((err, result) => {
         result
     });
 
@@ -118,7 +118,7 @@ export async function addEvent(_area_id, _name, _description, startDate, endDate
             function (error, transactionHash) {}
         );
 }
-export async function editEvent(_event_id, _name, _description, startDate, endDate, miContrato) {
+export async function editEvent(_event_id, _name, _description, startDate, endDate,area_id,state_id ,miContrato) {
 
     const accounts = await ethereum.request({
         method: "eth_requestAccounts",
@@ -131,7 +131,9 @@ export async function editEvent(_event_id, _name, _description, startDate, endDa
             _name,
             _description,
             startDate,
-            endDate
+            endDate,
+            area_id,
+            state_id
         )
         .send({
                 from: account,
@@ -141,8 +143,19 @@ export async function editEvent(_event_id, _name, _description, startDate, endDa
 }
 
 export async function getLengthEventsOfArea(_area_id, miContrato) {
-    let _event_length = await miContrato.methods.getLengthEventsOfArea(_area_id).call((err, result) => {
+    let _event = await miContrato.methods.getLengthEventsOfArea(_area_id).call((err, result) => {
         result;
     });
-    return _event_length;
+    return _event;
+}
+export async function getEvent(_event_id, miContrato) {
+    let _event;
+    try {
+        return  await miContrato.methods.getEvent(_event_id).call((err, result) => {
+            result;
+        });
+    } catch (ex) {
+        return false;
+    }
+    return _event;
 }

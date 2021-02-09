@@ -16,24 +16,52 @@ export async function addArea(_owner, _name, _description, miContrato) {
             function (error, transactionHash) {}
         );
 }
-
-export async function editArea(_id_area, _name, _description, miContrato) {
+export async function changeOwnerArea(_id_area, _owner, miContrato) {
 
     const accounts = await ethereum.request({
         method: "eth_requestAccounts",
     });
     const account = accounts[0];
+    try {
 
-    const _id_event = await miContrato.methods
-        .editArea(_id_area,
-            _name,
-            _description
-        )
-        .send({
-                from: account,
-            },
-            function (error, transactionHash) {}
-        );
+
+        const area_id = await miContrato.methods
+            .changeOwnerArea(_owner,
+                _id_area
+            )
+            .send({
+                    from: account,
+                },
+                function (error, transactionHash) {}
+            );
+    } catch (Ex) {
+        return false;
+    }
+    return true;
+}
+
+export async function editArea(_id_area, _name, _description,state_id, miContrato) {
+
+    const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+    });
+    const account = accounts[0];
+    try {
+        const _id_event = await miContrato.methods
+            .editArea(_id_area,
+                _name,
+                _description,
+                state_id
+            )
+            .send({
+                    from: account,
+                },
+                function (error, transactionHash) {}
+            );
+    } catch (Ex) {
+        return false;
+    }
+    return true;
 }
 export async function deleteArea(_id_area, miContrato) {
 
@@ -109,7 +137,7 @@ export async function getLengthAreaOfOwner(miContrato) {
     return cantAreaOfOwner;
 }
 
-export async function getArea(_id,miContrato) {
+export async function getArea(_id, miContrato) {
     let area = await miContrato.methods.getArea(_id)
         .call((err, result) => result);
     return area;
