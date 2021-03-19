@@ -4,16 +4,16 @@ import * as Event from "./Event.js";
 import * as Area from "./Area.js";
 import * as State from "./State.js";
 import * as Document from "./Document.js";
+
 import {
     CONST_ABI
 } from "./abi.js";
 
 // aplicacion para la conexión con la blockchain 
 const Web3 = require("web3");
-
 let web3 = new Web3(Web3.givenProvider || Parameters.provider);
 
-const miContrato = new web3.eth.Contract(CONST_ABI, Parameters.addressContract);
+const miContrato = new web3.eth.Contract(CONST_ABI, Parameters.addressContractOKE_Test);
 ///************************Organitation***************************** */
 
 export async function setOrganitation(_name, _from) {
@@ -25,10 +25,10 @@ export async function getOrganitation(_name, _from) {
 
 //**************************Event************************************* */
 
-export async function getAllEvents(_area_id, _from_address, _from, _to) {
+export async function getAllEvents(_area_id, _from= 0, _to=-1) {
     if (_area_id > 0) {
 
-        return await Event.getAllEventsOneArea(_area_id, _from_address, _from, _to, miContrato);
+        return await Event.getAllEventsOneArea(_area_id, _from, _to, miContrato);
     } else {
 
         return await Event.getAllEvents(miContrato);
@@ -42,6 +42,9 @@ export async function getEvent(_event_id) {
 }
 export async function editEvent(_event_id, _name, _description, startDate, endDate, area_id, sate_id) {
     return await Event.editEvent(_event_id, _name, _description, startDate, endDate, area_id, sate_id, miContrato);
+}
+export async function getEventOfArea(_from, _to) {
+    return await Event.getEventOfArea(_from, _to, miContrato);
 }
 export async function getLengthEventsOfArea(_area_id) {
     return await Event.getLengthEventsOfArea(_area_id, miContrato);
@@ -77,6 +80,6 @@ export async function getStatesAll() {
 }
 
 //**************************** Document ********************************** */
-export async function addDocuments(arrayDocuments) {
-    return await Document.addDocuments(arrayDocuments, miContrato);
+export async function addDocuments(arrayDocuments,_event_id,_state_id,__reasonState) {
+    return await Document.addDocuments(arrayDocuments,_event_id,_state_id,__reasonState, miContrato);
 }

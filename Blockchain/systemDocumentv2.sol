@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >0.5.99 <0.8.0;
+pragma experimental ABIEncoderV2;
 
 contract systemDocument {
     /***************Modifier************** */
@@ -168,16 +169,6 @@ contract systemDocument {
         }
     }
 
-    function editStateArea(uint256 _id_area, uint256 _id_state) public payable {
-        //only owen Area can edit name
-        require(
-            (areas[_id_area].ownerArea == msg.sender) ||
-                (ownerOrg == msg.sender)
-        );
-        require(_id_state < states.length);
-        areas[_id_area].state_id = _id_state;
-    }
-
     function changeOwnerArea(uint256 _id_area, address _newOwner)
         public
         payable
@@ -199,29 +190,7 @@ contract systemDocument {
     }
 
     /********************Event***************************** */
-    function addEvent(
-        uint256 _area_id,
-        string memory name,
-        string memory description
-    ) public payable returns (uint256 id) {
-        require(
-            (areas[_area_id].ownerArea == msg.sender) ||
-                (ownerOrg == msg.sender)
-        );
-
-        uint256 _id = events.length;
-        string[] memory _document;
-
-        Event memory evento =
-            Event(_id, name, description, 1, "", "", _area_id, _document);
-
-        events.push(evento);
-
-        areas[_area_id].idEvents.push(_id);
-
-        return _id;
-    }
-
+ 
     function addEventFull(
         uint256 _area_id,
         string memory name,
@@ -256,36 +225,7 @@ contract systemDocument {
         return _id;
     }
 
-    function editEvent(
-        uint256 _event_id,
-        string memory name,
-        string memory description,
-        string memory _startDate,
-        string memory _endDate
-    ) public payable returns (uint256 id) {
-        require(
-            (areas[events[_event_id].area_id].ownerArea == msg.sender) ||
-                (ownerOrg == msg.sender)
-        );
-        bytes memory bytesName = bytes(name);
-        if (bytesName.length > 0) {
-            events[_event_id].name = name;
-        }
-        bytes memory bytesDescription = bytes(description);
-        if (bytesDescription.length > 0) {
-            events[_event_id].description = description;
-        }
-
-        if (bytes(_startDate).length > 0) {
-            events[_event_id].startEvent = _startDate;
-        }
-        if (bytes(_endDate).length > 0) {
-            events[_event_id].endEvent = _endDate;
-        }
-        return _event_id;
-    }
-
-    function editEventFull(
+   function editEventFull(
         uint256 _event_id,
         string memory name,
         string memory description,
@@ -321,70 +261,9 @@ contract systemDocument {
         return _event_id;
     }
 
-    function editNameEvent(uint256 _id_event, string memory _name)
-        public
-        payable
-    {
-        //only owen Area can edit name
-        require(
-            (areas[events[_id_event].area_id].ownerArea == msg.sender) ||
-                (ownerOrg == msg.sender)
-        );
-        events[_id_event].name = _name;
-    }
-
-    function editStateEvent(uint256 _id_event, uint256 _id_state)
-        public
-        payable
-    {
-        //only owen Area can edit name
-        require(
-            (areas[events[_id_event].area_id].ownerArea == msg.sender) ||
-                (ownerOrg == msg.sender)
-        );
-        require(_id_state < states.length);
-        events[_id_event].state_id = _id_state;
-    }
-
-    function editDescriptionEvent(uint256 _id_event, string memory _description)
-        public
-        payable
-    {
-        //only owen Area can edit name
-        require(
-            (areas[events[_id_event].area_id].ownerArea == msg.sender) ||
-                (ownerOrg == msg.sender)
-        );
-        events[_id_event].description = _description;
-    }
-
-    function editStartEvent(uint256 _id_event, string memory _startEvent)
-        public
-        payable
-    {
-        //only owen Area can edit name
-        require(
-            (areas[events[_id_event].area_id].ownerArea == msg.sender) ||
-                (ownerOrg == msg.sender)
-        );
-
-        events[_id_event].startEvent = _startEvent;
-    }
-
-    function editEndEvent(uint256 _id_event, string memory _endEvent)
-        public
-        payable
-    {
-        //only owen Area can edit name
-        require(
-            (areas[events[_id_event].area_id].ownerArea == msg.sender) ||
-                (ownerOrg == msg.sender)
-        );
-        events[_id_event].endEvent = _endEvent;
-    }
 
     //**********************Document********************************************8 */
-    function addDocumentEvent(
+      function addDocumentEvent(
         string memory _idHash,
         uint256 _event_id,
         uint256 _state_id,
@@ -404,9 +283,8 @@ contract systemDocument {
         events[_event_id].idDocuments.push(_idHash);
     }
 
-    function addAllDocumentEvent(
-        string memory _idHash,
-        bytes1 _split,
+      function addAllDocumentsEvent(
+        string[] memory hashid,
         uint256 _event_id,
         uint256 _state_id,
         string memory _reasonState
@@ -417,30 +295,18 @@ contract systemDocument {
         );
         require((states.length > _state_id) && (_state_id > 0));
         //only idHash not exists
-        uint256 lengtCaracter = bytes(documents[_idHash].idHash).length;
-        // require(lengtCaracter == 0);
-        // hashes=bytes(_idHash);
+        require(hashid.length > 0);
 
-        bytes storage newIdHash;
-        for (uint256 i = 0; i < lengtCaracter; i++) {
-            if (bytes(_idHash)[i] != _split) {
-                newIdHash.push(bytes(_idHash)[i]);
-            } else {
-                Document memory _newDocument =
-                    Document(
-                        string(newIdHash),
-                        _state_id,
-                        _event_id,
-                        _reasonState,
-                        ""
-                    );
-                documents[string(newIdHash)] = _newDocument;
-                events[_event_id].idDocuments.push(string(newIdHash));
-                bytes storage newIdAux;
-                newIdHash= newIdAux ;
-            }
+        for(uint256 i=0;i <  hashid.length ;i++){
+        
+        Document memory _newDocument =
+            Document(hashid[i], _state_id, _event_id, _reasonState, "");
+            documents[hashid[i]] = _newDocument;
+            events[_event_id].idDocuments.push(hashid[i]);
         }
+        
     }
+    
 
     //change state_id and reason of the state
     function changeStateDocument(
@@ -459,7 +325,7 @@ contract systemDocument {
         documents[_idHash].reasonState = _reasonState;
         documents[_idHash].state_id = _state_id;
     }
-
+    //mando valores para la version vieja, asi modifico si quiero. por ejemplo cambiar el estado o cambiar la razon del estado, 
     function newVersionDocument(
         uint256 _event_id,
         string memory _idHash_old,

@@ -1,4 +1,4 @@
-export async function getAllEventsOneArea(_area_id, _from_address, _from, _to, miContrato) {
+export async function getAllEventsOneArea(_area_id, _from= 0, _to = -1, miContrato) {
     //si el area_id es 0 entonces trae todos los eventos relacionados a todos las areas del que esta llamando a la funcion
     //si tiene un id > 0 entonces trae solo los eventos de un area. 
     let cantEvents = await miContrato.methods.getLengthEventsOfArea((_area_id)).call((err, result) => {
@@ -7,6 +7,10 @@ export async function getAllEventsOneArea(_area_id, _from_address, _from, _to, m
 
     //event[0] = eventNull all atributes is in 0
     console.log('cant Event: ' + cantEvents);
+    if(_from==0 &&_to == -1){
+        _to=cantEvents;
+    }
+
     let _to_fin = _from + _to;
     _to_fin = (_to_fin > (cantEvents)) ? cantEvents : _to_fin;
 
@@ -149,6 +153,17 @@ export async function getLengthEventsOfArea(_area_id, miContrato) {
     return _event;
 }
 export async function getEvent(_event_id, miContrato) {
+    let _event;
+    try {
+        return  await miContrato.methods.getEvent(_event_id).call((err, result) => {
+            result;
+        });
+    } catch (ex) {
+        return false;
+    }
+    return _event;
+}
+export async function getEventOfArea(_from, _to, miContrato) {
     let _event;
     try {
         return  await miContrato.methods.getEvent(_event_id).call((err, result) => {

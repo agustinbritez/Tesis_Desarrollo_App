@@ -154,7 +154,6 @@ export default {
       eventView: {},
       eventAux: {},
       statesSelect: [],
-      statesSelect: [],
       areasSelect: [],
       disabledInput: true,
     };

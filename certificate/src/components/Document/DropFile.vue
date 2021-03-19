@@ -13,34 +13,29 @@
         {{ file.fileName + " " + file.hash }}
       </li>
     </ul>
-    <div class="row">
-      <div class="col">
-        <button class="btn">Verify</button>
-      </div>
-      <div class="col">
-        <button class="btn" @click="saveDocuments">Save</button>
-      </div>
-    </div>
+    
   </div>
 </template>
 <script>
 import { inject } from "vue";
 import * as SHA256 from "../../../node_modules/js-sha256";
+import * as AppWeb3 from "../../app/app.js";
+
 
 export default {
   name: "DropFile",
   components: {},
   setup() {
     const uploadedFiles = inject("uploadedFiles");
+    const allHashes = inject("allHashes");
 
-    return { uploadedFiles };
+    return { uploadedFiles,allHashes };
   },
   data() {
     return {
       loading: false,
       limit: 10, // CAMBIAR ESTO SI SE PUEDE MAS DE 10 ARCHIVOS
       verifyCounter: 0,
-      allHashes: [],
       dragActive: false,
     };
   },
@@ -51,9 +46,7 @@ export default {
     this.loading = true;
   },
   methods: {
-    saveDocuments() {
-      addDocuments(this.uploadedFiles);
-    },
+    
     changeFiles(event) {
       console.log(this.uploadedFiles);
       this.uploadFiles(event.target.files);

@@ -137,7 +137,6 @@ export default {
       const account = accounts[0];
       let events = await AppWeb3.getAllEvents(
         props.area_id,
-        account.value,
         pagination.value.from,
         pagination.value.to
       );
