@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <listEvents area_id="0" />
+    <listEvents/>
   </div>
 </template>
 <script>

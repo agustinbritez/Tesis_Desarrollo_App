@@ -52,7 +52,7 @@
           <DropFile />
           <div class="row">
             <div class="col">
-              <button class="btn">Verify</button>
+              <button class="btn" @click="checkDocuments">Verify</button>
             </div>
             <div class="col">
               <button class="btn" @click="saveDocuments">Save</button>
@@ -108,15 +108,22 @@ export default {
     };
   },
   methods: {
-    saveDocuments() {
-      if (event_id > 0) {
-      }
-      AppWeb3.addDocuments(
+    async checkDocuments() {
+      let arrayDocuments = await AppWeb3.checkDocuments(
         this.allHashes,
-        this.event_id,
-        this.state_id,
-        this.reasonState
+        this.uploadedFiles
       );
+      this.uploadedFiles = arrayDocuments;
+    },
+    saveDocuments() {
+      if (this.event_id > 0) {
+        AppWeb3.addDocuments(
+          this.allHashes,
+          this.event_id,
+          this.state_id,
+          this.reasonState
+        );
+      }
     },
     async getStatesAll() {
       let states = await AppWeb3.getStatesAll();
@@ -128,27 +135,24 @@ export default {
       let me = this;
       let events = await AppWeb3.getAllEvents(area_id);
       for (let index = 0; index < events.length; index++) {
-        events[index].value = events[index].id;
         me.eventsSelect.push(events[index]);
       }
       me.eventsSelect = events;
     },
     async getAllAreasOfOwner() {
-      let cantAreas = await AppWeb3.getLengthAreaOfOwner();
-      let areas = await AppWeb3.getAllAreaOfOwner(0, cantAreas);
+      let areas = await AppWeb3.getAllAreaOfOwner(0, -1);
       if (this.area_id == 0) {
         this.area_id = areas[0].id;
       }
       for (let index = 0; index < areas.length; index++) {
-        areas[index].value = areas[index].id;
         this.areasSelect.push(areas[index]);
       }
       await this.getEventOfArea();
     },
   },
   async mounted() {
-    this.getStatesAll();
-    this.getAllAreasOfOwner();
+    await this.getStatesAll();
+    await this.getAllAreasOfOwner();
   },
 };
 </script>

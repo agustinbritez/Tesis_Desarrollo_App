@@ -39,8 +39,7 @@
           <li class="tab">
             <router-link :to="{ name: 'Areas' }">Areas</router-link>
           </li>
-          <li class="tab"></li>
-          <li class="tab"><a class="" href="#test2">Test 2</a></li>
+   
           <li class="tab disabled"><a href="#test3">Disabled Tab</a></li>
           <li class="tab"><a href="#">Test 4</a></li>
         </ul>

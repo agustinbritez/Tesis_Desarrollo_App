@@ -6,64 +6,47 @@
     > -->
 
     <!-- Modal Structure -->
-    <div :id="modalName" class="modal">
+    <div id="editDocument" class="modal">
       <div class="modal-content">
         <h5>{{ nameModal }}</h5>
         <hr />
         <div class="row">
           <form class="col s12">
-            <div class="row" v-if="!actionEdit">
-              <div class="input-field col s12">
-                <input
-                  id="owner"
-                  class="inputCounter"
-                  type="text"
-                  data-length="100"
-                  v-model="areaEdit.owner"
-                />
-                <label for="owner" :class="{ active: actionEdit }"
-                  >Area Owner
-                </label>
-              </div>
-            </div>
             <div class="row">
               <div class="input-field col s12">
-                <input
-                  id="name"
-                  class="inputCounter"
-                  type="text"
-                  data-length="50"
-                  v-model="areaEdit.name"
-                />
-                <label for="name" :class="{ active: actionEdit }">Name</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <textarea
-                  id="description"
-                  class="materialize-textarea"
-                  data-length="250"
-                  v-model="areaEdit.description"
-                ></textarea>
-                <label for="description" :class="{ active: actionEdit }">
-                  Description</label
+                <input id="reson" type="text" v-model="documentEdit.reson" />
+                <label for="reson" :class="{ active: actionEdit }"
+                  >Reson State</label
                 >
               </div>
             </div>
-              <div class="row">
-                  <div class="input-field col s6">
-                    <Multiselect
-                      v-model="areaEdit.state_id"
-                      :options="statesSelect"
-                      label="name"
-                      placeholder="Select your character"
-                      trackBy="name"
-                      :disabled="disabledInput"
-                      :searchable="true"
-                    />
-                  </div>
-                </div>
+
+            <div class="row">
+              <div class="input-field col s6">
+                <Multiselect
+                  v-model="documentEdit.state_id"
+                  :options="statesSelect"
+                  label="name"
+                  placeholder="Select your state"
+                  trackBy="name"
+                  :disabled="disabledInput"
+                  :searchable="true"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s6">
+                <Multiselect
+                  v-model="documentEdit.event_id"
+                  :options="eventSelect"
+                  label="name"
+                  placeholder="Select your event"
+                  trackBy="name"
+                  :disabled="disabledInput"
+                  :searchable="true"
+                />
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -85,36 +68,53 @@
         </div>
       </div>
     </div>
+
+    <div id="newDocument" class="modal">
+      <div class="modal-content">
+        <DropFile />
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import Multiselect from "@vueform/multiselect";
 import * as AppWeb3 from "../../app/app.js";
 import * as Menssage from "../../app/menssage.js";
+import DropFile from "./DropFile.vue";
+
 import { inject } from "vue";
 
 export default {
   name: "EditEvent",
   props: ["modalName", "actionEdit", "nameModal"],
-  components: { Multiselect },
+  components: { Multiselect,DropFile  },
   data() {
     return {
-            statesSelect: [],
-
+      statesSelect: [],
+      eventSelect: [],
     };
   },
   computed: {},
   setup() {
-    const areaEdit = inject("areaEdit");
+    const documentEdit = inject("documentEdit");
     const loadList = inject("loadList");
 
-    return { areaEdit, loadList };
+    return { documentEdit, loadList };
   },
   methods: {
     async getStatesAll() {
       let states = await AppWeb3.getStatesAll();
       for (let index = 0; index < states.length; index++) {
         this.statesSelect.push(states[index]);
+      }
+    },
+    async getAllEvents() {
+      let events = await AppWeb3.getAllEvents();
+      for (let index = 0; index < events.length; index++) {
+        this.eventSelect.push(events[index]);
       }
     },
     async editOrNew() {
@@ -124,32 +124,32 @@ export default {
       modalInstance.close();
       if (this.actionEdit) {
         //edit
-        await AppWeb3.editArea(
-          this.areaEdit.id,
-          this.areaEdit.name,
-          this.areaEdit.description,
-          this.areaEdit.state_id
+        await AppWeb3.editDocument(
+          this.documentEdit.id,
+          this.documentEdit.name,
+          this.documentEdit.description,
+          this.documentEdit.state_id
         );
-        M.toast({ html: Menssage.updated() , classes: "green accent-3" });
+        M.toast({ html: Menssage.updated(), classes: "green accent-3" });
       } else {
         //new
         console.log("Prueba");
         await AppWeb3.addArea(
-          this.areaEdit.owner,
-          this.areaEdit.name,
-          this.areaEdit.description
+          this.documentEdit.owner,
+          this.documentEdit.name,
+          this.documentEdit.description
         );
         M.toast({ html: Menssage.added(), classes: "green accent-3" });
       }
 
       this.loadList = !this.loadList;
-     
     },
   },
   async mounted() {
     await this.getStatesAll();
+    await this.getAllEvents();
     var elems = document.querySelectorAll("#" + this.modalName);
-    // console.log(this.areaEdit.name);
+    // console.log(this.documentEdit.name);
     var instances = M.Modal.init(elems);
     // console.log(instances);
     var inputName = document.getElementById("name");

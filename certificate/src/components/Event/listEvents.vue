@@ -75,6 +75,7 @@
           :modalName="modalEdit"
           :activeInput="activeInput"
           :nameModal="nameModal"
+          :showSelectArea="showSelectArea"
         />
       </div>
       <div class="card-action red accent-2">
@@ -92,9 +93,8 @@ import Pagination from "../elements/Pagination.vue";
 import * as AppWeb3 from "../../app/app.js";
 import EditEvent from "./EditEvent.vue";
 
-
 export default {
-  name: "Event",
+  name: "listEvents",
   components: {
     Pagination,
     EditEvent,
@@ -105,9 +105,15 @@ export default {
       // eventEdit: {},
       activeInput: true,
       nameModal: "",
+      showSelectArea:true,
     };
   },
-  props: ["area_id"],
+  props: {
+    area_id: {
+      type: Number,
+      default: 0,
+    },
+  },
   setup(props) {
     // const area_id = inject('area_id');
 
@@ -172,6 +178,7 @@ export default {
       console.log("pagination " + this.pagination.total);
     },
     openModalEdit(_eventEdit) {
+      this.showSelectArea=this.area_id ==0;
       this.eventEdit.name = _eventEdit.name;
       this.eventEdit.id = _eventEdit.id;
       this.eventEdit.area_id = _eventEdit.area_id;
@@ -188,6 +195,7 @@ export default {
       modalInstance.open();
     },
     openModalNew() {
+      this.showSelectArea= this.area_id ==0;
       this.eventEdit.name = "";
       this.eventEdit.id = 0;
       this.eventEdit.area_id = "";

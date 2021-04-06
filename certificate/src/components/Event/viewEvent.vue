@@ -123,9 +123,10 @@
           </div>
         </div>
       </div>
-      <listEvents :area_id="area_id" />
+     
       <br />
     </div>
+     <ListDocuments :event_id="eventAux.id" />
   </div>
 </template>
 
@@ -134,14 +135,14 @@ import { provide } from "vue";
 import * as AppWeb3 from "../../app/app.js";
 import { useRoute } from "vue-router";
 import Multiselect from "@vueform/multiselect";
-import listEvents from "../Event/listEvents.vue";
+import ListDocuments from "../Document/ListDocuments.vue";
 import * as Menssage from "../../app/menssage.js";
 
 export default {
   name: "Event",
   components: {
     Multiselect,
-    listEvents,
+    ListDocuments,
   },
   setup(props) {
     let router = useRoute();

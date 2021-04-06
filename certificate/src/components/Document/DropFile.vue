@@ -78,6 +78,7 @@ export default {
             self.uploadedFiles.push({
               fileName: name,
               hash: hex,
+              exist:false
             });
             self.allHashes.push(hex);
           } else {

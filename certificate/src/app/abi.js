@@ -172,6 +172,33 @@ export const CONST_ABI = [{
 	},
 	{
 		"inputs": [{
+				"internalType": "string[]",
+				"name": "hashid",
+				"type": "string[]"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_event_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_state_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_reasonState",
+				"type": "string"
+			}
+		],
+		"name": "editAllDocumentsEvent",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
 				"internalType": "uint256",
 				"name": "_id_area",
 				"type": "uint256"
@@ -365,12 +392,16 @@ export const CONST_ABI = [{
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "getAddress",
+		"inputs": [{
+			"internalType": "string[]",
+			"name": "idHashes",
+			"type": "string[]"
+		}],
+		"name": "checkDocuments",
 		"outputs": [{
-			"internalType": "address",
+			"internalType": "bool[]",
 			"name": "",
-			"type": "address"
+			"type": "bool[]"
 		}],
 		"stateMutability": "view",
 		"type": "function"
@@ -485,6 +516,21 @@ export const CONST_ABI = [{
 				"type": "string"
 			}
 		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "uint256",
+			"name": "_id_event",
+			"type": "uint256"
+		}],
+		"name": "getDocumentsOfEvent",
+		"outputs": [{
+			"internalType": "string[]",
+			"name": "",
+			"type": "string[]"
+		}],
 		"stateMutability": "view",
 		"type": "function"
 	},
@@ -666,4 +712,4 @@ export const CONST_ABI = [{
 		"stateMutability": "view",
 		"type": "function"
 	}
-]
+];

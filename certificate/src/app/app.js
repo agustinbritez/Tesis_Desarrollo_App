@@ -25,7 +25,7 @@ export async function getOrganitation(_name, _from) {
 
 //**************************Event************************************* */
 
-export async function getAllEvents(_area_id, _from= 0, _to=-1) {
+export async function getAllEvents(_area_id=0, _from = 0, _to = -1) {
     if (_area_id > 0) {
 
         return await Event.getAllEventsOneArea(_area_id, _from, _to, miContrato);
@@ -80,6 +80,25 @@ export async function getStatesAll() {
 }
 
 //**************************** Document ********************************** */
-export async function addDocuments(arrayDocuments,_event_id,_state_id,__reasonState) {
-    return await Document.addDocuments(arrayDocuments,_event_id,_state_id,__reasonState, miContrato);
+export async function addDocuments(arrayDocuments, _event_id, _state_id, __reasonState) {
+    return await Document.addDocuments(arrayDocuments, _event_id, _state_id, __reasonState, miContrato);
+}
+export async function editDocuments(arrayDocuments, _event_id, _state_id, __reasonState) {
+    return await Document.editDocuments(arrayDocuments, _event_id, _state_id, __reasonState, miContrato);
+}
+
+export async function checkDocuments(arrayHashes, arrayDocuments) {
+    return await Document.checkDocuments(arrayHashes, arrayDocuments, miContrato);
+}
+
+export async function getAllDocuments(_event_id=1,  _state_id=-1,_newVersion=-1,_from = 0, _to = 10) {
+    return await Document.getAllDocumentsEvent(_event_id, _from, _to, miContrato);
+}
+//busca por hash o por evento o por estado, o si tiene version 
+export async function getDocument(_hash=-1,_event_id=-1, _state_id=-1,_newVersion=-1) {
+    return await Document.getDocument(_hash,_event_id,_state_id,_newVersion, miContrato);
+}
+
+export async function getCantDocumentEvent(_event_id = 1) {
+    return await Document.getCantDocumentEvent(_event_id, miContrato);
 }

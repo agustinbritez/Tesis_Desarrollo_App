@@ -190,7 +190,7 @@ contract systemDocument {
     }
 
     /********************Event***************************** */
- 
+
     function addEventFull(
         uint256 _area_id,
         string memory name,
@@ -225,7 +225,7 @@ contract systemDocument {
         return _id;
     }
 
-   function editEventFull(
+    function editEventFull(
         uint256 _event_id,
         string memory name,
         string memory description,
@@ -261,9 +261,8 @@ contract systemDocument {
         return _event_id;
     }
 
-
     //**********************Document********************************************8 */
-      function addDocumentEvent(
+    function addDocumentEvent(
         string memory _idHash,
         uint256 _event_id,
         uint256 _state_id,
@@ -283,7 +282,7 @@ contract systemDocument {
         events[_event_id].idDocuments.push(_idHash);
     }
 
-      function addAllDocumentsEvent(
+    function addAllDocumentsEvent(
         string[] memory hashid,
         uint256 _event_id,
         uint256 _state_id,
@@ -297,16 +296,38 @@ contract systemDocument {
         //only idHash not exists
         require(hashid.length > 0);
 
-        for(uint256 i=0;i <  hashid.length ;i++){
-        
-        Document memory _newDocument =
-            Document(hashid[i], _state_id, _event_id, _reasonState, "");
+        for (uint256 i = 0; i < hashid.length; i++) {
+            Document memory _newDocument =
+                Document(hashid[i], _state_id, _event_id, _reasonState, "");
             documents[hashid[i]] = _newDocument;
             events[_event_id].idDocuments.push(hashid[i]);
         }
-        
     }
-    
+
+    function editAllDocumentsEvent(
+        string[] memory hashid,
+        uint256 _event_id,
+        uint256 _state_id,
+        string memory _reasonState
+    ) public payable {
+        require(
+            (areas[events[_event_id].area_id].ownerArea == msg.sender) ||
+                (msg.sender == ownerOrg)
+        );
+        require((states.length > _state_id) && (_state_id > 0));
+        //only idHash not exists
+        require(hashid.length > 0);
+
+        for (uint256 i = 0; i < hashid.length; i++) {
+            //add only not exists
+            if (bytes(documents[hashid[i]].idHash).length > 0) {
+                documents[hashid[i]].event_id = _event_id;
+                documents[hashid[i]].state_id = _state_id;
+                documents[hashid[i]].reasonState = _reasonState;
+            }
+        }
+    }
+
 
     //change state_id and reason of the state
     function changeStateDocument(
@@ -325,7 +346,8 @@ contract systemDocument {
         documents[_idHash].reasonState = _reasonState;
         documents[_idHash].state_id = _state_id;
     }
-    //mando valores para la version vieja, asi modifico si quiero. por ejemplo cambiar el estado o cambiar la razon del estado, 
+
+    //mando valores para la version vieja, asi modifico si quiero. por ejemplo cambiar el estado o cambiar la razon del estado,
     function newVersionDocument(
         uint256 _event_id,
         string memory _idHash_old,
@@ -493,11 +515,27 @@ contract systemDocument {
         );
     }
 
+      function getDocumentsOfEvent(uint256 _id_event)
+        public
+        view
+        returns (string [] memory)
+    {
+        return events[_id_event].idDocuments;
+    }
+
     function checkDocument(string memory _idHash) public view returns (bool) {
         return bytes(documents[_idHash].idHash).length > 0 ? true : false;
     }
 
-    function getAddress() public view returns (address) {
-        return address(this);
+    function checkDocuments(string[] memory idHashes)
+        public
+        view
+        returns (bool[] memory)
+    {
+        bool[] memory checks = new bool[](idHashes.length);
+        for (uint256 i = 0; i < idHashes.length; i++) {
+            checks[i] = bytes(documents[idHashes[i]].idHash).length > 0;
+        }
+        return checks;
     }
 }

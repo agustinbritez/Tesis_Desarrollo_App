@@ -23,7 +23,8 @@
                 />
                 <label for="name" :class="{ active: activeInput }">Name</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col s6" v-if="showSelectArea">
+
                 <Multiselect
                   v-model="eventEdit.area_id"
                   :options="areasSelect"
@@ -101,11 +102,27 @@ import { inject, provide, ref, watchEffect } from "vue";
 
 export default {
   name: "EditEvent",
-  props: ["modalName", "activeInput", "nameModal"],
+  props:{
+     modalName: {
+      type: String,
+      default: '',
+    },
+     activeInput: {
+      type: Boolean,
+      default: false,
+    },
+     activeInput: {
+      type: String,
+      default: 'Event Edit',
+    },
+     showSelectArea: {
+      type: Boolean,
+      default: true,
+    },
+  } ,
   components: { Multiselect },
   data() {
     return {
-      selectAreaId: null,
       areasSelect: [],
     };
   },
@@ -119,11 +136,7 @@ export default {
     return { eventEdit, load };
   },
   methods: {
-    ver() {
-      console.log(this.selectAreaId);
-    },
-
-    async getAllAreasOfOwner() {
+       async getAllAreasOfOwner() {
       let cantAreas = await AppWeb3.getLengthAreaOfOwner();
       let areas = await AppWeb3.getAllAreaOfOwner(0, cantAreas);
 

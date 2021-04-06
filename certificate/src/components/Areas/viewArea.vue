@@ -148,6 +148,12 @@ export default {
     };
   },
   async mounted() {
+    M.AutoInit();
+    //animacion para setting
+    var dropsdowns = document.querySelectorAll(".dropdown-trigger");
+    var options = { coverTrigger: false };
+    var instancesDropsdown = M.Dropdown.init(dropsdowns, options);
+
     let router = useRoute();
     await this.getStatesAll();
     this.areaView = await AppWeb3.getArea(router.params.id);

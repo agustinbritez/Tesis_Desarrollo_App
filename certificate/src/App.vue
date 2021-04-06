@@ -15,8 +15,6 @@ import NavBar from "@/components/NavBar.vue";
 import Footer from "@/components/Footer.vue";
 import PreLoad from "./components/elements/PreLoad.vue";
 import { mapState } from "vuex";
-import { provide, ref, watchEffect } from "vue";
-import * as AppWeb3 from "./app/app.js";
 
 export default {
   name: "App",
@@ -40,10 +38,9 @@ export default {
     var dropsdowns = document.querySelectorAll(".dropdown-trigger");
     var options = { coverTrigger: false };
     var instancesDropsdown = M.Dropdown.init(dropsdowns, options);
-    
-
-    
-
+       var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+        
   },
 };
 </script>

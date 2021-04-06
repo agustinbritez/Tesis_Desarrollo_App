@@ -40,7 +40,7 @@ export async function changeOwnerArea(_id_area, _owner, miContrato) {
     return true;
 }
 
-export async function editArea(_id_area, _name, _description,state_id, miContrato) {
+export async function editArea(_id_area, _name, _description, state_id, miContrato) {
 
     const accounts = await ethereum.request({
         method: "eth_requestAccounts",
@@ -87,11 +87,14 @@ export async function getAllAreaOfOwner(_from, _to, miContrato) {
     const accounts = await ethereum.request({
         method: "eth_requestAccounts",
     });
+
     const account = accounts[0];
 
     let cantAreaOfOwner = await miContrato.methods.getLengthAreaOfOwner(account)
         .call((err, result) => result);
-
+    if (_to == -1) {
+        _to = cantAreaOfOwner;
+    }
     let _to_fin = _from + _to;
 
     _to_fin = (_to_fin > (cantAreaOfOwner)) ? cantAreaOfOwner : _to_fin;
@@ -114,7 +117,7 @@ export async function getAllAreaOfOwner(_from, _to, miContrato) {
                 area.cantEvents = cantEventsOfOwner;
                 area.state = await miContrato.methods.getState(area.state_id)
                     .call((err, result) => result);
-
+                area.value = area.id;
                 areas.push(area);
 
             }

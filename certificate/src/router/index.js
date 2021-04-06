@@ -50,13 +50,21 @@ const routes = [{
     path: '/areas/:id',
     name: 'AreaView',
     components: {
-      default: import('../components/Areas/viewArea.vue'),
+      default: import('../components/Areas/ViewArea.vue'),
       // modalEdit: import('../components/elements/ModalEdit.vue'),
     }
   },
   {
     path: '/document',
-    name: 'Document',
+    name: 'UpDocument',
+    components: {
+      default: import('../components/Document/viewDocument.vue'),
+      // modalEdit: import('../components/elements/ModalEdit.vue'),
+    }
+  },
+  {
+    path: '/search',
+    name: 'SearchDocument',
     components: {
       default: import('../components/Document/viewDocument.vue'),
       // modalEdit: import('../components/elements/ModalEdit.vue'),
