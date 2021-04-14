@@ -13,7 +13,7 @@ import {
 const Web3 = require("web3");
 let web3 = new Web3(Web3.givenProvider || Parameters.provider);
 
-const miContrato = new web3.eth.Contract(CONST_ABI, Parameters.addressContractOKE_Test);
+const miContrato = new web3.eth.Contract(CONST_ABI, Parameters.addressContract_Test);
 ///************************Organitation***************************** */
 
 export async function setOrganitation(_name, _from) {

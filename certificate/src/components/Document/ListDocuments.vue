@@ -30,22 +30,22 @@
           <tbody>
             <tr
               v-for="document in documentsArray"
-              :key="document.id"
+              :key="document.idHash"
               class="row"
             >
-              <td>{{ document.id }}</td>
+              <td>{{ document.idHash }}</td>
               <td>{{ document.state.name }}</td>
               <td class="hide-on-med-and-down">{{ document.reasonState }}</td>
               <td>{{ document.event_id }}</td>
               <td class="hide-on-med-and-down">{{ document.newDocument }}</td>
               <td>
                 <div class="row">
-                  <router-link
+                  <!-- <router-link
                     :to="{ name: 'DocumentView', params: { id: document.id } }"
                     ><i class="blue-text text-accent-4 material-icons"
                       >visibility</i
                     ></router-link
-                  >
+                  > -->
 
                   &nbsp;
 
@@ -83,7 +83,7 @@
     <DeleteModal
       :modalName="modalDelete"
       :menssage="menssage"
-      nameModal="Event"
+      nameModal="Document"
       :element_id="element_id"
     />
   </div>
@@ -240,7 +240,7 @@ export default {
     },
   },
   mounted() {
-    this.documentsArray = this.listDocuments();
+     this.listDocuments();
     this.getDocumentsPages();
    
     var elems = document.querySelectorAll('.modal');

@@ -6,7 +6,7 @@
     > -->
 
     <!-- Modal Structure -->
-    <div id="editDocument" class="modal">
+    <div :id="modalName" class="modal">
       <div class="modal-content">
         <h5>{{ nameModal }}</h5>
         <hr />
@@ -71,7 +71,7 @@
 
     <div id="newDocument" class="modal">
       <div class="modal-content">
-        <DropFile />
+        <ViewDocument />
       </div>
       <div class="modal-footer">
         
@@ -83,14 +83,14 @@
 import Multiselect from "@vueform/multiselect";
 import * as AppWeb3 from "../../app/app.js";
 import * as Menssage from "../../app/menssage.js";
-import DropFile from "./DropFile.vue";
+import ViewDocument from "./viewDocument.vue";
 
 import { inject } from "vue";
 
 export default {
   name: "EditEvent",
   props: ["modalName", "actionEdit", "nameModal"],
-  components: { Multiselect,DropFile  },
+  components: { Multiselect,ViewDocument  },
   data() {
     return {
       statesSelect: [],

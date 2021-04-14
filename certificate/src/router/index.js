@@ -62,14 +62,22 @@ const routes = [{
       // modalEdit: import('../components/elements/ModalEdit.vue'),
     }
   },
-  {
-    path: '/search',
-    name: 'SearchDocument',
-    components: {
-      default: import('../components/Document/viewDocument.vue'),
-      // modalEdit: import('../components/elements/ModalEdit.vue'),
-    }
-  }
+  // {
+  //   path: '/search',
+  //   name: 'SearchDocument',
+  //   components: {
+  //     default: import('../components/Document/viewDocument.vue'),
+  //     // modalEdit: import('../components/elements/ModalEdit.vue'),
+  //   }
+  // },
+  // {
+  //   path: '/document/:id',
+  //   name: 'ViewDocument',
+  //   components: {
+  //     default: import('../components/Document/viewDocument.vue'),
+  //     // modalEdit: import('../components/elements/ModalEdit.vue'),
+  //   }
+  // }
 ]
 
 const router = createRouter({
