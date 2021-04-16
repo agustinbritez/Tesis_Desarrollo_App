@@ -125,7 +125,7 @@ contract systemDocument {
             string memory
         )
     {
-        require((states.length > id) && (id > 0));
+        require((states.length > id) && (id > 1));
         (states[id].name = name);
         (states[id].mean = mean);
         return (id, states[id].name, states[id].mean);
@@ -295,12 +295,15 @@ contract systemDocument {
         require((states.length > _state_id) && (_state_id > 0));
         //only idHash not exists
         require(hashid.length > 0);
-
+        bytes memory tempEmptyStringTest;
         for (uint256 i = 0; i < hashid.length; i++) {
-            Document memory _newDocument =
-                Document(hashid[i], _state_id, _event_id, _reasonState, "");
-            documents[hashid[i]] = _newDocument;
-            events[_event_id].idDocuments.push(hashid[i]);
+            tempEmptyStringTest = bytes(documents[hashid[i]].idHash);
+            if (tempEmptyStringTest.length == 0) {
+                Document memory _newDocument =
+                    Document(hashid[i], _state_id, _event_id, _reasonState, "");
+                documents[hashid[i]] = _newDocument;
+                events[_event_id].idDocuments.push(hashid[i]);
+            }
         }
     }
 
@@ -314,20 +317,21 @@ contract systemDocument {
             (areas[events[_event_id].area_id].ownerArea == msg.sender) ||
                 (msg.sender == ownerOrg)
         );
-        require((states.length > _state_id) && (_state_id > 0));
+        require((states.length > _state_id));
         //only idHash not exists
         require(hashid.length > 0);
-
+        bytes memory tempEmptyStringTest;
         for (uint256 i = 0; i < hashid.length; i++) {
             //add only not exists
-            if (bytes(documents[hashid[i]].idHash).length > 0) {
+            tempEmptyStringTest = bytes(documents[hashid[i]].idHash);
+
+            if (tempEmptyStringTest.length != 0) {
                 documents[hashid[i]].event_id = _event_id;
                 documents[hashid[i]].state_id = _state_id;
                 documents[hashid[i]].reasonState = _reasonState;
             }
         }
     }
-
 
     //change state_id and reason of the state
     function changeStateDocument(
@@ -339,9 +343,9 @@ contract systemDocument {
             (areas[events[documents[_idHash].event_id].area_id].ownerArea ==
                 msg.sender) || (msg.sender == ownerOrg)
         );
-        require((states.length > _state_id) && (_state_id > 0));
+        require((states.length > _state_id) );
         //only idHash not exists
-        require(bytes(documents[_idHash].idHash).length == 0);
+        require(bytes(documents[_idHash].idHash).length != 0);
 
         documents[_idHash].reasonState = _reasonState;
         documents[_idHash].state_id = _state_id;
@@ -507,7 +511,7 @@ contract systemDocument {
         )
     {
         return (
-            _idHash,
+            documents[_idHash].idHash,
             documents[_idHash].state_id,
             documents[_idHash].event_id,
             documents[_idHash].reasonState,
@@ -515,10 +519,10 @@ contract systemDocument {
         );
     }
 
-      function getDocumentsOfEvent(uint256 _id_event)
+    function getDocumentsOfEvent(uint256 _id_event)
         public
         view
-        returns (string [] memory)
+        returns (string[] memory)
     {
         return events[_id_event].idDocuments;
     }

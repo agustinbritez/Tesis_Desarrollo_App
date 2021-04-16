@@ -14,7 +14,11 @@
           <form class="col s12">
             <div class="row">
               <div class="input-field col s12">
-                <input id="reson" type="text" v-model="documentEdit.reson" />
+                <input
+                  id="reson"
+                  type="text"
+                  v-model="documentEdit.reasonState"
+                />
                 <label for="reson" :class="{ active: actionEdit }"
                   >Reson State</label
                 >
@@ -73,9 +77,7 @@
       <div class="modal-content">
         <ViewDocument />
       </div>
-      <div class="modal-footer">
-        
-      </div>
+      <div class="modal-footer"></div>
     </div>
   </div>
 </template>
@@ -90,7 +92,7 @@ import { inject } from "vue";
 export default {
   name: "EditEvent",
   props: ["modalName", "actionEdit", "nameModal"],
-  components: { Multiselect,ViewDocument  },
+  components: { Multiselect, ViewDocument },
   data() {
     return {
       statesSelect: [],
@@ -122,25 +124,16 @@ export default {
       var elem = document.getElementById(this.modalName);
       var modalInstance = M.Modal.getInstance(elem);
       modalInstance.close();
-      if (this.actionEdit) {
+     
         //edit
-        await AppWeb3.editDocument(
-          this.documentEdit.id,
-          this.documentEdit.name,
-          this.documentEdit.description,
-          this.documentEdit.state_id
+        await AppWeb3.editDocuments(
+          [this.documentEdit.idHash],
+          this.documentEdit.event_id,
+          this.documentEdit.state_id,
+          this.documentEdit.reasonState
         );
         M.toast({ html: Menssage.updated(), classes: "green accent-3" });
-      } else {
-        //new
-        console.log("Prueba");
-        await AppWeb3.addArea(
-          this.documentEdit.owner,
-          this.documentEdit.name,
-          this.documentEdit.description
-        );
-        M.toast({ html: Menssage.added(), classes: "green accent-3" });
-      }
+      
 
       this.loadList = !this.loadList;
     },

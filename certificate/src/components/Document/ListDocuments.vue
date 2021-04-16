@@ -59,7 +59,7 @@
 
                   <a
                     href="#"
-                    @click.prevent="openDeleteElement(document.id)"
+                    @click.prevent="openDeleteElement(document.idHash)"
                     class="modal-trigger red-text text-accent-4"
                     ><i class="material-icons">delete_forever</i></a
                   >
@@ -153,7 +153,7 @@ export default {
 
     provide("loadList", loadList);
 
-    let deleteElement = ref(0);
+    let deleteElement = ref("");
     provide("deleteElement", deleteElement);
 
     const listDocuments = async function () {
@@ -182,7 +182,7 @@ export default {
 
     watchEffect(async () => {
       console.log("deleteElement " + deleteElement.value);
-      if (deleteElement.value > 0) {
+      if (deleteElement.value != "") {
         await deleteElementSelect();
         await listDocuments();
       }
@@ -206,7 +206,7 @@ export default {
       console.log("pagination " + this.pagination.total);
     },
     openModalEdit(documentEdit) {
-      this.documentEdit.id = documentEdit.id;
+      this.documentEdit.idHash = documentEdit.idHash;
       this.documentEdit.state_id = documentEdit.state_id;
       this.documentEdit.reasonState = documentEdit.reasonState;
       this.documentEdit.event_id = documentEdit.event_id;
@@ -229,7 +229,6 @@ export default {
       var modalInstance = M.Modal.getInstance(elem);
       // console.log(modalInstance);
       this.nameModal = "New Document";
-      this.actionEdit = false;
       modalInstance.open();
     },
     openDeleteElement(_id) {

@@ -9,18 +9,19 @@
     </ul> -->
     <input type="file" multiple name="" @change="changeFiles" id="" />
     <ul>
-      <li class="" v-for="file in uploadedFiles" :key="file.hash">
-        {{ file.fileName + " " + file.hash }}
+      <li>
+        {{ loadingFile + "/" + cantFile }}
       </li>
+      <!-- <li class="" v-for="file in uploadedFiles" :key="file.hash">
+        {{ file.fileName + " " + file.hash }}
+      </li> -->
     </ul>
-    
   </div>
 </template>
 <script>
 import { inject } from "vue";
 import * as SHA256 from "../../../node_modules/js-sha256";
 import * as AppWeb3 from "../../app/app.js";
-
 
 export default {
   name: "DropFile",
@@ -29,7 +30,7 @@ export default {
     const uploadedFiles = inject("uploadedFiles");
     const allHashes = inject("allHashes");
 
-    return { uploadedFiles,allHashes };
+    return { uploadedFiles, allHashes };
   },
   data() {
     return {
@@ -37,6 +38,8 @@ export default {
       limit: 10, // CAMBIAR ESTO SI SE PUEDE MAS DE 10 ARCHIVOS
       verifyCounter: 0,
       dragActive: false,
+      cantFile: 0,
+      loadingFile: 0,
     };
   },
   props: {
@@ -46,20 +49,21 @@ export default {
     this.loading = true;
   },
   methods: {
-    
     changeFiles(event) {
-      console.log(this.uploadedFiles);
+      this.loadingFile = 0;
+      this.cantFile = event.target.files.length;
+      // console.log(event);
       this.uploadFiles(event.target.files);
     },
     cargarFile() {},
-    uploadFiles: function (f) {
+    uploadFiles: async function (f) {
       this.allHashes = [];
       this.uploadedFiles = [];
       this.loading = true;
 
       for (var i = 0; i < f.length; i++) {
-        this.loadFile(f[i]);
-        console.log(f[i]);
+        await this.loadFile(f[i]);
+        // console.log(f[i]);
       }
     },
     loadFile(file) {
@@ -75,10 +79,11 @@ export default {
           let hex = hash.hex();
           //Checks if already exists
           if (self.allHashes.indexOf(hex) === -1) {
+            self.loadingFile++;
             self.uploadedFiles.push({
               fileName: name,
               hash: hex,
-              exist:false
+              exist: false,
             });
             self.allHashes.push(hex);
           } else {

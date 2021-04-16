@@ -24,6 +24,56 @@ export async function addDocuments(arrayHash, _event_id, _state_id, _reasonState
         );
     return true;
 }
+export async function editDocuments(arrayHash, _event_id, _state_id, _reasonState, miContrato) {
+
+    // const _startDate = new Date(startDate,'yyy/m/d H:m:s');
+    const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+    });
+    const account = accounts[0];
+
+    console.log(arrayHash);
+    console.log('array');
+
+    await miContrato.methods
+        .editAllDocumentsEvent(
+            arrayHash,
+            _event_id,
+            _state_id,
+            _reasonState
+        )
+        .send({
+                from: account,
+            },
+            function (error, transactionHash) {
+                console.log(transactionHash);
+            }
+        );
+    return true;
+}
+export async function deleteDocument(_hashId, miContrato) {
+
+    // const _startDate = new Date(startDate,'yyy/m/d H:m:s');
+    const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+    });
+    const account = accounts[0];
+
+    await miContrato.methods
+        .changeStateDocument(
+            _hashId,
+            0,
+            'DELETE'
+        )
+        .send({
+                from: account,
+            },
+            function (error, transactionHash) {
+                console.log(transactionHash);
+            }
+        );
+    return true;
+}
 
 export async function checkDocuments(arrayHash, arrayDocument, miContrato) {
 
@@ -37,11 +87,32 @@ export async function checkDocuments(arrayHash, arrayDocument, miContrato) {
     return arrayDocument;
 }
 
-export async function getCantDocumentEvent(event_id,miContrato) {
+export async function getCantDocumentEvent(event_id, miContrato) {
 
     //array de boolean en la misma posicion devuelve si existe o no
     return await miContrato.methods.getCantDocumentEvent(event_id)
         .call((err, result) => result);
+
+}
+export async function getDocuments(hashes, miContrato) {
+    let documents = [];
+    let document = {};
+    for (let i = 0; i < hashes.length; i++) {
+        document = await miContrato.methods.getDocument(hashes[i])
+            .call((err, result) => result);
+        if (document.idHash.length > 0) {
+            document.exists = true;
+            document.state = await miContrato.methods.getState(document.state_id)
+                .call((err, result) => result);
+            documents.push(document);
+        } else {
+            document.idHash = hashes[i];
+            document.exists = false;
+            documents.push(document);
+        }
+
+    }
+    return documents;
 
 }
 
@@ -59,12 +130,12 @@ export async function getAllDocumentsEvent(_event_id, _from, _to, miContrato) {
         // tarda mucho saber cuantos documentos existen prque el array documento es un mapping
         return [];
     }
- 
 
-    if(cantDocumentOfEvent == 0 ){
+
+    if (cantDocumentOfEvent == 0) {
         return [];
     }
- 
+
 
     let _to_fin = _from + _to;
 
@@ -81,12 +152,12 @@ export async function getAllDocumentsEvent(_event_id, _from, _to, miContrato) {
 
             document = await miContrato.methods.getDocument(idDocuments[index])
                 .call((err, result) => result);
-                document.state = await miContrato.methods.getState(document.state_id)
-                    .call((err, result) => result);
-            
-                documents.push(document);
+            document.state = await miContrato.methods.getState(document.state_id)
+                .call((err, result) => result);
 
-            
+            documents.push(document);
+
+
         }
 
     }

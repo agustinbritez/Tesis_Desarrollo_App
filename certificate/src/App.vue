@@ -15,6 +15,8 @@ import NavBar from "@/components/NavBar.vue";
 import Footer from "@/components/Footer.vue";
 import PreLoad from "./components/elements/PreLoad.vue";
 import { mapState } from "vuex";
+import "../public/materialize/js/materialize.min.js";
+import { provide, ref } from 'vue';
 
 export default {
   name: "App",
@@ -30,17 +32,27 @@ export default {
   data() {
     return {};
   },
-  setup() {},
+  setup() {
+    
+      const uploadedFiles = ref([]);
+    const allHashes = ref([]);
+    
+    provide("uploadedFiles", uploadedFiles);
+    provide("allHashes", allHashes);
+    return { uploadedFiles, allHashes };
+
+  },
   mounted() {
+    console.log("adasd");
+    console.log(M);
     //Activar animaciones
-    M.AutoInit();
+    // M.AutoInit();
     //animacion para setting
     var dropsdowns = document.querySelectorAll(".dropdown-trigger");
     var options = { coverTrigger: false };
     var instancesDropsdown = M.Dropdown.init(dropsdowns, options);
-       var elems = document.querySelectorAll('.modal');
+    var elems = document.querySelectorAll(".modal");
     var instances = M.Modal.init(elems);
-        
   },
 };
 </script>
@@ -69,3 +81,7 @@ body {
   background-color: lightblue;
 }
 </style>
+<style>
+@import "../public/materialize/css/materialize.min.css";
+</style>
+

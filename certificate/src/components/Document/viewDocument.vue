@@ -1,73 +1,61 @@
 <template>
   <div class="">
-    <div class="card red lighten-4">
-      <div class="card-title red accent-2">
-        <h1 class="tile">Document Create</h1>
-        <!-- filter -->
+    <div class="row">
+      <div class="input-field col s4" v-if="!knowEvent || event_id">
+        <Multiselect
+          id="area_id"
+          @change="getEventOfArea()"
+          v-model="area_id"
+          :options="areasSelect"
+          label="name"
+          placeholder="Select Area"
+          trackBy="name"
+          :disabled="disabledInput"
+          :searchable="true"
+        />
       </div>
-      <div class="card-content">
-        <div>
-          <div class="row">
-            <div class="input-field col s4" v-if="!knowEvent || event_id">
-              <Multiselect
-                id="area_id"
-                @change="getEventOfArea()"
-                v-model="area_id"
-                :options="areasSelect"
-                label="name"
-                placeholder="Select Area"
-                trackBy="name"
-                :disabled="disabledInput"
-                :searchable="true"
-              />
-            </div>
-            <div class="input-field col s4" v-if="!knowEvent || event_id">
-              <Multiselect
-                id="event_id"
-                v-model="event_id"
-                :options="eventsSelect"
-                label="name"
-                placeholder="Select Event"
-                trackBy="name"
-                :disabled="disabledInput"
-                :searchable="true"
-              />
-            </div>
-            <div class="input-field col s2">
-              <Multiselect
-                id="state_id"
-                v-model="state_id"
-                :options="statesSelect"
-                label="name"
-                placeholder="Select State"
-                trackBy="name"
-                :disabled="disabledInput"
-                :searchable="true"
-              />
-            </div>
-            <div class="input-field col s2">
-              <input type="text" name="" id="" v-model="reasonState" />
-            </div>
-          </div>
-          <DropFile />
-          <div class="row">
-            <div class="col">
-              <button class="btn" @click="checkDocuments">Verify</button>
-            </div>
-            <div class="col">
-              <button class="btn" @click="saveDocuments">Save</button>
-            </div>
-          </div>
-        </div>
+      <div class="input-field col s4" v-if="!knowEvent || event_id">
+        <Multiselect
+          id="event_id"
+          v-model="event_id"
+          :options="eventsSelect"
+          label="name"
+          placeholder="Select Event"
+          trackBy="name"
+          :disabled="disabledInput"
+          :searchable="true"
+        />
       </div>
-      <div class="card-action red accent-2"></div>
+      <div class="input-field col s2">
+        <Multiselect
+          id="state_id"
+          v-model="state_id"
+          :options="statesSelect"
+          label="name"
+          placeholder="Select State"
+          trackBy="name"
+          :disabled="disabledInput"
+          :searchable="true"
+        />
+      </div>
+      <div class="input-field col s2">
+        <input type="text" name="" id="" v-model="reasonState" />
+      </div>
     </div>
-    <br />
+    <DropFile />
+    <div class="row">
+      <div class="col">
+        <button class="btn" @click="checkDocuments">Verify</button>
+      </div>
+      <div class="col">
+        <button class="btn" @click="saveDocuments">Save</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { ref, provide } from "vue";
+import { ref, provide, inject } from "vue";
 import * as AppWeb3 from "../../app/app.js";
 import DropFile from "./DropFile.vue";
 import Multiselect from "@vueform/multiselect";
@@ -89,10 +77,9 @@ export default {
     },
   },
   setup() {
-    const uploadedFiles = ref([]);
-    const allHashes = ref([]);
-    provide("uploadedFiles", uploadedFiles);
-    provide("allHashes", allHashes);
+    const uploadedFiles = inject("uploadedFiles");
+    const allHashes = inject("allHashes");
+
     return { uploadedFiles, allHashes };
   },
   data() {

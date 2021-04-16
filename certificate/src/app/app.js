@@ -83,8 +83,8 @@ export async function getStatesAll() {
 export async function addDocuments(arrayDocuments, _event_id, _state_id, __reasonState) {
     return await Document.addDocuments(arrayDocuments, _event_id, _state_id, __reasonState, miContrato);
 }
-export async function editDocuments(arrayDocuments, _event_id, _state_id, __reasonState) {
-    return await Document.editDocuments(arrayDocuments, _event_id, _state_id, __reasonState, miContrato);
+export  async function editDocuments(arrayDocuments, _event_id, _state_id, __reasonState) {
+    return  await Document.editDocuments(arrayDocuments, _event_id, _state_id, __reasonState, miContrato);
 }
 
 export async function checkDocuments(arrayHashes, arrayDocuments) {
@@ -101,4 +101,10 @@ export async function getDocument(_hash=-1,_event_id=-1, _state_id=-1,_newVersio
 
 export async function getCantDocumentEvent(_event_id = 1) {
     return await Document.getCantDocumentEvent(_event_id, miContrato);
+}
+export async function deleteDocument(_idHash) {
+    return await Document.deleteDocument(_idHash, miContrato);
+}
+export  async function getDocuments(hashes) {
+    return  await Document.getDocuments(hashes, miContrato);
 }

@@ -54,11 +54,19 @@ const routes = [{
       // modalEdit: import('../components/elements/ModalEdit.vue'),
     }
   },
+  // {
+  //   path: '/document',
+  //   name: 'UpDocument',
+  //   components: {
+  //     default: import('../components/Document/viewDocument.vue'),
+  //     // modalEdit: import('../components/elements/ModalEdit.vue'),
+  //   }
+  // },
   {
     path: '/document',
-    name: 'UpDocument',
+    name: 'FindDocument',
     components: {
-      default: import('../components/Document/viewDocument.vue'),
+      default: import('../components/Document/FindDocument.vue'),
       // modalEdit: import('../components/elements/ModalEdit.vue'),
     }
   },
