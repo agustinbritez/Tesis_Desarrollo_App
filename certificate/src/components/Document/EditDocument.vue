@@ -73,26 +73,25 @@
       </div>
     </div>
 
-    <div id="newDocument" class="modal">
+    <!-- <div id="newDocument" class="modal">
       <div class="modal-content">
         <ViewDocument />
       </div>
       <div class="modal-footer"></div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
 import Multiselect from "@vueform/multiselect";
 import * as AppWeb3 from "../../app/app.js";
 import * as Menssage from "../../app/menssage.js";
-import ViewDocument from "./viewDocument.vue";
 
 import { inject } from "vue";
 
 export default {
   name: "EditEvent",
   props: ["modalName", "actionEdit", "nameModal"],
-  components: { Multiselect, ViewDocument },
+  components: { Multiselect },
   data() {
     return {
       statesSelect: [],
@@ -102,9 +101,10 @@ export default {
   computed: {},
   setup() {
     const documentEdit = inject("documentEdit");
+    const documentChang = inject("documentChang");
     const loadList = inject("loadList");
 
-    return { documentEdit, loadList };
+    return { documentEdit, loadList,documentChang };
   },
   methods: {
     async getStatesAll() {
@@ -132,6 +132,7 @@ export default {
           this.documentEdit.state_id,
           this.documentEdit.reasonState
         );
+        this.documentChang=!this.documentChang;
         M.toast({ html: Menssage.updated(), classes: "green accent-3" });
       
 

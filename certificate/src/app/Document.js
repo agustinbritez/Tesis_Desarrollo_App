@@ -80,11 +80,97 @@ export async function checkDocuments(arrayHash, arrayDocument, miContrato) {
     //array de boolean en la misma posicion devuelve si existe o no
     let arrayChecks = await miContrato.methods.checkDocuments(arrayHash)
         .call((err, result) => result);
-    for (let i = 0; i < arrayHash.length(); i++) {
+    for (let i = 0; i < arrayHash.length; i++) {
         arrayDocument[i].exist = arrayChecks[i];
     }
 
     return arrayDocument;
+}
+export async function search(filter, miContrato) {
+    let idDocuments = [];
+    let documents = [];
+    let document = {};
+    let idEvents = [];
+    let idEvents2 = [];
+
+    if (filter.area_id > 0) {
+        if (filter.event_id == 0) {
+
+            idEvents2 = await miContrato.methods.getAllEventsOfArea(filter.area_id)
+                .call((err, result) => {
+                    return result;
+                });
+            //idEvents = idEvents2.slice();
+
+            idEvents2.forEach(async idEvent => {
+                var enter = {
+                    startEvent: true,
+                    endEvent: true
+                };
+                var _event = await miContrato.methods.getEvent(idEvent).call((err, result) => {
+                    console.log(result);
+                    return result;
+                });
+                if (filter.startEvent.trim() != "") {
+                    if (_event.startEvent < filter.startEvent) {
+                        enter.startEvent = false;
+                    }
+                }
+                if (filter.endEvent.trim() != "") {
+                    if (_event.endEvent > filter.endEvent) {
+                        enter.endEvent = false;
+                    }
+                }
+
+                // if (enter.endEvent && enter.startEvent) {
+                //     idEvents.push(idEvent)
+                // }
+                idEvents.push(_event.id);
+
+            });
+        } else {
+            idEvents.push(filter.event_id);
+        }
+
+        idEvents.forEach(async idEvent => {
+
+            idDocuments = await miContrato.methods.getDocumentsOfEvent(idEvent)
+                .call((err, result) => result);
+
+            idDocuments.forEach(element => {
+
+                document = miContrato.methods.getDocument(element)
+                    .call((err, result) => {
+                        let enter = false;
+
+                        if (filter.state_id >= 0) {
+                            enter = false;
+                            if (result.state_id == filter.state_id) {
+                                enter = true;
+                            }
+                        }
+
+                        if (filter.reasonState.trim() != "") {
+                            enter = false;
+                            if (result.reasonState.includes(filter.reasonState)) {
+                                enter = true;
+                            }
+                        }
+                        documents.push(element);
+                    });
+            });
+        });
+        console.log("prueba de busqueda", documents);
+
+        return {
+            documentsExists: documents
+        };
+    }
+    //array de boolean en la misma posicion devuelve si existe o no
+
+    return {
+        documentsExists: documents
+    };
 }
 
 export async function getCantDocumentEvent(event_id, miContrato) {
@@ -94,25 +180,34 @@ export async function getCantDocumentEvent(event_id, miContrato) {
         .call((err, result) => result);
 
 }
-export async function getDocuments(hashes, miContrato) {
-    let documents = [];
+
+export async function getDocuments(hashes, uploadedFiles, miContrato) {
+    let documentsExists = [];
+    let documentsNoExists = [];
     let document = {};
     for (let i = 0; i < hashes.length; i++) {
         document = await miContrato.methods.getDocument(hashes[i])
             .call((err, result) => result);
+        document.fileName = uploadedFiles[i].fileName;
         if (document.idHash.length > 0) {
             document.exists = true;
+
             document.state = await miContrato.methods.getState(document.state_id)
                 .call((err, result) => result);
-            documents.push(document);
+            document.event = await miContrato.methods.getEvent(document.event_id)
+                .call((err, result) => result);
+            documentsExists.push(document);
         } else {
             document.idHash = hashes[i];
             document.exists = false;
-            documents.push(document);
+            documentsNoExists.push(document);
         }
 
     }
-    return documents;
+    return {
+        documentsExists: documentsExists,
+        documentsNoExists: documentsNoExists
+    };
 
 }
 

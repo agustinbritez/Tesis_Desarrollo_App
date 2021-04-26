@@ -15,7 +15,7 @@
             new (+)
           </button>
         </div>
-        <table class="highlight centered">
+        <table id="table_id" class="highlight centered">
           <thead>
             <tr>
               <th>Hash</th>
@@ -74,6 +74,12 @@
           :nameModal="nameModal"
         />
 
+        <div id="newDocument" class="modal">
+          <div class="modal-content">
+            <NewDocument :event_id="event_id" :knowEvent="true" />
+          </div>
+          <div class="modal-footer"></div>
+        </div>
       </div>
       <div class="card-action red accent-2">
         <Pagination />
@@ -90,12 +96,12 @@
 </template>
 
 <script>
-import { provide, ref, watchEffect } from "vue";
+import { inject, provide, ref, watchEffect } from "vue";
 import { mapState } from "vuex";
 import Pagination from "../elements/Pagination.vue";
 import * as AppWeb3 from "../../app/app.js";
 import EditDocument from "./EditDocument.vue";
-import NewDocument from "./DropFile.vue";
+import NewDocument from "./viewDocument.vue";
 
 import { useRoute } from "vue-router";
 import DeleteModal from "../elements/DeleteModal.vue";
@@ -106,22 +112,19 @@ export default {
     Pagination,
     EditDocument,
     DeleteModal,
-    NewDocument
-
+    NewDocument,
   },
- props:{
-   event_id:{
-     type:Number,
-     default:1
-   },
-   
- }
- ,
+  props: {
+    event_id: {
+      type: Number,
+      default: 1,
+    },
+  },
   data() {
     return {
       modalDelete: "modalDelete",
       //ID of modal
-      modalEdit: "editDocument",
+      modalEdit: "editDocument2",
 
       actionEdit: true,
       nameModal: "",
@@ -130,15 +133,10 @@ export default {
     };
   },
   setup(props) {
- 
-    
-    let documentEdit = ref({});
-    provide("documentEdit", documentEdit);
-
+       let documentEdit = inject("documentEdit");
     let documentsArray = ref([]);
-    provide("documentsArray", documentsArray);
 
-    
+
     let pagination = ref({
       total: 0,
       current_page: 1,
@@ -194,12 +192,10 @@ export default {
       documentEdit,
       listDocuments,
       documentsArray,
-      pagination
-      
+      pagination,
     };
   },
   methods: {
-  
     async getDocumentsPages() {
       let cant = await AppWeb3.getCantDocumentEvent(this.event_id);
       this.pagination.total = await parseInt(cant / this.pagination.to);
@@ -221,10 +217,7 @@ export default {
       modalInstance.open();
     },
     openModalNew() {
-    
-     
-
-      var elem = document.getElementById('newDocument');
+      var elem = document.getElementById("newDocument");
       // console.log('documentEdit2'+this.documentEdit);
       var modalInstance = M.Modal.getInstance(elem);
       // console.log(modalInstance);
@@ -239,14 +232,13 @@ export default {
     },
   },
   mounted() {
-     this.listDocuments();
+    this.listDocuments();
     this.getDocumentsPages();
-   
-    var elems = document.querySelectorAll('.modal');
-    var instances = M.Modal.init(elems);
 
+    var elems = document.querySelectorAll(".modal");
+    var instances = M.Modal.init(elems);
   },
-  
+
   updated() {
     // this.listDocuments();
   },

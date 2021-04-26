@@ -105,6 +105,9 @@ export async function getCantDocumentEvent(_event_id = 1) {
 export async function deleteDocument(_idHash) {
     return await Document.deleteDocument(_idHash, miContrato);
 }
-export  async function getDocuments(hashes) {
-    return  await Document.getDocuments(hashes, miContrato);
+export  async function getDocuments(hashes,uploadedFiles) {
+    return  await Document.getDocuments(hashes, uploadedFiles,miContrato);
+}
+export  async function search(filter) {
+    return  await Document.search(filter, miContrato);
 }

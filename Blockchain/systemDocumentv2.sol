@@ -466,6 +466,13 @@ contract systemDocument {
     {
         return areas[_id_area].idEvents[_id_event_index];
     }
+    function getAllEventsOfArea(uint256 _id_area)
+        public
+        view
+        returns (uint256[] memory)
+    {
+        return areas[_id_area].idEvents;
+    }
 
     function getEvent(uint256 _id)
         public

@@ -36,10 +36,25 @@ export default {
     
       const uploadedFiles = ref([]);
     const allHashes = ref([]);
+    const reduceHash =  (hash) =>{
+      console.log(hash);
+      if(hash.length >=9){
+        let newHash=hash[0]+hash[1]+hash[2]+hash[3];
+        newHash=newHash+"..."+hash[hash.length-4]+hash[hash.length-3]+hash[hash.length-2]+hash[hash.length-1];
+        return newHash;
+      }
+      return "";
+    }
     
+    provide("reduceHash", reduceHash);
     provide("uploadedFiles", uploadedFiles);
     provide("allHashes", allHashes);
-    return { uploadedFiles, allHashes };
+     const documentsArray = ref({});
+    provide("documentsArray", documentsArray);
+     let documentEdit = ref({});
+    provide("documentEdit", documentEdit);
+
+    return { uploadedFiles, allHashes ,documentsArray,reduceHash};
 
   },
   mounted() {
