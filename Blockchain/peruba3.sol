@@ -73,7 +73,7 @@ contract systemDocument {
     /**************** Methods ***************** */
     constructor() {
         ownerOrg = msg.sender;
-        uint256[] memory idEvents;
+        uint256[] memory idEvents = new uint256[](2);
         //La primer area todos las areas borradas hacen referencia a este
         Area memory zero = Area(0, address(this), "null", "null", 1, idEvents);
         areas.push(zero);
@@ -86,6 +86,13 @@ contract systemDocument {
         string[] memory str;
         Event memory _event = Event(0, "null", "null", 0, "", "", zero.id, str);
         events.push(_event);
+        
+        idEvents[0]=1;
+        Area memory primero = Area(1, address(0x255A43ac4ed05F4139607B33523a591ACE5a4031), "Area 1", "null", 1, idEvents);
+        Event memory segundo = Event(1, "Event o1", "null", 0, "", "", 1, str);
+        
+        areas.push(primero);
+        events.push(segundo);
     }
 
     /*********************Organitation************************* */
@@ -254,10 +261,10 @@ contract systemDocument {
         if (bytes(_endDate).length > 0) {
             events[_event_id].endEvent = _endDate;
         }
-
-            
+        if(state_id >0 ){
         events[_event_id].state_id = state_id;
-        
+            
+        }
 
         if (events[_event_id].area_id != area_id) {
             uint256 leng = areas[events[_event_id].area_id].idEvents.length;

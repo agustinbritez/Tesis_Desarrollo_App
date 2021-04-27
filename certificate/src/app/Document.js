@@ -244,13 +244,15 @@ export async function getAllDocumentsEvent(_event_id, _from, _to, miContrato) {
 
 
         if (idDocuments[index].length > 0) {
+            if (idDocuments[index] !== "") {
+                document = await miContrato.methods.getDocument(idDocuments[index])
+                    .call((err, result) => result);
+                document.state = await miContrato.methods.getState(document.state_id)
+                    .call((err, result) => result);
 
-            document = await miContrato.methods.getDocument(idDocuments[index])
-                .call((err, result) => result);
-            document.state = await miContrato.methods.getState(document.state_id)
-                .call((err, result) => result);
+                documents.push(document);
+            }
 
-            documents.push(document);
 
 
         }

@@ -126,7 +126,7 @@
      
       <br />
     </div>
-     <ListDocuments :event_id="eventAux.id" />
+     <ListDocuments :event_id="eventView.id" />
   </div>
 </template>
 

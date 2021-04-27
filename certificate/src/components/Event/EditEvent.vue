@@ -147,16 +147,19 @@ export default {
     },
     async editOrNew() {
       ///if activeInput is false == new event
+              console.log(this.eventEdit);
+
       if (this.activeInput) {
         //edit
+        let eventE=this.eventEdit;
         await AppWeb3.editEvent(
-          this.eventEdit.id,
-          this.eventEdit.name,
-          this.eventEdit.description,
-          this.eventEdit.startEvent,
-          this.eventEdit.endEvent,
-          this.eventEdit.area_id,
-          this.eventEdit.state_id
+         this.eventEdit.id,
+         this.eventEdit.name,
+         this.eventEdit.description,
+         this.eventEdit.startEvent,
+         this.eventEdit.endEvent,
+          parseInt(this.eventEdit.area_id),
+         this.eventEdit.state_id
         );
       } else {
         //new

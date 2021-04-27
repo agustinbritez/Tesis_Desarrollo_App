@@ -105,7 +105,7 @@ export default {
       // eventEdit: {},
       activeInput: true,
       nameModal: "",
-      showSelectArea:true,
+      showSelectArea: true,
     };
   },
   props: {
@@ -178,13 +178,18 @@ export default {
       console.log("pagination " + this.pagination.total);
     },
     openModalEdit(_eventEdit) {
-      this.showSelectArea=this.area_id ==0;
+      this.showSelectArea = this.area_id == 0;
       this.eventEdit.name = _eventEdit.name;
       this.eventEdit.id = _eventEdit.id;
       this.eventEdit.area_id = _eventEdit.area_id;
+      if (this.area_id > 0) {
+        this.eventEdit.area_id = this.area_id;
+      }
+
       this.eventEdit.description = _eventEdit.description;
       this.eventEdit.startEvent = _eventEdit.startEvent;
       this.eventEdit.endEvent = _eventEdit.endEvent;
+      this.eventEdit.state_id = _eventEdit.state_id;
 
       var elem = document.getElementById(this.modalEdit);
       // console.log('eventEdit2'+this.eventEdit);
@@ -195,10 +200,16 @@ export default {
       modalInstance.open();
     },
     openModalNew() {
-      this.showSelectArea= this.area_id ==0;
+      this.showSelectArea = this.area_id == 0;
       this.eventEdit.name = "";
       this.eventEdit.id = 0;
-      this.eventEdit.area_id = "";
+      this.eventEdit.area_id = 0;
+      this.eventEdit.state_id = 0;
+
+      if (this.area_id > 0) {
+        this.eventEdit.area_id = this.area_id;
+      }
+
       this.eventEdit.description = "";
       this.eventEdit.startEvent = "";
       this.eventEdit.endEvent = "";

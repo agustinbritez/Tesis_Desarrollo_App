@@ -117,7 +117,7 @@ export default {
   props: {
     event_id: {
       type: Number,
-      default: 1,
+      default: 0,
     },
   },
   data() {

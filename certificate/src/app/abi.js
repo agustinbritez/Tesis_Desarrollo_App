@@ -1,9 +1,4 @@
 export const CONST_ABI = [{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
 		"inputs": [{
 				"internalType": "string[]",
 				"name": "hashid",
@@ -177,36 +172,6 @@ export const CONST_ABI = [{
 	},
 	{
 		"inputs": [{
-			"internalType": "string",
-			"name": "_idHash",
-			"type": "string"
-		}],
-		"name": "checkDocument",
-		"outputs": [{
-			"internalType": "bool",
-			"name": "",
-			"type": "bool"
-		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-			"internalType": "string[]",
-			"name": "idHashes",
-			"type": "string[]"
-		}],
-		"name": "checkDocuments",
-		"outputs": [{
-			"internalType": "bool[]",
-			"name": "",
-			"type": "bool[]"
-		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [{
 				"internalType": "string[]",
 				"name": "hashid",
 				"type": "string[]"
@@ -351,6 +316,94 @@ export const CONST_ABI = [{
 			}
 		],
 		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "uint256",
+				"name": "_event_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_idHash_old",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_state_id_old",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_reasonState_old",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_idHash_new",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_state_id_new",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_reasonState_new",
+				"type": "string"
+			}
+		],
+		"name": "newVersionDocument",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "string",
+			"name": "org",
+			"type": "string"
+		}],
+		"name": "setOrganitation",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [{
+			"internalType": "string",
+			"name": "_idHash",
+			"type": "string"
+		}],
+		"name": "checkDocument",
+		"outputs": [{
+			"internalType": "bool",
+			"name": "",
+			"type": "bool"
+		}],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "string[]",
+			"name": "idHashes",
+			"type": "string[]"
+		}],
+		"name": "checkDocuments",
+		"outputs": [{
+			"internalType": "bool[]",
+			"name": "",
+			"type": "bool[]"
+		}],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -672,59 +725,6 @@ export const CONST_ABI = [{
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-				"internalType": "uint256",
-				"name": "_event_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_idHash_old",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_state_id_old",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_reasonState_old",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_idHash_new",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_state_id_new",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_reasonState_new",
-				"type": "string"
-			}
-		],
-		"name": "newVersionDocument",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-			"internalType": "string",
-			"name": "org",
-			"type": "string"
-		}],
-		"name": "setOrganitation",
-		"outputs": [],
-		"stateMutability": "payable",
 		"type": "function"
 	}
 ];
