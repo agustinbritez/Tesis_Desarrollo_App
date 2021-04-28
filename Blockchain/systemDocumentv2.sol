@@ -392,39 +392,20 @@ contract systemDocument {
 
     //mando valores para la version vieja, asi modifico si quiero. por ejemplo cambiar el estado o cambiar la razon del estado,
     function newVersionDocument(
-        uint256 _event_id,
+      
         string memory _idHash_old,
-        uint256 _state_id_old,
-        string memory _reasonState_old,
-        string memory _idHash_new,
-        uint256 _state_id_new,
-        string memory _reasonState_new
+    
+        string memory _idHash_new
+    
     ) public payable {
-        require(
-            (areas[events[_event_id].area_id].ownerArea == msg.sender) ||
-                (msg.sender == ownerOrg)
-        );
-        uint256 cantStates = states.length;
-        require((cantStates > _state_id_new) && (_state_id_new > 0));
-        require((cantStates > _state_id_old) && (_state_id_old > 0));
-        //this Hash exits
+       
         require(bytes(documents[_idHash_old].idHash).length > 0);
-        //only if idHash not exists
-        require(bytes(documents[_idHash_new].idHash).length == 0);
-
-        Document memory _newDocument =
-            Document(
-                _idHash_new,
-                _state_id_new,
-                _event_id,
-                _reasonState_new,
-                ""
-            );
-        documents[_idHash_new] = _newDocument;
+        require(bytes(documents[_idHash_new].idHash).length > 0);
+        require(keccak256(bytes(_idHash_old)) != keccak256(bytes(_idHash_new)));
         documents[_idHash_old].newDocument = _idHash_new;
-        documents[_idHash_old].reasonState = _reasonState_old;
-        documents[_idHash_old].state_id = _state_id_old;
+
     }
+
 
     /********************Getters of attributes****************************** */
 

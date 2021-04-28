@@ -320,38 +320,13 @@ export const CONST_ABI = [{
 	},
 	{
 		"inputs": [{
-				"internalType": "uint256",
-				"name": "_event_id",
-				"type": "uint256"
-			},
-			{
 				"internalType": "string",
 				"name": "_idHash_old",
 				"type": "string"
 			},
 			{
-				"internalType": "uint256",
-				"name": "_state_id_old",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_reasonState_old",
-				"type": "string"
-			},
-			{
 				"internalType": "string",
 				"name": "_idHash_new",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_state_id_new",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_reasonState_new",
 				"type": "string"
 			}
 		],

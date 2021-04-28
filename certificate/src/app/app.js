@@ -90,6 +90,12 @@ export  async function editDocuments(arrayDocuments, _event_id, _state_id, __rea
 export async function checkDocuments(arrayHashes, arrayDocuments) {
     return await Document.checkDocuments(arrayHashes, arrayDocuments, miContrato);
 }
+export async function checkADocument(hash) {
+    return await Document.checkADocument(hash, miContrato);
+}
+export async function newVersionDocument(hash_old,hash_new) {
+    return await Document.newVersionDocument(hash_old,hash_new, miContrato);
+}
 
 export async function getAllDocuments(_event_id=1,  _state_id=-1,_newVersion=-1,_from = 0, _to = 10) {
     return await Document.getAllDocumentsEvent(_event_id, _from, _to, miContrato);

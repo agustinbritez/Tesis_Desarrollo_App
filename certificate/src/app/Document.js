@@ -86,6 +86,36 @@ export async function checkDocuments(arrayHash, arrayDocument, miContrato) {
 
     return arrayDocument;
 }
+export async function checkADocument(hash, miContrato) {
+
+    //array de boolean en la misma posicion devuelve si existe o no
+    let t = await miContrato.methods.checkDocument(hash)
+        .call((err, result) => {
+            console.log(err);
+            return result
+        });
+
+    return t;
+}
+export async function newVersionDocument(hash_old, hash_new, miContrato) {
+
+    //array de boolean en la misma posicion devuelve si existe o no
+    const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+    });
+    const account = accounts[0];
+    await miContrato.methods
+        .newVersionDocument(
+            hash_old, hash_new
+        )
+        .send({
+                from: account,
+            },
+            function (error, transactionHash) {
+                console.log(error);
+            }
+        );
+}
 export async function search(filter, miContrato) {
     let idDocuments = [];
     let documents = [];

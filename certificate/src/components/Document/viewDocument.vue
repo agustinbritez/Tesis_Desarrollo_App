@@ -261,20 +261,34 @@
               </p>
             </div>
             <div class="input-field">
-              <p>
-                New Version :
-                <a
-                  v-if="viewDocument.newDocument"
-                  href="#"
-                  @click.prevent="documentNewVersion(viewDocument.newDocument)"
-                  class="modal-trigger green-text text-accent-4"
-                >
-                  <i class="blue-text text-accent-4 material-icons"
-                    >visibility</i
-                  ></a
-                >
-                {{ viewDocument.newDocument }}
-              </p>
+              <div>
+                <p>
+                  New Version : {{viewDocument.newDocument}}
+                  <a
+                    v-if="viewDocument.newDocument"
+                    href="#"
+                    @click.prevent="
+                      documentNewVersion(viewDocument.newDocument)
+                    "
+                    class="modal-trigger green-text text-accent-4"
+                  >
+                    <i class="blue-text text-accent-4 material-icons"
+                      >visibility</i
+                    ></a
+                  >
+                </p>
+
+                <div v-if="!viewDocument.newDocument">
+                  <HashFile />
+                  <a
+                    v-if="newDocumentHash.length > 0"
+                    @click.prevent="assignVersion(viewDocument.idHash)"
+                    href="#"
+                    class="btn"
+                    >Save</a
+                  >
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -298,6 +312,7 @@
 import { ref, provide, inject, reactive, watchEffect } from "vue";
 import * as AppWeb3 from "../../app/app.js";
 import DropFile from "./DropFile.vue";
+import HashFile from "./HashFile.vue";
 import Multiselect from "@vueform/multiselect";
 import EditDocument from "./EditDocument.vue";
 
@@ -305,6 +320,7 @@ export default {
   components: {
     Multiselect,
     DropFile,
+    HashFile,
     EditDocument,
   },
   //si conoce el evento no muestra el select Area ni el select events
@@ -324,6 +340,8 @@ export default {
     let documentEdit = inject("documentEdit");
     const uploadedFiles = inject("uploadedFiles");
     const allHashes = inject("allHashes");
+    const newDocumentHash = ref({});
+    provide("newDocumentHash", newDocumentHash);
     const reduceHash = inject("reduceHash");
     const documentsArray = inject("documentsArray");
     let documentChang = ref(true);
@@ -337,6 +355,27 @@ export default {
       state: {},
       event: {},
     });
+    const assignVersion = async (idHash) => {
+      if (newDocumentHash.value.length == 0) {
+        alert("Up a file");
+        return;
+      }
+      if (newDocumentHash.value[0] == idHash) {
+        alert("The new Version is equal of document hash");
+        return;
+      }
+      await AppWeb3.newVersionDocument(idHash, newDocumentHash.value[0]);
+      documentsArray.value = await AppWeb3.getDocuments(
+        allHashes.value,
+        uploadedFiles.value
+      );
+      M.toast({ html: "Added new Version", classes: "green" });
+      var elem = document.getElementById("verifyModal");
+      var modalInstance3 = M.Modal.getInstance(elem);
+      if (modalInstance3.isOpen) {
+        modalInstance3.close();
+      }
+    };
     watchEffect(async () => {
       // console.log(allHashes.value);
       console.log(documentChang.value);
@@ -356,6 +395,8 @@ export default {
       documentEdit,
       event_id2,
       documentChang,
+      newDocumentHash,
+      assignVersion,
     };
   },
   data() {
@@ -513,7 +554,7 @@ export default {
     },
     async getAllAreasOfOwner() {
       let areas = await AppWeb3.getAllAreaOfOwner(0, -1);
-      if (this.area_id == 0) {
+      if (this.area_id == 0 && areas.length > 0) {
         this.area_id = areas[0].id;
       }
       for (let index = 0; index < areas.length; index++) {
