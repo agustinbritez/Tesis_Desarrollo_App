@@ -28,6 +28,7 @@
             <div class="row">
               <div class="input-field col s6">
                 <Multiselect
+                class="selec"
                   v-model="documentEdit.state_id"
                   :options="statesSelect"
                   label="name"
@@ -41,6 +42,7 @@
             <div class="row">
               <div class="input-field col s6">
                 <Multiselect
+                class="selec"
                   v-model="documentEdit.event_id"
                   :options="eventSelect"
                   label="name"

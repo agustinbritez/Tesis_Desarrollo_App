@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="card red lighten-4">
-      <div class="card-title red accent-2">
+    <div class="card  ">
+      <div class="card-title   ">
         <h1 class="tile">Areas</h1>
         <!-- filter -->
         <div></div>
@@ -70,7 +70,7 @@
           :nameModal="nameModal"
         />
       </div>
-      <div class="card-action red accent-2">
+      <div class="card-action   ">
         <Pagination />
       </div>
     </div>

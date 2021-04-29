@@ -1,4 +1,4 @@
-export async function setOrganitation(_name, _from,miContrato) {
+export async function setOrganitation(_name, _from, miContrato) {
     await miContrato.methods.setOrganitation(_name).send({
             from: _from
         }, function (error, transactionHash) {
@@ -11,9 +11,9 @@ export async function setOrganitation(_name, _from,miContrato) {
     return await getOrganitation();
 }
 
-export async function getOrganitation(miContrato) {
+export function getOrganitation(miContrato) {
     //se puede usar asi o
-    return await miContrato.methods.getOrganitation()
+    return miContrato.methods.getOrganitation()
         .call()
         .then(function (result) {
             return result;
@@ -22,9 +22,5 @@ export async function getOrganitation(miContrato) {
             console.log(error);
             return '';
         });
-    //asi
-    // let organitation = miContrato.methods.getOrganitation()
-    //     .call((err, result) => result);
-
 
 }

@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="container">
-      <div class="card red lighten-4">
-        <div class="card-title red accent-2">
+      <div class="card  ">
+        <div class="card-title   ">
           <h1 class="tile">Event {{ " ID: " + eventView.id + "" }}</h1>
           <!-- filter -->
           <div></div>
@@ -100,7 +100,7 @@
             </div>
           </div>
         </div>
-        <div class="card-action red accent-2">
+        <div class="card-action   ">
           <div class="row">
             <div class="col s6">
               <button

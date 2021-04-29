@@ -11,6 +11,7 @@
   </div>
 </template>
 <script>
+import { mapMutations } from 'vuex';
 export default {
   name: "SideNav",
   mounted() {
@@ -18,5 +19,6 @@ export default {
     //Puede ir la variable options, para cambiar colores.
     // var instances = M.Sidenav.init(elems);
   },
+ 
 };
 </script>

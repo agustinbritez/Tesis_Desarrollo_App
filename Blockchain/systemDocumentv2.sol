@@ -62,7 +62,7 @@ contract systemDocument {
     //all states
     State[] private states;
     //one owner many areas
-    mapping(address => uint256[]) private ownerArea;
+    mapping(address => uint256[]) public ownerArea;
     //all areas
     Area[] private areas;
     //all events
@@ -255,9 +255,7 @@ contract systemDocument {
             events[_event_id].endEvent = _endDate;
         }
 
-            
         events[_event_id].state_id = state_id;
-        
 
         if (events[_event_id].area_id != area_id) {
             uint256 leng = areas[events[_event_id].area_id].idEvents.length;
@@ -333,42 +331,54 @@ contract systemDocument {
             (areas[events[_event_id].area_id].ownerArea == msg.sender) ||
                 (msg.sender == ownerOrg)
         );
+
         require((states.length > _state_id));
         //only idHash not exists
         require(hashid.length > 0);
+        uint256 c = 0;
+        string[] memory hashidFiltro = new string[](hashid.length);
+
+        for (uint256 i = 0; i < hashid.length; i++) {
+            if (bytes(documents[hashid[i]].idHash).length > 0) {
+                if (
+                    areas[events[documents[hashid[i]].event_id].area_id].ownerArea ==
+                    msg.sender
+                ) {
+                    hashidFiltro[c] = hashid[i];
+                    c++;
+                }
+            }
+        }
+        hashid = new string[](c);
+
+        for (uint256 i = 0; i < hashid.length; i++) {
+            hashid[i] = hashidFiltro[i];
+        }
+
         for (uint256 i = 0; i < hashid.length; i++) {
             //add only not exists
 
-            if (bytes(documents[hashid[i]].idHash).length > 0) {
-                string memory hashAux;
-                //delete  passed event
-                for (
-                    uint256 j = 0;
-                    j <
-                    events[documents[hashid[i]].event_id].idDocuments.length;
-                    j++
-                ) {
-                    hashAux = events[documents[hashid[i]].event_id].idDocuments[
-                        j
-                    ];
+            string memory hashAux;
+            //delete  passed event
+            for (
+                uint256 j = 0;
+                j < events[documents[hashid[i]].event_id].idDocuments.length;
+                j++
+            ) {
+                hashAux = events[documents[hashid[i]].event_id].idDocuments[j];
 
-                    if (
-                        keccak256(bytes(hashAux)) == keccak256(bytes(hashid[i]))
-                    ) {
-                        events[documents[hashid[i]].event_id].idDocuments[
-                            j
-                        ] = "";
-                        break;
-                    }
+                if (keccak256(bytes(hashAux)) == keccak256(bytes(hashid[i]))) {
+                    events[documents[hashid[i]].event_id].idDocuments[j] = "";
+                    break;
                 }
-
-                documents[hashid[i]].event_id = _event_id;
-                events[_event_id].idDocuments.push(hashid[i]);
-
-                documents[hashid[i]].state_id = _state_id;
-
-                documents[hashid[i]].reasonState = _reasonState;
             }
+
+            documents[hashid[i]].event_id = _event_id;
+            events[_event_id].idDocuments.push(hashid[i]);
+
+            documents[hashid[i]].state_id = _state_id;
+
+            documents[hashid[i]].reasonState = _reasonState;
         }
     }
 
@@ -392,20 +402,14 @@ contract systemDocument {
 
     //mando valores para la version vieja, asi modifico si quiero. por ejemplo cambiar el estado o cambiar la razon del estado,
     function newVersionDocument(
-      
         string memory _idHash_old,
-    
         string memory _idHash_new
-    
     ) public payable {
-       
         require(bytes(documents[_idHash_old].idHash).length > 0);
         require(bytes(documents[_idHash_new].idHash).length > 0);
         require(keccak256(bytes(_idHash_old)) != keccak256(bytes(_idHash_new)));
         documents[_idHash_old].newDocument = _idHash_new;
-
     }
-
 
     /********************Getters of attributes****************************** */
 

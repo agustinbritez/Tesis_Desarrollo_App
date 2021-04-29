@@ -1,20 +1,18 @@
 <template>
   <div>
     <div class="container">
-      <div class="card red lighten-4">
-        <div class="card-title red accent-2">
-          <h1 class="tile">Document</h1>
+      <div class="card">
+        <div class="card-title ">
+          <h1 class="tile">Certification</h1>
           <!-- filter -->
           <div></div>
         </div>
         <div class="card-content">
           <ViewDocument />
         </div>
-        <div class="card-action red accent-2"></div>
+        <div class="card-action "></div>
       </div>
-
     </div>
-   
   </div>
 </template>
 
@@ -34,15 +32,12 @@ export default {
     // NewDocument,
   },
   data() {
-    return {
-    
-    };
+    return {};
   },
   setup(props) {
-
     const allHashes = inject("allHashes");
     const documentsArray = inject("documentsArray");
-  
+
     return { allHashes, documentsArray };
   },
   mounted() {
@@ -54,19 +49,13 @@ export default {
     // var modalnstance = M.Modal.init(modals, options);
   },
   methods: {
-    async saveDocuments(hash,event_id) {
+    async saveDocuments(hash, event_id) {
       if (event_id > 0) {
-        await AppWeb3.addDocuments(
-          [hash],
-          event_id,
-          1,
-          ""
-        );
+        await AppWeb3.addDocuments([hash], event_id, 1, "");
         this.allHashes = [];
         this.uploadedFiles = [];
       }
     },
-   
   },
 };
 </script>

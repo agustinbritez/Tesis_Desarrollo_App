@@ -1,7 +1,7 @@
 <template>
   <div class="">
-    <div class="card red lighten-4">
-      <div class="card-title red accent-2">
+    <div class="card  ">
+      <div class="card-title   ">
         <h1 class="tile">Eventos</h1>
         <!-- filter -->
         <div></div>
@@ -78,7 +78,7 @@
           :showSelectArea="showSelectArea"
         />
       </div>
-      <div class="card-action red accent-2">
+      <div class="card-action   ">
         <Pagination />
       </div>
     </div>

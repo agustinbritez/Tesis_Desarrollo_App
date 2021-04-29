@@ -1,9 +1,10 @@
 <template>
   <div>
     <div class="container">
-      <div class="row">
+      <div class="row" v-if="rol == 'OWNER_AREA' || rol == 'OWNER'">
         <div class="input-field col s4" v-if="!knowEvent || event_id2 == 0">
           <Multiselect
+            class="selec"
             id="area_id"
             @change="getEventOfArea()"
             v-model="area_id"
@@ -17,6 +18,7 @@
         </div>
         <div class="input-field col s4" v-if="!knowEvent || event_id2 == 0">
           <Multiselect
+            class="selec"
             id="event_id"
             v-model="event_id"
             :options="eventsSelect"
@@ -29,6 +31,7 @@
         </div>
         <div class="input-field col s4">
           <Multiselect
+            class="selec"
             id="state_id"
             v-model="state_id"
             :options="statesSelect"
@@ -43,7 +46,7 @@
           <i class="material-icons">search</i>
         </a> -->
       </div>
-      <div class="row">
+      <div class="row" v-if="rol == 'OWNER_AREA' || rol == 'OWNER'">
         <!-- <div class="input-field col s4">
           <input
             id="startEvent"
@@ -71,11 +74,11 @@
     </div>
     <div class="row">
       <div class="col s12">
-        <ul class="tabs">
-          <li class="tab col s6">
+        <ul class="tabs tabs-transparent">
+          <li class="tab col s6 tab-verify">
             <a class="active" href="#tab_verify">Verify</a>
           </li>
-          <li class="tab col s6">
+          <li class="tab col s6 tab-verify">
             <a href="#tab_nverify">Not Verify</a>
           </li>
         </ul>
@@ -87,7 +90,9 @@
           <div class="col s10"></div>
           <div class="col s2">
             <button
-              v-if="allHashes.length > 0"
+              v-if="
+                allHashes.length > 0 && (rol == 'OWNER_AREA' || rol == 'OWNER')
+              "
               class="btn"
               @click="saveDocuments(true)"
             >
@@ -141,6 +146,7 @@
                   >&nbsp;
 
                   <a
+                    v-if="rol == 'OWNER_AREA' || rol == 'OWNER'"
                     href="#"
                     @click.prevent="openModalEdit(document)"
                     class="modal-trigger green-text text-accent-4"
@@ -149,6 +155,7 @@
                   >&nbsp;
 
                   <a
+                    v-if="rol == 'OWNER_AREA' || rol == 'OWNER'"
                     href="#"
                     @click.prevent="quitList(document.idHash)"
                     class="modal-trigger red-text text-accent-4"
@@ -169,7 +176,9 @@
           <div class="col s2">
             <button
               class="btn"
-              v-if="allHashes.length > 0"
+              v-if="
+                allHashes.length > 0 && (rol == 'OWNER_AREA' || rol == 'OWNER')
+              "
               @click="saveDocuments(false)"
             >
               Save All
@@ -182,7 +191,7 @@
               <th>Hash</th>
               <th>File Name</th>
 
-              <th>Actions</th>
+              <th v-if="rol == 'OWNER_AREA' || rol == 'OWNER'">Actions</th>
             </tr>
           </thead>
 
@@ -195,7 +204,7 @@
               <td>{{ document.idHash }}</td>
               <td>{{ document.fileName }}</td>
 
-              <td>
+              <td v-if="rol == 'OWNER_AREA' || rol == 'OWNER'">
                 <a
                   href="#"
                   @click.prevent="quitList(document.idHash)"
@@ -260,34 +269,38 @@
                 {{ viewDocument.reasonState }}
               </p>
             </div>
-            <div class="input-field">
-              <div>
-                <p>
-                  New Version : {{viewDocument.newDocument}}
-                  <a
-                    v-if="viewDocument.newDocument"
-                    href="#"
-                    @click.prevent="
-                      documentNewVersion(viewDocument.newDocument)
-                    "
-                    class="modal-trigger green-text text-accent-4"
-                  >
-                    <i class="blue-text text-accent-4 material-icons"
-                      >visibility</i
-                    ></a
-                  >
-                </p>
+            <div class="input-field row">
+              <div class="col">
+                New Version : {{ viewDocument.newDocument }}
+                <a
+                  v-if="viewDocument.newDocument"
+                  href="#"
+                  @click.prevent="documentNewVersion(viewDocument.newDocument)"
+                  class="modal-trigger green-text text-accent-4"
+                >
+                  <i class="blue-text text-accent-4 material-icons"
+                    >visibility</i
+                  ></a
+                >
+              </div>
 
-                <div v-if="!viewDocument.newDocument">
-                  <HashFile />
-                  <a
-                    v-if="newDocumentHash.length > 0"
-                    @click.prevent="assignVersion(viewDocument.idHash)"
-                    href="#"
-                    class="btn"
-                    >Save</a
-                  >
-                </div>
+              <div
+                class="col"
+                v-if="
+                  !viewDocument.newDocument &&
+                  (rol == 'OWNER_AREA' || rol == 'OWNER')
+                "
+              >
+                <HashFile />
+              </div>
+              <div class="col">
+                <a
+                  v-if="newDocumentHash.length > 0"
+                  @click.prevent="assignVersion(viewDocument.idHash)"
+                  href="#"
+                  class="btn-small"
+                  >Save</a
+                >
               </div>
             </div>
           </div>
@@ -337,8 +350,10 @@ export default {
   setup(props) {
     //sirve para saber si mostrar o no el select de evento
     let event_id2 = props.event_id;
+
     let documentEdit = inject("documentEdit");
     const uploadedFiles = inject("uploadedFiles");
+    const rol = inject("rol");
     const allHashes = inject("allHashes");
     const newDocumentHash = ref({});
     provide("newDocumentHash", newDocumentHash);
@@ -397,6 +412,7 @@ export default {
       documentChang,
       newDocumentHash,
       assignVersion,
+      rol,
     };
   },
   data() {
@@ -560,12 +576,15 @@ export default {
       for (let index = 0; index < areas.length; index++) {
         this.areasSelect.push(areas[index]);
       }
-      await this.getEventOfArea();
+      if (this.area_id > 0) {
+        await this.getEventOfArea();
+      }
     },
   },
   async mounted() {
     await this.getStatesAll();
     await this.getAllAreasOfOwner();
+
     var tabs = document.querySelectorAll(".tabs");
     var options = {};
     var tabsInstance = M.Tabs.init(tabs, options);

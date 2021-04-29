@@ -19,13 +19,13 @@ const miContrato = new web3.eth.Contract(CONST_ABI, Parameters.addressContract_T
 export async function setOrganitation(_name, _from) {
     return await Organitation.setOrganitation(_name, _from, miContrato);
 }
-export async function getOrganitation(_name, _from) {
-    return await Organitation.getOrganitation(_name, _from, miContrato);
+export  function getOrganitation() {
+    return  Organitation.getOrganitation( miContrato);
 }
 
 //**************************Event************************************* */
 
-export async function getAllEvents(_area_id=0, _from = 0, _to = -1) {
+export async function getAllEvents(_area_id = 0, _from = 0, _to = -1) {
     if (_area_id > 0) {
 
         return await Event.getAllEventsOneArea(_area_id, _from, _to, miContrato);
@@ -83,8 +83,8 @@ export async function getStatesAll() {
 export async function addDocuments(arrayDocuments, _event_id, _state_id, __reasonState) {
     return await Document.addDocuments(arrayDocuments, _event_id, _state_id, __reasonState, miContrato);
 }
-export  async function editDocuments(arrayDocuments, _event_id, _state_id, __reasonState) {
-    return  await Document.editDocuments(arrayDocuments, _event_id, _state_id, __reasonState, miContrato);
+export async function editDocuments(arrayDocuments, _event_id, _state_id, __reasonState) {
+    return await Document.editDocuments(arrayDocuments, _event_id, _state_id, __reasonState, miContrato);
 }
 
 export async function checkDocuments(arrayHashes, arrayDocuments) {
@@ -93,11 +93,11 @@ export async function checkDocuments(arrayHashes, arrayDocuments) {
 export async function checkADocument(hash) {
     return await Document.checkADocument(hash, miContrato);
 }
-export async function newVersionDocument(hash_old,hash_new) {
-    return await Document.newVersionDocument(hash_old,hash_new, miContrato);
+export async function newVersionDocument(hash_old, hash_new) {
+    return await Document.newVersionDocument(hash_old, hash_new, miContrato);
 }
 
-export async function getAllDocuments(_event_id=1,  _state_id=-1,_newVersion=-1,_from = 0, _to = 10) {
+export async function getAllDocuments(_event_id = 1, _state_id = -1, _newVersion = -1, _from = 0, _to = 10) {
     return await Document.getAllDocumentsEvent(_event_id, _from, _to, miContrato);
 }
 
@@ -108,9 +108,65 @@ export async function getCantDocumentEvent(_event_id = 1) {
 export async function deleteDocument(_idHash) {
     return await Document.deleteDocument(_idHash, miContrato);
 }
-export  async function getDocuments(hashes,uploadedFiles) {
-    return  await Document.getDocuments(hashes, uploadedFiles,miContrato);
+export async function getDocuments(hashes, uploadedFiles) {
+    return await Document.getDocuments(hashes, uploadedFiles, miContrato);
 }
-export  async function search(filter) {
-    return  await Document.search(filter, miContrato);
+export async function search(filter) {
+    return await Document.search(filter, miContrato);
+}
+//OWNER , OWNER_AREA
+// export async function getRol() {
+//     const accounts = await ethereum.request({
+//         method: "eth_requestAccounts",
+//     });
+//     const account = accounts[0];
+//     //array de boolean en la misma posicion devuelve si existe o no
+//     let res = await miContrato.methods.getOwnerOrg()
+//         .call((err, result) => {
+//             (account == result) ? result: '';
+//         });
+//     if (res != '') {
+//         return "OWNER";
+//     }
+//     return await miContrato.methods.getLengthAreaOfOwner(account)
+//         .call((err, result) => {
+//             (result > 0) ? "OWNER_AREA" : '';
+//         });
+
+// }
+export function getRol() {
+    return ethereum.request({
+        method: "eth_requestAccounts",
+    }).then((accounts) => {
+        console.log('accounts' + accounts[0]);
+        let account = accounts[0];
+
+        return miContrato.methods.getOwnerOrg()
+            // .call((err,res)=>res).then((ownerOrg) => {
+            .call().then((ownerOrg) => {
+
+                console.log('ownerOrg' + ownerOrg);
+                console.log(ownerOrg.toUpperCase() == (account.toUpperCase()));
+
+                if (ownerOrg.toUpperCase() == (account.toUpperCase())) {
+                    return "OWNER";
+                }
+
+                return miContrato.methods.getLengthAreaOfOwner(account)
+                    .call().then((ownerArea) => {
+
+                        console.log('3' + ownerArea);
+                        if (ownerArea > 0) {
+                            return "OWNER_AREA";
+                        }
+                        return "";
+
+
+                    });
+            });
+
+
+    });
+
+    //array de boolean en la misma posicion devuelve si existe o no
 }

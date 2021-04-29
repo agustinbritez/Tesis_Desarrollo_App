@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBar :color="''" :text_color="''" />
+    <NavBar :color="'blue'" :text_color="''" :key="componentKey" />
     <!-- router-view muestra el componente relacionado a la ruta actual en el NavBar estan como se llaman alas rutas -->
     <transition>
       <router-view />
@@ -16,7 +16,9 @@ import Footer from "@/components/Footer.vue";
 import PreLoad from "./components/elements/PreLoad.vue";
 import { mapState } from "vuex";
 import "../public/materialize/js/materialize.min.js";
-import { provide, ref } from 'vue';
+import { provide, reactive, ref, watchEffect } from "vue";
+import { getRol } from "./app/app.js";
+import { useRouter } from "vue-router";
 
 export default {
   name: "App",
@@ -33,33 +35,75 @@ export default {
     return {};
   },
   setup() {
-    
-      const uploadedFiles = ref([]);
+    const rol = ref({});
+    provide("rol", rol);
+    const organitation = ref("Certification System");
+    provide("organitation", organitation);
+   
+
+    const uploadedFiles = ref([]);
     const allHashes = ref([]);
-    const reduceHash =  (hash) =>{
+    const reduceHash = (hash) => {
       console.log(hash);
-      if(hash.length >=9){
-        let newHash=hash[0]+hash[1]+hash[2]+hash[3];
-        newHash=newHash+"..."+hash[hash.length-4]+hash[hash.length-3]+hash[hash.length-2]+hash[hash.length-1];
+      if (hash.length >= 9) {
+        let newHash = hash[0] + hash[1] + hash[2] + hash[3];
+        newHash =
+          newHash +
+          "..." +
+          hash[hash.length - 4] +
+          hash[hash.length - 3] +
+          hash[hash.length - 2] +
+          hash[hash.length - 1];
         return newHash;
       }
       return "";
-    }
-    
+    };
+
     provide("reduceHash", reduceHash);
     provide("uploadedFiles", uploadedFiles);
     provide("allHashes", allHashes);
-     const documentsArray = ref({});
+    const documentsArray = ref({});
     provide("documentsArray", documentsArray);
-     let documentEdit = ref({});
+    let documentEdit = ref({});
     provide("documentEdit", documentEdit);
-
-    return { uploadedFiles, allHashes ,documentsArray,reduceHash};
-
+    
+    return {
+      organitation,
+      rol,
+      uploadedFiles,
+      allHashes,
+      documentsArray,
+      reduceHash,
+    };
+  },
+  methods: {
+    componentKey() {
+      this.rol = this.rol;
+    },
   },
   mounted() {
-    console.log("adasd");
-    console.log(M);
+    let router = useRouter();
+    console.log(router);
+
+    window.ethereum.on("accountsChanged", function (accounts) {
+      getRol().then((x) => {
+        console.log("cambio?" + x);
+        if (x != "OWNER") {
+          router.push({ name: "Home" });
+        }
+        this.rol = x;
+        location.reload();
+      });
+    });
+
+    getRol().then((x) => {
+      this.rol = x;
+      //cambiar esto porque carga infinitamente
+      if (x != "OWNER" && x != "OWNER_AREA") {
+        router.push({ name: "Home" });
+      }
+    });
+
     //Activar animaciones
     // M.AutoInit();
     //animacion para setting
@@ -89,12 +133,31 @@ export default {
   color: #2c3e50;
 }
 
-#nav a.router-link-exact-active {
+/* #nav a.router-link-exact-active {
   color: #42b983;
-}
+} */
 body {
-  background-color: lightblue;
+  background-color: #E0FFFF;
+
+  /* background-color: rgb(221, 218, 126); */
 }
+.card-title, .card-action , .pagination , nav, footer,.tab-verify,.modal-footer {
+  background-color: #20B2AA  !important;
+  font-size: 15px;
+  /* background-color: rgb(221, 218, 126); */
+}
+.card , .modal {
+    background-color: #AFEEEE  !important;
+}
+label {
+  color: black !important;
+}
+
+.selec{
+  
+  border: 2px solid black;
+}
+
 </style>
 <style>
 @import "../public/materialize/css/materialize.min.css";

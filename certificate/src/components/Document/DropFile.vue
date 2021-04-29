@@ -7,7 +7,20 @@
         {{file.fileName + ' '+file.hash}}
       </li>
     </ul> -->
-    <input type="file" multiple name="" @change="changeFiles" id="" />
+
+    <div class="file-field input-field">
+      <div class="btn">
+        <span >Documents</span>
+        <input type="file" multiple name="" @change="changeFiles" id="" />
+      </div>
+      <div class="file-path-wrapper">
+        <input
+          class="file-path validate black-text"
+          type="text"
+          placeholder=""
+        />
+      </div>
+    </div>
     <ul>
       <li>
         {{ loadingFile + "/" + cantFile }}

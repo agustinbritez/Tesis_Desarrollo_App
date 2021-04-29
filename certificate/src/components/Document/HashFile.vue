@@ -7,7 +7,8 @@
         {{file.fileName + ' '+file.hash}}
       </li>
     </ul> -->
-    <input type="file" multiple name="" @change="changeFiles" id="" />
+    <button class="btn-small" @click="activeUp()">Up Version</button>
+    <input  hidden type="file" multiple name="" @change="changeFiles" id="fileHash" />
     <p>{{ allHashes.length > 0 ? "Exist" : "No Exist" }}</p>
   </div>
 </template>
@@ -46,6 +47,9 @@ export default {
     this.loading = true;
   },
   methods: {
+    activeUp(){
+      document.getElementById('fileHash').click();
+    },
     changeFiles(event) {
       this.loadingFile = 0;
       this.cantFile = event.target.files.length;
