@@ -138,6 +138,7 @@ export default {
 } */
 body {
   background-color: #E0FFFF;
+  /* background-color: #40592c; */
 
   /* background-color: rgb(221, 218, 126); */
 }

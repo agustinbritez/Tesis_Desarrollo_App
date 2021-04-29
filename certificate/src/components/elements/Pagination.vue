@@ -1,30 +1,30 @@
 <template>
   <div>
-    <ul class="pagination">
+    <ul class="pagination ">
       <li class="" v-if="pagination.current_page > 1">
         <a href="#!"
           ><i
-            class="material-icons"
+            class="material-icons "
             @click.prevent="cambiarPagina(pagination.current_page - 1)"
             >chevron_left</i
           ></a
         >
       </li>
       <li
-        class="waves-effect "
+        class="waves-effect grey  "
         v-for="(from, index) in pagesNumber"
         :key="from"
         :class="[index + 1 == isActived ? 'active' : '']"
       >
         <a
-          class="page-link"
+          class="page-link "
           href="#"
           @click.prevent="cambiarPagina(index + 1)"
           v-text="index + 1"
         ></a>
       </li>
       <li
-        class="waves-effect"
+        class="waves-effect "
         v-if="pagination.current_page < pagination.total"
       >
         <a
