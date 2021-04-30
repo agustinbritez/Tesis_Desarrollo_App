@@ -24,7 +24,7 @@
               <th>ID Area</th>
               <th>Start Event</th>
               <th class="hide-on-med-and-down">End Event</th>
-              <th class="hide-on-med-and-down">Cant Documents</th>
+              <th class="hide-on-med-and-down">Num Documents</th>
               <th>Actions</th>
             </tr>
           </thead>
