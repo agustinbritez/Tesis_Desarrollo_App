@@ -36,7 +36,12 @@ export async function getAllEventsOneArea(_area_id, _from = 0, _to = -1, miContr
                 return result;
             });
             if (_event.state_id > 0) {
+                var cant = await miContrato.methods.getCantDocumentEvent(_event_id).call((err, result) => {
+                    result;
+                });
 
+                _event.value = _event.id;
+                _event.cantDocument = cant;
                 events.push(_event);
             }
         }
@@ -88,9 +93,12 @@ export async function getAllEvents(miContrato) {
                 });
 
                 if (_event.state_id > 0) {
+                    var cant = await miContrato.methods.getCantDocumentEvent(_event_id).call((err, result) => {
+                        result;
+                    });
 
-                 
                     _event.value = _event.id;
+                    _event.cantDocument = cant;
                     events.push(_event);
                 }
             }
