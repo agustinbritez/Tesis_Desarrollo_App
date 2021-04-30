@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="card  ">
-      <div class="card-title   ">
+    <div class="card">
+      <div class="card-title">
         <h1 class="tile">Areas</h1>
         <!-- filter -->
         <div></div>
@@ -70,7 +70,7 @@
           :nameModal="nameModal"
         />
       </div>
-      <div class="card-action   ">
+      <div class="card-action">
         <Pagination />
       </div>
     </div>
@@ -186,6 +186,7 @@ export default {
       this.areaEdit.name = areaEdit.name;
       this.areaEdit.id = areaEdit.id;
       this.areaEdit.description = areaEdit.description;
+      this.areaEdit.state_id = areaEdit.state_id;
 
       var elem = document.getElementById(this.modalEdit);
       // console.log('areaEdit2'+this.areaEdit);
@@ -200,7 +201,7 @@ export default {
       this.areaEdit.id = 0;
       this.areaEdit.description = "";
       this.areaEdit.owner = "";
-
+      this.areaEdit.state_id = 0;
       var elem = document.getElementById(this.modalEdit);
       // console.log('areaEdit2'+this.areaEdit);
       var modalInstance = M.Modal.getInstance(elem);

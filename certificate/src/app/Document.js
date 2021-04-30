@@ -226,6 +226,8 @@ export async function getDocuments(hashes, uploadedFiles, miContrato) {
                 .call((err, result) => result);
             document.event = await miContrato.methods.getEvent(document.event_id)
                 .call((err, result) => result);
+            document.area = await miContrato.methods.getArea( document.event.area_id)
+                .call((err, result) => result);
             documentsExists.push(document);
         } else {
             document.idHash = hashes[i];

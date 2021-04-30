@@ -24,6 +24,18 @@
                 >
               </div>
             </div>
+            <!-- <div class="row">
+              <div class="input-field col s12">
+                <input
+                  id="newDocument"
+                  type="text"
+                  v-model="documentEdit.newDocument"
+                />
+                <label for="newDocument" :class="{ active: actionEdit }"
+                  >New Version</label
+                >
+              </div>
+            </div> -->
 
             <div class="row">
               <div class="input-field col s6">

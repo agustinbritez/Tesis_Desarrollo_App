@@ -39,7 +39,6 @@ export default {
     provide("rol", rol);
     const organitation = ref("Certification System");
     provide("organitation", organitation);
-   
 
     const uploadedFiles = ref([]);
     const allHashes = ref([]);
@@ -66,7 +65,7 @@ export default {
     provide("documentsArray", documentsArray);
     let documentEdit = ref({});
     provide("documentEdit", documentEdit);
-    
+
     return {
       organitation,
       rol,
@@ -83,13 +82,18 @@ export default {
   },
   mounted() {
     let router = useRouter();
-    console.log(router);
+    console.log(router.currentRoute.value.name);
 
     window.ethereum.on("accountsChanged", function (accounts) {
       getRol().then((x) => {
         console.log("cambio?" + x);
-        if (x != "OWNER") {
-          router.push({ name: "Home" });
+        if (x != "OWNER" && x != "OWNER_AREA") {
+          if (
+            router.currentRoute.value.name != "Home" &&
+            router.currentRoute.value.name != "FindDocument"
+          ) {
+            router.push({ name: "Home" });
+          }
         }
         this.rol = x;
         location.reload();
@@ -100,7 +104,12 @@ export default {
       this.rol = x;
       //cambiar esto porque carga infinitamente
       if (x != "OWNER" && x != "OWNER_AREA") {
-        router.push({ name: "Home" });
+        if (
+          router.currentRoute.value.name != "Home" &&
+          router.currentRoute.value.name != "FindDocument"
+        ) {
+          router.push({ name: "Home" });
+        }
       }
     });
 
@@ -137,28 +146,33 @@ export default {
   color: #42b983;
 } */
 body {
-  background-color: #E0FFFF;
+  background-color: #e0ffff;
   /* background-color: #40592c; */
 
   /* background-color: rgb(221, 218, 126); */
 }
-.card-title, .card-action , .pagination , nav, footer,.tab-verify,.modal-footer {
-  background-color: #20B2AA  !important;
+.card-title,
+.card-action,
+.pagination,
+nav,
+footer,
+.tab-verify,
+.modal-footer {
+  background-color: #20b2aa !important;
   font-size: 15px;
   /* background-color: rgb(221, 218, 126); */
 }
-.card , .modal {
-    background-color: #AFEEEE  !important;
+.card,
+.modal {
+  background-color: #afeeee !important;
 }
 label {
   color: black !important;
 }
 
-.selec{
-  
+.selec {
   border: 2px solid black;
 }
-
 </style>
 <style>
 @import "../public/materialize/css/materialize.min.css";

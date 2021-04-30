@@ -33,11 +33,11 @@
               :key="document.idHash"
               class="row"
             >
-              <td>{{ document.idHash }}</td>
+              <td>{{ reduceHash(document.idHash) }}</td>
               <td>{{ document.state.name }}</td>
               <td class="hide-on-med-and-down">{{ document.reasonState }}</td>
               <td>{{ document.event_id }}</td>
-              <td class="hide-on-med-and-down">{{ document.newDocument }}</td>
+              <td class="hide-on-med-and-down">{{ reduceHash(document.newDocument) }}</td>
               <td>
                 <div class="row">
                   <!-- <router-link
@@ -134,6 +134,7 @@ export default {
   },
   setup(props) {
     let documentEdit = inject("documentEdit");
+    const reduceHash = inject("reduceHash");
     let documentsArray = ref([]);
 
     let pagination = ref({
@@ -188,6 +189,7 @@ export default {
     return {
       deleteElement,
       loadList,
+      reduceHash,
       documentEdit,
       listDocuments,
       documentsArray,

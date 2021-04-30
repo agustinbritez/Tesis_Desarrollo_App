@@ -222,56 +222,49 @@
       <div class="modal-content">
         <div class="container left-align">
           <div class="row">
-            <div class="input-field">
-              <p>Hash : {{ viewDocument.idHash }}</p>
+            <div class="input-field col s12">
+              <p>Hash</p>
+              <input
+                readonly
+                v-model="viewDocument.idHash"
+                type="text"
+                class="validate"
+                placeholder="Placeholder"
+              />
             </div>
           </div>
           <div class="row">
-            <div class="input-field">
-              <p>
-                Event :
-                {{
-                  viewDocument.event.name + " (" + viewDocument.event.id + ")"
-                }}
-              </p>
+            <div class="input-field col s4">
+              <p>File Name</p>
+              <input
+                readonly
+                v-model="viewDocument.fileName"
+                type="text"
+                class="validate"
+              />
             </div>
-            <div class="input-field">
-              <p>
-                Event Start :
-                {{ viewDocument.event.startEvent || "Without  Event Start" }}
-              </p>
+            <div class="input-field col s4">
+              <p>State</p>
+              <input
+                readonly
+                v-model="viewDocument.stateCompleted"
+                type="text"
+                class="validate"
+              />
             </div>
-            <div class="input-field">
-              <p>
-                Event End :
-                {{ viewDocument.event.endEvent || "Without  Event End" }}
-              </p>
+            <div class="input-field col s4">
+              <p>State Reason</p>
+              <input
+                v-model="viewDocument.reasonState"
+                type="text"
+                class="validate"
+              />
             </div>
           </div>
-          <div class="row">
-            <div class="input-field">
+          <div class="input-field row">
+            <div class="col s12">
               <p>
-                File Name :
-                {{ viewDocument.fileName }}
-              </p>
-            </div>
-            <div class="input-field">
-              <p>
-                State :
-                {{
-                  viewDocument.state.name + " (" + viewDocument.state.id + ")"
-                }}
-              </p>
-            </div>
-            <div class="input-field">
-              <p>
-                State Reason :
-                {{ viewDocument.reasonState }}
-              </p>
-            </div>
-            <div class="input-field row">
-              <div class="col">
-                New Version : {{ viewDocument.newDocument }}
+                New Version
                 <a
                   v-if="viewDocument.newDocument"
                   href="#"
@@ -282,26 +275,73 @@
                     >visibility</i
                   ></a
                 >
-              </div>
+              </p>
+              <input
+                readonly
+                v-model="viewDocument.newDocument"
+                type="text"
+                class="validate"
+              />
+            </div>
 
-              <div
-                class="col"
-                v-if="
-                  !viewDocument.newDocument &&
-                  (rol == 'OWNER_AREA' || rol == 'OWNER')
-                "
+            <div
+              class="col"
+              v-if="
+                !viewDocument.newDocument &&
+                (rol == 'OWNER_AREA' || rol == 'OWNER')
+              "
+            >
+              <HashFile />
+            </div>
+            <div class="col">
+              <a
+                v-if="!viewDocument.newDocument && newDocumentHash.length > 0"
+                @click.prevent="assignVersion(viewDocument.idHash)"
+                href="#"
+                class="btn-small blue"
+                >Save</a
               >
-                <HashFile />
-              </div>
-              <div class="col">
-                <a
-                  v-if="newDocumentHash.length > 0"
-                  @click.prevent="assignVersion(viewDocument.idHash)"
-                  href="#"
-                  class="btn-small"
-                  >Save</a
-                >
-              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s4">
+              <p>Event</p>
+              <input
+                readonly
+                v-model="viewDocument.eventCompleted"
+                type="text"
+                class="validate"
+              />
+            </div>
+
+            <div class="input-field col s4">
+              <p>Event Start</p>
+              <input
+                readonly
+                v-model="viewDocument.event.startEvent"
+                type="text"
+                class="validate"
+              />
+            </div>
+            <div class="input-field col s4">
+              <p>Event End</p>
+              <input
+                readonly
+                v-model="viewDocument.event.endEvent"
+                type="text"
+                class="validate"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <p>Area</p>
+              <input
+                readonly
+                v-model="viewDocument.areaCompleted"
+                type="text"
+                class="validate"
+              />
             </div>
           </div>
         </div>
@@ -369,6 +409,7 @@ export default {
       newVersion: "",
       state: {},
       event: {},
+      area: {},
     });
     const assignVersion = async (idHash) => {
       if (newDocumentHash.value.length == 0) {
@@ -385,6 +426,7 @@ export default {
         uploadedFiles.value
       );
       M.toast({ html: "Added new Version", classes: "green" });
+      newDocumentHash.value = [];
       var elem = document.getElementById("verifyModal");
       var modalInstance3 = M.Modal.getInstance(elem);
       if (modalInstance3.isOpen) {
@@ -467,9 +509,17 @@ export default {
       this.viewDocument.idHash = doc.idHash;
       this.viewDocument.state = doc.state;
       this.viewDocument.event = doc.event;
+      this.viewDocument.area = doc.area;
       this.viewDocument.reasonState = doc.reasonState;
       this.viewDocument.fileName = doc.fileName;
       this.viewDocument.newDocument = doc.newDocument;
+      this.viewDocument.eventCompleted =
+        this.viewDocument.event.name + " (" + this.viewDocument.event.id + ")";
+      this.viewDocument.stateCompleted =
+        this.viewDocument.state.name + " (" + this.viewDocument.state.id + ")";
+      this.viewDocument.areaCompleted =
+        this.viewDocument.area.name + " (" + this.viewDocument.area.id + ")";
+
       var elem = document.getElementById("verifyModal");
       var modalInstance3 = M.Modal.getInstance(elem);
       if (modalInstance3.isOpen) {
@@ -489,6 +539,12 @@ export default {
       this.viewDocument.reasonState = d.documentsExists[0].reasonState;
       this.viewDocument.fileName = d.documentsExists[0].fileName;
       this.viewDocument.newDocument = d.documentsExists[0].newDocument;
+      this.viewDocument.eventCompleted =
+        this.viewDocument.event.name + " (" + this.viewDocument.event.id + ")";
+      this.viewDocument.stateCompleted =
+        this.viewDocument.state.name + " (" + this.viewDocument.state.id + ")";
+      this.viewDocument.areaCompleted =
+        this.viewDocument.area.name + " (" + this.viewDocument.area.id + ")";
       var elem = document.getElementById("verifyModal");
       var modalInstance3 = M.Modal.getInstance(elem);
       if (modalInstance3.isOpen) {
