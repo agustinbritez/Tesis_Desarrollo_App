@@ -1,4 +1,10 @@
-export async function addDocuments(arrayHash, _event_id, _state_id, _reasonState, miContrato) {
+export async function addDocuments(arrayHash, _event_id, _state_id, _reasonState, _expiration = 0, miContrato) {
+    if (_expiration && (typeof (_expiration) == "string")) {
+        _expiration = new Date(_expiration);
+        _expiration= _expiration.getTime();
+    } else {
+        _expiration = 0;
+    }
 
     // const _startDate = new Date(startDate,'yyy/m/d H:m:s');
     const accounts = await ethereum.request({
@@ -13,7 +19,8 @@ export async function addDocuments(arrayHash, _event_id, _state_id, _reasonState
             arrayHash,
             _event_id,
             _state_id,
-            _reasonState
+            _reasonState,
+            _expiration
         )
         .send({
                 from: account,
@@ -24,8 +31,15 @@ export async function addDocuments(arrayHash, _event_id, _state_id, _reasonState
         );
     return true;
 }
-export async function editDocuments(arrayHash, _event_id, _state_id, _reasonState, miContrato) {
+export async function editDocuments(arrayHash, _event_id, _state_id, _reasonState, _expiration = 0, miContrato) {
+    if (_expiration && (typeof (_expiration) == "string")) {
+        console.log(_expiration,'expiration')
+        _expiration = new Date(_expiration);
+        _expiration= _expiration.getTime();
 
+    } else {
+        _expiration = 0;
+    }
     // const _startDate = new Date(startDate,'yyy/m/d H:m:s');
     const accounts = await ethereum.request({
         method: "eth_requestAccounts",
@@ -40,7 +54,8 @@ export async function editDocuments(arrayHash, _event_id, _state_id, _reasonStat
             arrayHash,
             _event_id,
             _state_id,
-            _reasonState
+            _reasonState,
+            _expiration
         )
         .send({
                 from: account,
@@ -221,12 +236,17 @@ export async function getDocuments(hashes, uploadedFiles, miContrato) {
         document.fileName = uploadedFiles[i].fileName;
         if (document.idHash.length > 0) {
             document.exists = true;
-
+            if(parseInt(document.expiration) > 0){
+                document.expiration= new Date(parseInt(document.expiration));
+                // document.expiration= document.expiration.toLocaleDateString() ;
+            }else{
+                document.expiration='';  
+            }
             document.state = await miContrato.methods.getState(document.state_id)
                 .call((err, result) => result);
             document.event = await miContrato.methods.getEvent(document.event_id)
                 .call((err, result) => result);
-            document.area = await miContrato.methods.getArea( document.event.area_id)
+            document.area = await miContrato.methods.getArea(document.event.area_id)
                 .call((err, result) => result);
             documentsExists.push(document);
         } else {

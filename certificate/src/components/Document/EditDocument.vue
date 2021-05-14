@@ -40,7 +40,7 @@
             <div class="row">
               <div class="input-field col s6">
                 <Multiselect
-                class="selec"
+                  class="selec"
                   v-model="documentEdit.state_id"
                   :options="statesSelect"
                   label="name"
@@ -54,7 +54,7 @@
             <div class="row">
               <div class="input-field col s6">
                 <Multiselect
-                class="selec"
+                  class="selec"
                   v-model="documentEdit.event_id"
                   :options="eventSelect"
                   label="name"
@@ -63,6 +63,17 @@
                   :disabled="disabledInput"
                   :searchable="true"
                 />
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s6">
+                <input
+                  id="expiration"
+                  type="datetime-local"
+                  class="form-control"
+                  v-model="documentEdit.expiration"
+                />
+                <label for="expiration" class="active">Expiration</label>
               </div>
             </div>
           </form>
@@ -118,7 +129,7 @@ export default {
     const documentChang = inject("documentChang");
     const loadList = inject("loadList");
 
-    return { documentEdit, loadList,documentChang };
+    return { documentEdit, loadList, documentChang };
   },
   methods: {
     async getStatesAll() {
@@ -138,17 +149,18 @@ export default {
       var elem = document.getElementById(this.modalName);
       var modalInstance = M.Modal.getInstance(elem);
       modalInstance.close();
-     
-        //edit
-        await AppWeb3.editDocuments(
-          [this.documentEdit.idHash],
-          this.documentEdit.event_id,
-          this.documentEdit.state_id,
-          this.documentEdit.reasonState
-        );
-        this.documentChang=!this.documentChang;
-        M.toast({ html: Menssage.updated(), classes: "green accent-3" });
-      
+
+      //edit
+      await AppWeb3.editDocuments(
+        [this.documentEdit.idHash],
+        this.documentEdit.event_id,
+        this.documentEdit.state_id,
+        this.documentEdit.reasonState,
+        this.documentEdit.expiration
+
+      );
+      this.documentChang = !this.documentChang;
+      M.toast({ html: Menssage.updated(), classes: "green accent-3" });
 
       this.loadList = !this.loadList;
     },

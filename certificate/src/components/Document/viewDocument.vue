@@ -47,16 +47,16 @@
         </a> -->
       </div>
       <div class="row" v-if="rol == 'OWNER_AREA' || rol == 'OWNER'">
-        <!-- <div class="input-field col s4">
+        <div class="input-field col s4">
           <input
-            id="startEvent"
+            id="expiration"
             type="datetime-local"
             class="form-control"
-            v-model="startEvent"
+            v-model="expiration"
           />
-          <label for="startEvent" class="active">Start Event</label>
+          <label for="expiration" class="active">Expiration</label>
         </div>
-        <div class="input-field col s4">
+        <!-- <div class="input-field col s4">
           <input
             id="endEvent"
             type="datetime-local"
@@ -65,7 +65,7 @@
           />
           <label for="endEvent" class="active">End Event</label>
         </div> -->
-        <div class="input-field col s12">
+        <div class="input-field col s8">
           <input type="text" name="" id="reasonState" v-model="reasonState" />
           <label for="reasonState" class="active">State Reason</label>
         </div>
@@ -243,11 +243,20 @@
                 class="validate"
               />
             </div>
-            <div class="input-field col s4">
+            <div class="input-field col s2">
               <p>State</p>
               <input
                 readonly
                 v-model="viewDocument.stateCompleted"
+                type="text"
+                class="validate"
+              />
+            </div>
+            <div class="input-field col s2">
+              <p>Due Date</p>
+              <input
+                readonly
+                v-model="viewDocument.expiration"
                 type="text"
                 class="validate"
               />
@@ -407,6 +416,7 @@ export default {
       state_id: 0,
       reasonState: "",
       newVersion: "",
+      expiration:"",
       state: {},
       event: {},
       area: {},
@@ -442,6 +452,7 @@ export default {
       );
       // console.log(documentsArray.value);
     });
+    
 
     return {
       uploadedFiles,
@@ -466,6 +477,7 @@ export default {
       eventsSelect: [],
       areasSelect: [],
       startEvent: "",
+      expiration: "",
       endEvent: "",
       actionEdit: true,
       nameModal: "Edit Document",
@@ -474,11 +486,16 @@ export default {
   },
   methods: {
     openModalEdit(documentEdit) {
+      this.documentEdit.expiration = "";
       this.documentEdit.idHash = documentEdit.idHash;
       this.documentEdit.state_id = documentEdit.state_id;
       this.documentEdit.reasonState = documentEdit.reasonState;
       this.documentEdit.event_id = documentEdit.event_id;
       this.documentEdit.newDocument = documentEdit.newDocument;
+      if (documentEdit.expiration) {
+        this.documentEdit.expiration = documentEdit.expiration.toISOString().slice(0,19);
+        // console.log(documentEdit.expiration.toISOString().slice(0,19),'Exirpatio2');
+      }
 
       var elem = document.getElementById(this.modalEdit);
       // console.log('documentEdit2'+this.documentEdit);
@@ -506,12 +523,17 @@ export default {
       // console.log(idhash, filename);
       // let d = await AppWeb3.getDocuments([idhash], [{ fileName: filename }]);
       // console.log(d.documentsExists[0]);
+      this.viewDocument.expiration = "";
       this.viewDocument.idHash = doc.idHash;
       this.viewDocument.state = doc.state;
       this.viewDocument.event = doc.event;
       this.viewDocument.area = doc.area;
       this.viewDocument.reasonState = doc.reasonState;
       this.viewDocument.fileName = doc.fileName;
+
+      if (doc.expiration != "") {
+        this.viewDocument.expiration = doc.expiration.toLocaleDateString();
+      }
       this.viewDocument.newDocument = doc.newDocument;
       this.viewDocument.eventCompleted =
         this.viewDocument.event.name + " (" + this.viewDocument.event.id + ")";
@@ -533,9 +555,13 @@ export default {
       // console.log(idhash, filename);
       let d = await AppWeb3.getDocuments([idhash], [{ fileName: "" }]);
       // console.log(d.documentsExists[0]);
+      this.viewDocument.expiration = "";
       this.viewDocument.idHash = d.documentsExists[0].idHash;
       this.viewDocument.state = d.documentsExists[0].state;
       this.viewDocument.event = d.documentsExists[0].event;
+      if (d.documentsExists[0].expiration != "") {
+        this.viewDocument.expiration = d.documentsExists[0].expiration.toISOString();
+      }
       this.viewDocument.reasonState = d.documentsExists[0].reasonState;
       this.viewDocument.fileName = d.documentsExists[0].fileName;
       this.viewDocument.newDocument = d.documentsExists[0].newDocument;
@@ -576,7 +602,8 @@ export default {
           this.allHashes,
           this.event_id,
           this.state_id,
-          this.reasonState
+          this.reasonState,
+          this.expiration
         );
         this.documentChang = !this.documentChang;
         M.toast({ html: "Added", classes: "green" });
@@ -585,7 +612,8 @@ export default {
           this.allHashes,
           this.event_id,
           this.state_id,
-          this.reasonState
+          this.reasonState,
+          this.expiration
         );
         this.documentChang = !this.documentChang;
         M.toast({ html: "Updated", classes: "green" });

@@ -80,11 +80,11 @@ export async function getStatesAll() {
 }
 
 //**************************** Document ********************************** */
-export async function addDocuments(arrayDocuments, _event_id, _state_id, __reasonState) {
-    return await Document.addDocuments(arrayDocuments, _event_id, _state_id, __reasonState, miContrato);
+export async function addDocuments(arrayDocuments, _event_id, _state_id, __reasonState,_expiration = 0) {
+    return await Document.addDocuments(arrayDocuments, _event_id, _state_id, __reasonState,_expiration, miContrato);
 }
-export async function editDocuments(arrayDocuments, _event_id, _state_id, __reasonState) {
-    return await Document.editDocuments(arrayDocuments, _event_id, _state_id, __reasonState, miContrato);
+export async function editDocuments(arrayDocuments, _event_id, _state_id, __reasonState,_expiration = 0) {
+    return await Document.editDocuments(arrayDocuments, _event_id, _state_id, __reasonState,_expiration , miContrato);
 }
 
 export async function checkDocuments(arrayHashes, arrayDocuments) {

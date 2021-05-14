@@ -18,6 +18,11 @@ export const CONST_ABI = [{
 				"internalType": "string",
 				"name": "_reasonState",
 				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_expiration",
+				"type": "uint256"
 			}
 		],
 		"name": "addAllDocumentsEvent",
@@ -67,6 +72,11 @@ export const CONST_ABI = [{
 				"internalType": "string",
 				"name": "_reasonState",
 				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_expiration",
+				"type": "uint256"
 			}
 		],
 		"name": "addDocumentEvent",
@@ -190,6 +200,11 @@ export const CONST_ABI = [{
 				"internalType": "string",
 				"name": "_reasonState",
 				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_expiration",
+				"type": "uint256"
 			}
 		],
 		"name": "editAllDocumentsEvent",
@@ -501,6 +516,11 @@ export const CONST_ABI = [{
 				"type": "string"
 			},
 			{
+				"internalType": "uint256",
+				"name": "expiration",
+				"type": "uint256"
+			},
+			{
 				"internalType": "string",
 				"name": "newDocument",
 				"type": "string"
@@ -701,5 +721,26 @@ export const CONST_ABI = [{
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerArea",
+		"outputs": [{
+			"internalType": "uint256",
+			"name": "",
+			"type": "uint256"
+		}],
+		"stateMutability": "view",
+		"type": "function"
 	}
-];
+]

@@ -37,6 +37,8 @@ contract systemDocument {
         string idHash;
         uint256 state_id;
         uint256 event_id;
+        //date of expired timestamp
+        uint256 expiration;
         string reasonState;
         //new Version of document
         string newDocument;
@@ -80,9 +82,11 @@ contract systemDocument {
 
         State memory _state = State(0, "deleted", "deleted");
         State memory _state2 = State(1, "actived", "actived");
+        State memory _state3 = State(2, "expired", "expired");
 
         states.push(_state);
         states.push(_state2);
+        states.push(_state3);
         string[] memory str;
         Event memory _event = Event(0, "null", "null", 0, "", "", zero.id, str);
         events.push(_event);
@@ -280,7 +284,8 @@ contract systemDocument {
         string memory _idHash,
         uint256 _event_id,
         uint256 _state_id,
-        string memory _reasonState
+        string memory _reasonState,
+        uint256  _expiration
     ) public payable {
         require(
             (areas[events[_event_id].area_id].ownerArea == msg.sender) ||
@@ -291,7 +296,7 @@ contract systemDocument {
         require(bytes(documents[_idHash].idHash).length == 0);
 
         Document memory _newDocument =
-            Document(_idHash, _state_id, _event_id, _reasonState, "");
+            Document(_idHash, _state_id, _event_id,_expiration, _reasonState, "");
         documents[_idHash] = _newDocument;
         events[_event_id].idDocuments.push(_idHash);
     }
@@ -300,7 +305,9 @@ contract systemDocument {
         string[] memory hashid,
         uint256 _event_id,
         uint256 _state_id,
-        string memory _reasonState
+        string memory _reasonState,
+                uint256  _expiration
+
     ) public payable {
         require(
             (areas[events[_event_id].area_id].ownerArea == msg.sender) ||
@@ -314,7 +321,7 @@ contract systemDocument {
             tempEmptyStringTest = bytes(documents[hashid[i]].idHash);
             if (tempEmptyStringTest.length == 0) {
                 Document memory _newDocument =
-                    Document(hashid[i], _state_id, _event_id, _reasonState, "");
+                    Document(hashid[i], _state_id, _event_id,_expiration, _reasonState, "");
                 documents[hashid[i]] = _newDocument;
                 events[_event_id].idDocuments.push(hashid[i]);
             }
@@ -325,7 +332,8 @@ contract systemDocument {
         string[] memory hashid,
         uint256 _event_id,
         uint256 _state_id,
-        string memory _reasonState
+        string memory _reasonState,
+       uint256 _expiration
     ) public payable {
         require(
             (areas[events[_event_id].area_id].ownerArea == msg.sender) ||
@@ -379,6 +387,7 @@ contract systemDocument {
             documents[hashid[i]].state_id = _state_id;
 
             documents[hashid[i]].reasonState = _reasonState;
+            documents[hashid[i]].expiration = _expiration;
         }
     }
 
@@ -539,6 +548,8 @@ contract systemDocument {
             uint256 state_id,
             uint256 event_id,
             string memory reasonState,
+
+            uint256 expiration,
             string memory newDocument
         )
     {
@@ -547,6 +558,7 @@ contract systemDocument {
             documents[_idHash].state_id,
             documents[_idHash].event_id,
             documents[_idHash].reasonState,
+            documents[_idHash].expiration,
             documents[_idHash].newDocument
         );
     }
