@@ -8,7 +8,7 @@
     <!-- Modal Structure -->
     <div :id="modalName" class="modal">
       <div class="modal-content">
-        <h5>{{ "Delete " + nameModal }}</h5>
+        <h5>{{ "Eliminar " + nameModal }}</h5>
         <hr />
         <div class="row">
           {{ menssage }}
@@ -29,7 +29,7 @@
             <a
               href="#!"
               class="modal-close waves-effect waves-red btn-flat"
-              >Cancel</a
+              >Cancelar</a
             >
           </div>
         </div>

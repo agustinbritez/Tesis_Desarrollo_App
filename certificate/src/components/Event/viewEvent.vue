@@ -3,7 +3,7 @@
     <div class="container">
       <div class="card  ">
         <div class="card-title   ">
-          <h1 class="tile">Event {{ " ID: " + eventView.id + "" }}</h1>
+          <h1 class="tile">Evento {{ " ID: " + eventView.id + "" }}</h1>
           <!-- filter -->
           <div></div>
         </div>
@@ -30,7 +30,7 @@
                       v-model="eventAux.name"
                     />
 
-                    <label for="name" class="active">Name</label>
+                    <label for="name" class="active">Nombre</label>
                   </div>
                 </div>
                 <div class="row">
@@ -42,7 +42,7 @@
                       v-model="eventAux.description"
                       :disabled="disabledInput"
                     ></textarea>
-                    <label for="description" class="active"> Description</label>
+                    <label for="description" class="active"> Descripción</label>
                   </div>
                 </div>
                 <div class="row">
@@ -54,7 +54,7 @@
                       :disabled="disabledInput"
                       v-model="eventAux.startEvent"
                     />
-                    <label for="startEvent" class="active">Start Event</label>
+                    <label for="startEvent" class="active">Inicio del Evento</label>
                   </div>
                   <div class="input-field col s6">
                     <input
@@ -64,7 +64,7 @@
                       :disabled="disabledInput"
                       v-model="eventAux.endEvent"
                     />
-                    <label for="endEvent" class="active">End Event</label>
+                    <label for="endEvent" class="active">Final del Evento</label>
                   </div>
                 </div>
                 <div class="row">
@@ -79,7 +79,7 @@
                       :disabled="disabledInput"
                       :searchable="true"
                     />
-                    <label for="state" class="active"> State</label>
+                    <label for="state" class="active"> Estado </label>
                   </div>
                   <div class="input-field col s6">
                     <Multiselect
@@ -92,7 +92,7 @@
                       :disabled="disabledInput"
                       :searchable="true"
                     />
-                    <label for="area_id" class="active"> Area</label>
+                    <label for="area_id" class="active"> Área</label>
                   </div>
                 </div>
                 
@@ -104,11 +104,11 @@
           <div class="row">
             <div class="col s6">
               <button
-                class="btn"
+                class="btn indigo lighten-1"
                 @click.prevent="saveEdit()"
                 :disabled="disabledInput"
               >
-                Save
+                Guardar
               </button>
             </div>
             <div class="col s6">
@@ -117,7 +117,7 @@
                 @click.prevent="cancelEdit()"
                 :disabled="disabledInput"
               >
-                Cancel
+                Cancelar
               </button>
             </div>
           </div>

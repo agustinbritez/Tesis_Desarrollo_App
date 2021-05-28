@@ -1,4 +1,9 @@
 export const CONST_ABI = [{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
 		"inputs": [{
 				"internalType": "string[]",
 				"name": "hashid",
@@ -182,6 +187,36 @@ export const CONST_ABI = [{
 	},
 	{
 		"inputs": [{
+			"internalType": "string",
+			"name": "_idHash",
+			"type": "string"
+		}],
+		"name": "checkDocument",
+		"outputs": [{
+			"internalType": "bool",
+			"name": "",
+			"type": "bool"
+		}],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "string[]",
+			"name": "idHashes",
+			"type": "string[]"
+		}],
+		"name": "checkDocuments",
+		"outputs": [{
+			"internalType": "bool[]",
+			"name": "",
+			"type": "bool[]"
+		}],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
 				"internalType": "string[]",
 				"name": "hashid",
 				"type": "string[]"
@@ -331,69 +366,6 @@ export const CONST_ABI = [{
 			}
 		],
 		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-				"internalType": "string",
-				"name": "_idHash_old",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_idHash_new",
-				"type": "string"
-			}
-		],
-		"name": "newVersionDocument",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-			"internalType": "string",
-			"name": "org",
-			"type": "string"
-		}],
-		"name": "setOrganitation",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [{
-			"internalType": "string",
-			"name": "_idHash",
-			"type": "string"
-		}],
-		"name": "checkDocument",
-		"outputs": [{
-			"internalType": "bool",
-			"name": "",
-			"type": "bool"
-		}],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [{
-			"internalType": "string[]",
-			"name": "idHashes",
-			"type": "string[]"
-		}],
-		"name": "checkDocuments",
-		"outputs": [{
-			"internalType": "bool[]",
-			"name": "",
-			"type": "bool[]"
-		}],
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -724,6 +696,23 @@ export const CONST_ABI = [{
 	},
 	{
 		"inputs": [{
+				"internalType": "string",
+				"name": "_idHash_old",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_idHash_new",
+				"type": "string"
+			}
+		],
+		"name": "newVersionDocument",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [{
 				"internalType": "address",
 				"name": "",
 				"type": "address"
@@ -741,6 +730,17 @@ export const CONST_ABI = [{
 			"type": "uint256"
 		}],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{
+			"internalType": "string",
+			"name": "org",
+			"type": "string"
+		}],
+		"name": "setOrganitation",
+		"outputs": [],
+		"stateMutability": "payable",
 		"type": "function"
 	}
 ]

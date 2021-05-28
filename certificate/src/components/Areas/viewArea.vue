@@ -3,7 +3,7 @@
     <div class="container">
       <div class="card  ">
         <div class="card-title   ">
-          <h1 class="tile">Area {{ " ID: " + areaView.id + "" }}</h1>
+          <h1 class="tile">Área {{ " ID: " + areaView.id + "" }}</h1>
           <!-- filter -->
           <div></div>
         </div>
@@ -21,7 +21,7 @@
                       data-length="100"
                       v-model="areaAux.owner"
                     />
-                    <label for="owner" class="active">Area Owner </label>
+                    <label for="owner" class="active">Propietario del Área </label>
                   </div>
                   <div class="col s2">
                     <a href="#" @click.prevent="cambiarOwner()">
@@ -34,7 +34,7 @@
                       @click.prevent="saveOwner()"
                       :disabled="disabledOwner"
                     >
-                      Save
+                      Guardar
                     </button>
                   </div>
                 </div>
@@ -57,7 +57,7 @@
                       v-model="areaAux.name"
                     />
 
-                    <label for="name" class="active">Name</label>
+                    <label for="name" class="active">Nombre</label>
                   </div>
                 </div>
                 <div class="row">
@@ -82,7 +82,7 @@
                       :disabled="disabledInput"
                       v-model="areaAux.description"
                     ></textarea>
-                    <label for="description" class="active"> Description</label>
+                    <label for="description" class="active"> Descripción</label>
                   </div>
                 </div>
               </form>

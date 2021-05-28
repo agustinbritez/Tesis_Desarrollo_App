@@ -139,8 +139,13 @@ export async function editEvent(_event_id, _name, _description, startDate, endDa
         method: "eth_requestAccounts",
     });
     const account = accounts[0];
-
-    const _id_event = await miContrato.methods
+    let countDocuments = await miContrato.methods.getDocumentsOfEvent(_event_id).call((err, result) => {
+        // console.log(result);
+        return result;
+    });
+    
+    if(countDocuments == 0){
+        const _id_event = await miContrato.methods
         .editEventFull(
             _event_id,
             _name,
@@ -155,6 +160,12 @@ export async function editEvent(_event_id, _name, _description, startDate, endDa
             },
             function (error, transactionHash) {}
         );
+        return true;
+    }else{
+        return false;
+    }
+
+    
 }
 
 export async function getLengthEventsOfArea(_area_id, miContrato) {

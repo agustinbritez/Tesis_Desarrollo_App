@@ -10,7 +10,7 @@
 
     <div class="file-field input-field">
       <div class="btn">
-        <span >Documents</span>
+        <span >Documentos</span>
         <input type="file" multiple name="" @change="changeFiles" id="" />
       </div>
       <div class="file-path-wrapper">

@@ -21,15 +21,16 @@
                   data-length="50"
                   v-model="eventEdit.name"
                 />
-                <label for="name" :class="{ active: activeInput }">Name</label>
+                <label for="name" :class="{ active: activeInput }"
+                  >Nombre</label
+                >
               </div>
               <div class="input-field col s6" v-if="showSelectArea">
-
                 <Multiselect
                   v-model="eventEdit.area_id"
                   :options="areasSelect"
                   label="name"
-                  placeholder="Select your Area"
+                  placeholder="Seleccionar un Área"
                   trackBy="name"
                   :searchable="true"
                 />
@@ -45,7 +46,7 @@
                   v-model="eventEdit.description"
                 ></textarea>
                 <label for="description" :class="{ active: activeInput }">
-                  Description</label
+                  Descripción</label
                 >
               </div>
             </div>
@@ -58,7 +59,7 @@
                   class="form-control"
                   v-model="eventEdit.startEvent"
                 />
-                <label for="startEvent" class="active">Start Event</label>
+                <label for="startEvent" class="active">Inicio del Evento</label>
               </div>
 
               <div class="input-field col s6">
@@ -68,7 +69,7 @@
                   class="form-control"
                   v-model="eventEdit.endEvent"
                 />
-                <label for="endEvent" class="active">End Event</label>
+                <label for="endEvent" class="active">Fin del Evento</label>
               </div>
             </div>
           </form>
@@ -102,24 +103,24 @@ import { inject, provide, ref, watchEffect } from "vue";
 
 export default {
   name: "EditEvent",
-  props:{
-     modalName: {
+  props: {
+    modalName: {
       type: String,
-      default: '',
+      default: "",
     },
-     activeInput: {
+    activeInput: {
       type: Boolean,
       default: false,
     },
-     activeInput: {
+    activeInput: {
       type: String,
-      default: 'Event Edit',
+      default: "Event Edit",
     },
-     showSelectArea: {
+    showSelectArea: {
       type: Boolean,
       default: true,
     },
-  } ,
+  },
   components: { Multiselect },
   data() {
     return {
@@ -136,7 +137,7 @@ export default {
     return { eventEdit, load };
   },
   methods: {
-       async getAllAreasOfOwner() {
+    async getAllAreasOfOwner() {
       let cantAreas = await AppWeb3.getLengthAreaOfOwner();
       let areas = await AppWeb3.getAllAreaOfOwner(0, cantAreas);
 
@@ -147,20 +148,33 @@ export default {
     },
     async editOrNew() {
       ///if activeInput is false == new event
-              console.log(this.eventEdit);
-
+      console.log(this.eventEdit);
+      if (this.eventEdit.startEvent > this.eventEdit.endEvent) {
+        M.toast({
+          html:
+            "La fecha final del evento no puede ser menor a la fecha de inicio",
+          classes: "red accent-3",
+        });
+        return;
+      }
       if (this.activeInput) {
         //edit
-        let eventE=this.eventEdit;
-        await AppWeb3.editEvent(
-         this.eventEdit.id,
-         this.eventEdit.name,
-         this.eventEdit.description,
-         this.eventEdit.startEvent,
-         this.eventEdit.endEvent,
+
+        let ep = await AppWeb3.editEvent(
+          this.eventEdit.id,
+          this.eventEdit.name,
+          this.eventEdit.description,
+          this.eventEdit.startEvent,
+          this.eventEdit.endEvent,
           parseInt(this.eventEdit.area_id),
-         this.eventEdit.state_id
+          this.eventEdit.state_id
         );
+        if (!ep) {
+          M.toast({
+            html: "El evento contiene documentos no se puede modificar",
+            classes: "red accent-3",
+          });
+        }
       } else {
         //new
         console.log(this.eventEdit.startEvent);

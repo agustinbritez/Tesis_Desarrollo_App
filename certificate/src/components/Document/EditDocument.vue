@@ -44,7 +44,7 @@
                   v-model="documentEdit.state_id"
                   :options="statesSelect"
                   label="name"
-                  placeholder="Select your state"
+                  placeholder="Seleccione su estado"
                   trackBy="name"
                   :disabled="disabledInput"
                   :searchable="true"

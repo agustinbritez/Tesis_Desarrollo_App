@@ -2,7 +2,7 @@
   <div class="container">
     <div class="card">
       <div class="card-title">
-        <h1 class="tile">Areas</h1>
+        <h1 class="tile">Áreas</h1>
         <!-- filter -->
         <div></div>
       </div>
@@ -12,18 +12,18 @@
             class="btn left waves-effect waves-light"
             @click="openModalNew()"
           >
-            new (+)
+            Nuevo (+)
           </button>
         </div>
         <table class="highlight centered">
           <thead>
             <tr>
               <th>ID</th>
-              <th>Name</th>
-              <th class="hide-on-med-and-down">Description</th>
-              <th>Cant Events</th>
-              <th class="hide-on-med-and-down">State</th>
-              <th>Actions</th>
+              <th>Nombre</th>
+              <th class="hide-on-med-and-down">Descripción</th>
+              <th>Cant Eventos</th>
+              <th class="hide-on-med-and-down">Estado</th>
+              <th>Acciones</th>
             </tr>
           </thead>
 
@@ -193,7 +193,7 @@ export default {
       var modalInstance = M.Modal.getInstance(elem);
       // console.log(modalInstance);
       this.actionEdit = true;
-      this.nameModal = "Edit Area";
+      this.nameModal = "Editar Área";
       modalInstance.open();
     },
     openModalNew() {
@@ -206,7 +206,7 @@ export default {
       // console.log('areaEdit2'+this.areaEdit);
       var modalInstance = M.Modal.getInstance(elem);
       // console.log(modalInstance);
-      this.nameModal = "New Area";
+      this.nameModal = "Nueva Área";
       this.actionEdit = false;
       modalInstance.open();
     },

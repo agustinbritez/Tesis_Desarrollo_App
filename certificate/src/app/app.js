@@ -16,11 +16,17 @@ let web3 = new Web3(Web3.givenProvider || Parameters.provider);
 const miContrato = new web3.eth.Contract(CONST_ABI, Parameters.addressContract_Test);
 ///************************Organitation***************************** */
 
-export async function setOrganitation(_name, _from) {
+export async function setOrganitation(_name, _from = 0) {
     return await Organitation.setOrganitation(_name, _from, miContrato);
 }
 export  function getOrganitation() {
     return  Organitation.getOrganitation( miContrato);
+}
+export  function getOwnerOrg() {
+    return  Organitation.getOwnerOrg( miContrato);
+}
+export  function setOwner(new_owner) {
+    return  Organitation.setOwner(new_owner,miContrato);
 }
 
 //**************************Event************************************* */
@@ -78,6 +84,16 @@ export async function deleteArea(_id_area) {
 export async function getStatesAll() {
     return await State.getStatesAll(miContrato);
 }
+export async function getState(_id) {
+    return await State.getState(_id,miContrato);
+}
+export async function addState(name,mean) {
+    return await State.addState(name,mean,miContrato);
+}
+export async function editState(_id,name,mean) {
+    return await State.editState(_id,name,mean,miContrato);
+}
+
 
 //**************************** Document ********************************** */
 export async function addDocuments(arrayDocuments, _event_id, _state_id, __reasonState,_expiration = 0) {

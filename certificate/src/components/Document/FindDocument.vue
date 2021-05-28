@@ -3,7 +3,7 @@
     <div class="container">
       <div class="card">
         <div class="card-title ">
-          <h1 class="tile">Certification</h1>
+          <h1 class="tile">Validación</h1>
           <!-- filter -->
           <div></div>
         </div>

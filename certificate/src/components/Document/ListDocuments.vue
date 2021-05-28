@@ -2,7 +2,7 @@
   <div class="container">
     <div class="card">
       <div class="card-title">
-        <h1 class="tile">Documents</h1>
+        <h1 class="tile">Documentos</h1>
         <!-- filter -->
         <div></div>
       </div>
@@ -12,18 +12,18 @@
             class="btn left waves-effect waves-light"
             @click="openModalNew()"
           >
-            new (+)
+            Nuevo (+)
           </button>
         </div>
         <table id="table_id" class="highlight centered">
           <thead>
             <tr>
               <th>Hash</th>
-              <th>State</th>
-              <th class="hide-on-med-and-down">Reason State</th>
-              <th>Event ID</th>
-              <th class="hide-on-med-and-down">New Version</th>
-              <th>Actions</th>
+              <th>Estado</th>
+              <th class="hide-on-med-and-down">Razón del Estado</th>
+              <th>Evento ID</th>
+              <th class="hide-on-med-and-down">Nueva Versión</th>
+              <th>Acciones</th>
             </tr>
           </thead>
 

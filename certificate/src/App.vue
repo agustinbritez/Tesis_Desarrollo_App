@@ -37,8 +37,8 @@ export default {
   setup() {
     const rol = ref({});
     provide("rol", rol);
-    const organitation = ref("Certification System");
-    provide("organitation", organitation);
+    const organitationName = ref("Validation System");
+    provide("organitationName", organitationName);
 
     const uploadedFiles = ref([]);
     const allHashes = ref([]);
@@ -67,7 +67,7 @@ export default {
     provide("documentEdit", documentEdit);
 
     return {
-      organitation,
+      organitationName,
       rol,
       uploadedFiles,
       allHashes,

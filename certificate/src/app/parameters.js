@@ -1,8 +1,6 @@
 export let address='0x491fEF2507932b754eED4e85c225180D0C07F4af';
-export let privateKey='25b4df7d0aad71c7384de8e7297d967e5d3a3b44ef73172f382b4b424ecae7c6';
-// export let addressContract='0xaF877c57261dD81178D0BF867309Df4130C6e88D'
-export let addressContract_Test='0xB457F22941AD50046e9F8fC07B1dF419Ed3094e3'
-// export let addressContractRopsten='0x794ec6c003c6997df1a07df52e7e196ea13ebc51'
-export let provider="HTTP://127.0.0.1:7545";
+export let addressContract_Test='0x7006882779C21D8246C82989F813237f78A781b1'
+
+// export let provider="HTTP://127.0.0.1:7545";
 
 

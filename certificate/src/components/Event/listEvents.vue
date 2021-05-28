@@ -12,20 +12,20 @@
             class="btn left waves-effect waves-light"
             @click="openModalNew()"
           >
-            new (+)
+            nuevo (+)
           </button>
         </div>
         <table class="highlight centered">
           <thead>
             <tr>
               <th>ID</th>
-              <th>Name</th>
-              <th class="hide-on-med-and-down">Description</th>
-              <th>ID Area</th>
-              <th>Start Event</th>
-              <th class="hide-on-med-and-down">End Event</th>
-              <th class="hide-on-med-and-down">Num Documents</th>
-              <th>Actions</th>
+              <th>Nombre</th>
+              <th class="hide-on-med-and-down">Descripción</th>
+              <th>ID Área</th>
+              <th>Inicio de Evento</th>
+              <th class="hide-on-med-and-down">Fin del Evento</th>
+              <th class="hide-on-med-and-down">Cantidad Docs. </th>
+              <th>Acción</th>
             </tr>
           </thead>
 
@@ -35,9 +35,9 @@
               <td>{{ event.name }}</td>
               <td class="hide-on-med-and-down">{{ event.description }}</td>
               <td>{{ event.area_id }}</td>
-              <td>{{ event.startEvent || "undate" }}</td>
+              <td>{{ ((new Date(event.startEvent).getDate())+'/'+(new Date(event.startEvent).getMonth()+1)+'/'+(new Date(event.startEvent).getFullYear())+' '+(new Date(event.startEvent).getHours())+":"+(new Date(event.startEvent).getMinutes()) )|| "undate" }}</td>
               <td class="hide-on-med-and-down">
-                {{ event.endEvent || "undate" }}
+                {{  ((new Date(event.endEvent).getDate())+'/'+(new Date(event.endEvent).getMonth()+1)+'/'+(new Date(event.endEvent).getFullYear())+' '+(new Date(event.endEvent).getHours())+":"+(new Date(event.endEvent).getMinutes()) ) || "undate" }}
               </td>
               <td class="hide-on-med-and-down">{{ event.cantDocument }}</td>
 
@@ -221,6 +221,9 @@ export default {
       this.activeInput = false;
       modalInstance.open();
     },
+    format(fecha){
+      
+    }
   },
   mounted() {
     this.eventsArray = this.listEvents();

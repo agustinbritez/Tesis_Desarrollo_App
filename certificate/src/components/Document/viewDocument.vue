@@ -10,7 +10,7 @@
             v-model="area_id"
             :options="areasSelect"
             label="name"
-            placeholder="Select Area"
+            placeholder="Seleccionar Área"
             trackBy="name"
             :disabled="disabledInput"
             :searchable="true"
@@ -23,7 +23,7 @@
             v-model="event_id"
             :options="eventsSelect"
             label="name"
-            placeholder="Select Event"
+            placeholder="Seleccionar un Evento"
             trackBy="name"
             :disabled="disabledInput"
             :searchable="true"
@@ -36,7 +36,7 @@
             v-model="state_id"
             :options="statesSelect"
             label="name"
-            placeholder="Select State"
+            placeholder="Seleccionar un Estado"
             trackBy="name"
             :disabled="disabledInput"
             :searchable="true"
@@ -54,7 +54,7 @@
             class="form-control"
             v-model="expiration"
           />
-          <label for="expiration" class="active">Expiration</label>
+          <label for="expiration" class="active">Fecha de Vencimiento</label>
         </div>
         <!-- <div class="input-field col s4">
           <input
@@ -67,7 +67,7 @@
         </div> -->
         <div class="input-field col s8">
           <input type="text" name="" id="reasonState" v-model="reasonState" />
-          <label for="reasonState" class="active">State Reason</label>
+          <label for="reasonState" class="active">Razón del Estado</label>
         </div>
       </div>
       <DropFile />
@@ -76,10 +76,10 @@
       <div class="col s12">
         <ul class="tabs tabs-transparent">
           <li class="tab col s6 tab-verify">
-            <a class="active" href="#tab_verify">Verify</a>
+            <a class="active" href="#tab_verify">Verificados</a>
           </li>
           <li class="tab col s6 tab-verify">
-            <a href="#tab_nverify">Not Verify</a>
+            <a href="#tab_nverify">No Verificados</a>
           </li>
         </ul>
       </div>
@@ -96,7 +96,7 @@
               class="btn"
               @click="saveDocuments(true)"
             >
-              Edit All
+              Editar Todo
             </button>
           </div>
         </div>
@@ -104,12 +104,12 @@
           <thead>
             <tr>
               <th>Hash</th>
-              <th>File Name</th>
+              <th>Nombre Archivo</th>
 
-              <th>State</th>
-              <th>Event ID</th>
-              <th class="hide-on-med-and-down">New Version</th>
-              <th>Actions</th>
+              <th>Estado</th>
+              <th>Evento ID</th>
+              <th class="hide-on-med-and-down">Nueva Versión</th>
+              <th>Acciones</th>
             </tr>
           </thead>
 
@@ -181,7 +181,7 @@
               "
               @click="saveDocuments(false)"
             >
-              Save All
+              Guardar Todo
             </button>
           </div>
         </div>
@@ -189,9 +189,9 @@
           <thead>
             <tr>
               <th>Hash</th>
-              <th>File Name</th>
+              <th>Nombre del Archivo</th>
 
-              <th v-if="rol == 'OWNER_AREA' || rol == 'OWNER'">Actions</th>
+              <th v-if="rol == 'OWNER_AREA' || rol == 'OWNER'">Acciones</th>
             </tr>
           </thead>
 
@@ -235,7 +235,7 @@
           </div>
           <div class="row">
             <div class="input-field col s4">
-              <p>File Name</p>
+              <p>Nombre del Archivo</p>
               <input
                 readonly
                 v-model="viewDocument.fileName"
@@ -244,7 +244,7 @@
               />
             </div>
             <div class="input-field col s2">
-              <p>State</p>
+              <p>Estado</p>
               <input
                 readonly
                 v-model="viewDocument.stateCompleted"
@@ -253,7 +253,7 @@
               />
             </div>
             <div class="input-field col s2">
-              <p>Due Date</p>
+              <p>Vencimiento</p>
               <input
                 readonly
                 v-model="viewDocument.expiration"
@@ -262,7 +262,7 @@
               />
             </div>
             <div class="input-field col s4">
-              <p>State Reason</p>
+              <p>Razón del Estado</p>
               <input
                 v-model="viewDocument.reasonState"
                 type="text"
@@ -273,7 +273,7 @@
           <div class="input-field row">
             <div class="col s12">
               <p>
-                New Version
+                Nueva Versión
                 <a
                   v-if="viewDocument.newDocument"
                   href="#"
@@ -314,7 +314,7 @@
           </div>
           <div class="row">
             <div class="input-field col s4">
-              <p>Event</p>
+              <p>Evento</p>
               <input
                 readonly
                 v-model="viewDocument.eventCompleted"
@@ -324,7 +324,7 @@
             </div>
 
             <div class="input-field col s4">
-              <p>Event Start</p>
+              <p>Inicio del Evento</p>
               <input
                 readonly
                 v-model="viewDocument.event.startEvent"
@@ -333,7 +333,7 @@
               />
             </div>
             <div class="input-field col s4">
-              <p>Event End</p>
+              <p>Fin del Evento</p>
               <input
                 readonly
                 v-model="viewDocument.event.endEvent"
@@ -344,7 +344,7 @@
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <p>Area</p>
+              <p>Área</p>
               <input
                 readonly
                 v-model="viewDocument.areaCompleted"
@@ -358,7 +358,7 @@
 
       <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-green btn-flat"
-          >Agree</a
+          >Ok</a
         >
       </div>
     </div>
@@ -527,6 +527,8 @@ export default {
       this.viewDocument.idHash = doc.idHash;
       this.viewDocument.state = doc.state;
       this.viewDocument.event = doc.event;
+      this.viewDocument.event.startEvent = ((new Date(doc.event.startEvent).getDate())+'/'+(new Date(doc.event.startEvent).getMonth()+1)+'/'+(new Date(doc.event.startEvent).getFullYear())+' '+(new Date(doc.event.startEvent).getHours())+":"+(new Date(doc.event.startEvent).getMinutes()) );
+      this.viewDocument.event.endEvent = ((new Date(doc.event.endEvent).getDate())+'/'+(new Date(doc.event.endEvent).getMonth()+1)+'/'+(new Date(doc.event.endEvent).getFullYear())+' '+(new Date(doc.event.endEvent).getHours())+":"+(new Date(doc.event.endEvent).getMinutes()) );
       this.viewDocument.area = doc.area;
       this.viewDocument.reasonState = doc.reasonState;
       this.viewDocument.fileName = doc.fileName;

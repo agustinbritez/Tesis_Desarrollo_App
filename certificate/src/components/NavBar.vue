@@ -13,16 +13,16 @@
               href="#"
               class="btn light-blue accent-3 connect-wallet"
               @click="connectAccount()"
-              >Connect to a Wallet</a
+              >Conectar una wallet</a
             >
           </li>
 
           <li id="" v-if="account !== ''">
             <a
               href="#"
-              class="btn connect-wallet"
+              class="btn teal lighten-4 black-text connect-wallet"
               @click="verificationAccount()"
-              >Connected
+              >Conectado
             </a>
           </li>
 
@@ -39,18 +39,18 @@
 
       <div class="nav-content">
         <ul class="tabs tabs-transparent">
-          <li class="tab">
+          <li class="tab"  v-if="rol == 'OWNER_AREA' || rol == 'OWNER'">
             <router-link :to="{ name: 'Home' }">Home</router-link>
           </li>
           <li class="tab" v-if="rol == 'OWNER_AREA' || rol == 'OWNER'">
             <router-link :to="{ name: 'Event' }">Eventos</router-link>
           </li>
           <li class="tab" v-if="rol == 'OWNER_AREA' || rol == 'OWNER'">
-            <router-link :to="{ name: 'Areas' }">Areas</router-link>
+            <router-link :to="{ name: 'Areas' }">Áreas</router-link>
           </li>
           <li class="tab">
             <router-link :to="{ name: 'FindDocument' }"
-              >Find Document</router-link
+              >Encontrar Documentos</router-link
             >
           </li>
         </ul>

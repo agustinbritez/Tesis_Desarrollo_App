@@ -22,7 +22,7 @@
                   v-model="areaEdit.owner"
                 />
                 <label for="owner" :class="{ active: actionEdit }"
-                  >Area Owner
+                  >Propietario del Área
                 </label>
               </div>
             </div>
@@ -35,7 +35,7 @@
                   data-length="50"
                   v-model="areaEdit.name"
                 />
-                <label for="name" :class="{ active: actionEdit }">Name</label>
+                <label for="name" :class="{ active: actionEdit }">Nombre</label>
               </div>
             </div>
             <div class="row">
@@ -47,7 +47,7 @@
                   v-model="areaEdit.description"
                 ></textarea>
                 <label for="description" :class="{ active: actionEdit }">
-                  Description</label
+                  Descripción</label
                 >
               </div>
             </div>
@@ -57,7 +57,7 @@
                       v-model="areaEdit.state_id"
                       :options="statesSelect"
                       label="name"
-                      placeholder="Select your character"
+                      placeholder="Selecciones un estado"
                       trackBy="name"
                       :disabled="disabledInput"
                       :searchable="true"
@@ -74,12 +74,12 @@
               href="#!"
               @click.prevent="editOrNew()"
               class="waves-effect waves-green darken-1 btn-flat"
-              >Save</a
+              >Guardar</a
             >
           </div>
           <div class="col s2 offset-s6">
             <a href="#!" class="modal-close waves-effect waves-red btn-flat"
-              >Cancel</a
+              >Cancelar</a
             >
           </div>
         </div>

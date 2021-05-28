@@ -2,7 +2,7 @@
 pragma solidity >0.5.99 <0.8.0;
 pragma experimental ABIEncoderV2;
 
-contract systemDocument {
+contract verificationSystem {
     /***************Modifier************** */
 
     modifier onlyOwnerOrg() {
@@ -115,11 +115,7 @@ contract systemDocument {
         return id;
     }
 
-    function editState(
-        uint256 id,
-        string memory name,
-        string memory mean
-    )
+    function editState(uint256 id,string memory name,string memory mean)
         public
         payable
         onlyOwnerOrg
@@ -136,11 +132,7 @@ contract systemDocument {
     }
 
     /***************Area************************* */
-    function addArea(
-        address _ownerArea,
-        string memory _name,
-        string memory _description
-    ) public payable onlyOwnerOrg {
+    function addArea(address _ownerArea,string memory _name,string memory _description) public payable onlyOwnerOrg {
         uint256 _id = areas.length;
         uint256[] memory _events;
         Area memory _newOwner =
@@ -150,17 +142,13 @@ contract systemDocument {
         ownerArea[_ownerArea].push(_id);
     }
 
-    function editArea(
-        uint256 _id_area,
-        string memory _name,
-        string memory _description,
-        uint256 _id_state
-    ) public payable {
+    function editArea(uint256 _id_area,string memory _name,string memory _description,uint256 _id_state) public payable {
         require(
             (ownerOrg == msg.sender) ||
                 (areas[_id_area].ownerArea == msg.sender)
         );
 
+      
         if (bytes(_name).length > 0) {
             areas[_id_area].name = _name;
         }
@@ -195,13 +183,7 @@ contract systemDocument {
 
     /********************Event***************************** */
 
-    function addEventFull(
-        uint256 _area_id,
-        string memory name,
-        string memory description,
-        string memory _startDate,
-        string memory _endDate
-    ) public payable returns (uint256 id) {
+    function addEventFull(uint256 _area_id,string memory name,string memory description,string memory _startDate,string memory _endDate) public payable returns (uint256 id) {
         require(
             (areas[_area_id].ownerArea == msg.sender) ||
                 (ownerOrg == msg.sender)
@@ -229,21 +211,14 @@ contract systemDocument {
         return _id;
     }
 
-    function editEventFull(
-        uint256 _event_id,
-        string memory name,
-        string memory description,
-        string memory _startDate,
-        string memory _endDate,
-        uint256 area_id,
-        uint256 state_id
-    ) public payable returns (uint256 id) {
+    function editEventFull(uint256 _event_id,string memory name,string memory description,string memory _startDate,string memory _endDate,uint256 area_id,uint256 state_id) public payable returns (uint256 id) {
         require(
             (areas[events[_event_id].area_id].ownerArea == msg.sender) ||
                 (ownerOrg == msg.sender)
         );
         require((state_id < states.length));
         require((area_id < areas.length));
+        require(events[_event_id].idDocuments.length == 0);
 
         if (bytes(name).length > 0) {
             events[_event_id].name = name;
@@ -280,13 +255,7 @@ contract systemDocument {
     }
 
     //**********************Document********************************************8 */
-    function addDocumentEvent(
-        string memory _idHash,
-        uint256 _event_id,
-        uint256 _state_id,
-        string memory _reasonState,
-        uint256  _expiration
-    ) public payable {
+    function addDocumentEvent(string memory _idHash,uint256 _event_id,uint256 _state_id,string memory _reasonState,uint256  _expiration) public payable {
         require(
             (areas[events[_event_id].area_id].ownerArea == msg.sender) ||
                 (msg.sender == ownerOrg)
@@ -301,14 +270,7 @@ contract systemDocument {
         events[_event_id].idDocuments.push(_idHash);
     }
 
-    function addAllDocumentsEvent(
-        string[] memory hashid,
-        uint256 _event_id,
-        uint256 _state_id,
-        string memory _reasonState,
-                uint256  _expiration
-
-    ) public payable {
+    function addAllDocumentsEvent(string[] memory hashid,uint256 _event_id,uint256 _state_id,string memory _reasonState,uint256  _expiration) public payable {
         require(
             (areas[events[_event_id].area_id].ownerArea == msg.sender) ||
                 (msg.sender == ownerOrg)
@@ -328,13 +290,7 @@ contract systemDocument {
         }
     }
 
-    function editAllDocumentsEvent(
-        string[] memory hashid,
-        uint256 _event_id,
-        uint256 _state_id,
-        string memory _reasonState,
-       uint256 _expiration
-    ) public payable {
+    function editAllDocumentsEvent(string[] memory hashid,uint256 _event_id,uint256 _state_id,string memory _reasonState,uint256 _expiration) public payable {
         require(
             (areas[events[_event_id].area_id].ownerArea == msg.sender) ||
                 (msg.sender == ownerOrg)
@@ -392,11 +348,7 @@ contract systemDocument {
     }
 
     //change state_id and reason of the state
-    function changeStateDocument(
-        string memory _idHash,
-        uint256 _state_id,
-        string memory _reasonState
-    ) public payable {
+    function changeStateDocument(string memory _idHash,uint256 _state_id,string memory _reasonState) public payable {
         require(
             (areas[events[documents[_idHash].event_id].area_id].ownerArea ==
                 msg.sender) || (msg.sender == ownerOrg)
@@ -410,10 +362,7 @@ contract systemDocument {
     }
 
     //mando valores para la version vieja, asi modifico si quiero. por ejemplo cambiar el estado o cambiar la razon del estado,
-    function newVersionDocument(
-        string memory _idHash_old,
-        string memory _idHash_new
-    ) public payable {
+    function newVersionDocument(string memory _idHash_old,string memory _idHash_new) public payable {
         require(bytes(documents[_idHash_old].idHash).length > 0);
         require(bytes(documents[_idHash_new].idHash).length > 0);
         require(keccak256(bytes(_idHash_old)) != keccak256(bytes(_idHash_new)));
@@ -430,14 +379,7 @@ contract systemDocument {
         return ownerOrg;
     }
 
-    function getState(uint256 _id)
-        public
-        view
-        returns (
-            uint256 id,
-            string memory name,
-            string memory mean
-        )
+    function getState(uint256 _id)public view returns (uint256 id,string memory name,string memory mean)
     {
         return (states[_id].id, states[_id].name, states[_id].mean);
     }
@@ -446,10 +388,7 @@ contract systemDocument {
         return states.length;
     }
 
-    function getAreaOfOwner(address _id, uint256 _area_index)
-        public
-        view
-        returns (uint256)
+    function getAreaOfOwner(address _id, uint256 _area_index) public view returns (uint256)
     {
         return ownerArea[_id][_area_index];
     }
@@ -458,17 +397,7 @@ contract systemDocument {
         return ownerArea[_id].length;
     }
 
-    function getArea(uint256 _id)
-        public
-        view
-        returns (
-            uint256 id,
-            address owner,
-            string memory name,
-            string memory description,
-            uint256 state_id,
-            uint256 cantEvents
-        )
+    function getArea(uint256 _id) public view  returns ( uint256 id,address owner,string memory name,string memory description,uint256 state_id,uint256 cantEvents)
     {
         return (
             areas[_id].id,
@@ -484,42 +413,22 @@ contract systemDocument {
         return areas.length;
     }
 
-    function getLengthEventsOfArea(uint256 _id_area)
-        public
-        view
-        returns (uint256)
+    function getLengthEventsOfArea(uint256 _id_area) public view returns (uint256)
     {
         return areas[_id_area].idEvents.length;
     }
 
-    function getEventOfArea(uint256 _id_area, uint256 _id_event_index)
-        public
-        view
-        returns (uint256)
+    function getEventOfArea(uint256 _id_area, uint256 _id_event_index) public view returns (uint256)
     {
         return areas[_id_area].idEvents[_id_event_index];
     }
 
-    function getAllEventsOfArea(uint256 _id_area)
-        public
-        view
-        returns (uint256[] memory)
+    function getAllEventsOfArea(uint256 _id_area) public view returns (uint256[] memory)
     {
         return areas[_id_area].idEvents;
     }
 
-    function getEvent(uint256 _id)
-        public
-        view
-        returns (
-            uint256 id,
-            string memory name,
-            string memory description,
-            uint256 state_id,
-            uint256 area_id,
-            string memory startEvent,
-            string memory endEvent
-        )
+    function getEvent(uint256 _id) public view returns (uint256 id,string memory name,string memory description,uint256 state_id,uint256 area_id,string memory startEvent,string memory endEvent)
     {
         return (
             _id,
@@ -540,18 +449,7 @@ contract systemDocument {
         return events.length;
     }
 
-    function getDocument(string memory _idHash)
-        public
-        view
-        returns (
-            string memory idHash,
-            uint256 state_id,
-            uint256 event_id,
-            string memory reasonState,
-
-            uint256 expiration,
-            string memory newDocument
-        )
+    function getDocument(string memory _idHash) public view returns (string memory idHash,uint256 state_id,uint256 event_id,string memory reasonState,uint256 expiration,string memory newDocument)
     {
         return (
             documents[_idHash].idHash,
@@ -563,10 +461,7 @@ contract systemDocument {
         );
     }
 
-    function getDocumentsOfEvent(uint256 _id_event)
-        public
-        view
-        returns (string[] memory)
+    function getDocumentsOfEvent(uint256 _id_event) public view returns (string[] memory)
     {
         return events[_id_event].idDocuments;
     }
@@ -575,10 +470,7 @@ contract systemDocument {
         return bytes(documents[_idHash].idHash).length > 0 ? true : false;
     }
 
-    function checkDocuments(string[] memory idHashes)
-        public
-        view
-        returns (bool[] memory)
+    function checkDocuments(string[] memory idHashes) public view returns (bool[] memory)
     {
         bool[] memory checks = new bool[](idHashes.length);
         for (uint256 i = 0; i < idHashes.length; i++) {
